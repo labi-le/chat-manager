@@ -1,0 +1,5 @@
+{
+    "require": {
+        "digitalstars/simplevk": "dev-testing"
+    }
+}

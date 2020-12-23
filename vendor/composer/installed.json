@@ -1,0 +1,60 @@
+{
+    "packages": [
+        {
+            "name": "digitalstars/simplevk",
+            "version": "dev-testing",
+            "version_normalized": "dev-testing",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/digitalstars/simplevk.git",
+                "reference": "af848cb5990610dc5370a5de38cab3b06275e616"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/af848cb5990610dc5370a5de38cab3b06275e616",
+                "reference": "af848cb5990610dc5370a5de38cab3b06275e616",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-fileinfo": "*",
+                "ext-iconv": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-pcntl": "*",
+                "ext-posix": "*",
+                "php": ">=7.0"
+            },
+            "time": "2020-12-19T21:38:08+00:00",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-4": {
+                    "DigitalStars\\simplevk\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ZeRoX",
+                    "email": "as234zx15@yandex.ru"
+                },
+                {
+                    "name": "Runnin",
+                    "email": "mr.kirilll12@mail.ru"
+                }
+            ],
+            "description": "Library for easy work with VK com api",
+            "support": {
+                "issues": "https://github.com/digitalstars/simplevk/issues",
+                "source": "https://github.com/digitalstars/simplevk/tree/testing"
+            },
+            "install-path": "../digitalstars/simplevk"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
