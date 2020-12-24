@@ -1,25 +1,16 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => '1.0.0+no-version-set',
-    'version' => '1.0.0.0',
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
     'aliases' => 
     array (
     ),
-    'reference' => NULL,
-    'name' => '__root__',
+    'reference' => 'e6f733f6d7f7a57ef9bdab52b45ef4b478fc1379',
+    'name' => 'labile/cm',
   ),
   'versions' => 
   array (
-    '__root__' => 
-    array (
-      'pretty_version' => '1.0.0+no-version-set',
-      'version' => '1.0.0.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => NULL,
-    ),
     'digitalstars/simplevk' => 
     array (
       'pretty_version' => 'dev-testing',
@@ -28,6 +19,15 @@
       array (
       ),
       'reference' => 'af848cb5990610dc5370a5de38cab3b06275e616',
+    ),
+    'labile/cm' => 
+    array (
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e6f733f6d7f7a57ef9bdab52b45ef4b478fc1379',
     ),
   ),
 );

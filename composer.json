@@ -1,5 +1,14 @@
 {
+    "name": "labile/cm",
+    "description": "chat manager for vk",
+    "authors": [
+        {
+            "name": "labile",
+            "email": "1a6i1e@gmail.com"
+        }
+    ],
     "require": {
-        "digitalstars/simplevk": "dev-testing"
+        "digitalstars/simplevk": "dev-testing",
+        "ext-mbstring": "*"
     }
 }
