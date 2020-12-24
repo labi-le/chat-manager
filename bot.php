@@ -1,6 +1,6 @@
 <?php
 
-// namespace DigitalStars\SimpleVK;
+// 
 
 use DigitalStars\SimpleVK\LongPoll as longpool;
 
@@ -8,7 +8,7 @@ require_once('./vendor/digitalstars/simplevk/autoload.php');
 
 class ChatManager extends longpool
 {
-    public $initData;
+    public $initVars;
 
     private function say($text)
     {
