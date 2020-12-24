@@ -3,14 +3,11 @@
 // namespace DigitalStars\SimpleVK;
 
 use DigitalStars\SimpleVK\LongPoll as longpool;
-use DigitalStars\SimpleVK\Message;
-use DigitalStars\SimpleVK\SimpleVK as vk;
 
 require_once('./vendor/digitalstars/simplevk/autoload.php');
 
 class ChatManager extends longpool
 {
-    public $data;
     public $initData;
 
     private function say($text)
@@ -33,11 +30,9 @@ class ChatManager extends longpool
 
             $data = $this->data;
             $this->initVars = call_user_func(function () use ($data) {
-                $_obj = $data['object'];
-                $_msg = $_obj['message'] ?? null;
-
                 $new_data = null;
-                isset($_msg) ? $new_data = $_msg : $new_data = $_obj;
+                
+                isset($_msg) ? $new_data = $data['object']['message'] : $new_data = $data['object'];
                 $new_data['text_lower'] = mb_strtolower($new_data['text']);
 
                 return $new_data;
