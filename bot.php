@@ -97,6 +97,8 @@ class ChatManager extends longpool
         if (method_exists($this, 'list')) {
             $list = $this->list();
 
+            Utils::setText($this->getVars()['text_lower']);
+
 
             foreach ($list as $cmd) {
                 if (!is_array($cmd['text'])) {
@@ -106,7 +108,6 @@ class ChatManager extends longpool
                     }
                 } elseif (is_array($cmd['text'])) {
                     foreach ($cmd['text'] as $text) {
-                        var_dump($this->formatText($text));
                         if ($this->formatText($text)) {
                             $this->method_execute($cmd['method']);
                             break;
@@ -121,25 +122,25 @@ class ChatManager extends longpool
      * проверка по regex
      * @param string $text
      */
-    protected function formatText(string $text): bool
+    protected function formatText(string $text)
     {
         var_dump($text);
+//        die();
+        Utils::setText($this->getVars()['text_lower']);
+
         if (mb_substr($text, 0, 1) == '|') {
             $pr = ($this->similar_percent != null) ? $this->similar_percent : 75;
-            return Utils::similarTo($text, $this->getVars()['text_lower']) > $pr;
-        }
-        if (mb_substr($text, 0, 2) == "[|") {
+            return Utils::similarTo($text) > $pr;
+        } elseif (mb_substr($text, 0, 2) == "[|") {
+            echo 'nulls';
             return Utils::startAs($text);
-        }
-        if (mb_substr($text, -2, 2) == "|]") {
-            return Utils::endAs($text);
-        }
-        if (mb_substr($text, 0, 1) == "{" && mb_substr($text, -1, 1) == "}") {
-            return Utils::contains($text);
-        }
-
-
-        return $text == $this->getVars()['text_lower'];
+        } elseif (mb_substr($text, -2, 2) == "|]") {
+            return (Utils::endAs($text));
+        } elseif (mb_substr($text, 0, 1) == "{" && mb_substr($text, -1, 1) == "}") {
+            return (Utils::contains($text));
+        } else
+            echo('условие выполнилось else');
+        return $text == Utils::getText();
     }
 
     /**
@@ -167,5 +168,6 @@ class ChatManager extends longpool
      */
     private function message_event($data): void
     {
+        //todo написать обработчик кнопок
     }
 }
