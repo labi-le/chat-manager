@@ -63,7 +63,7 @@ class Utils extends ChatManager
 
         $wordFromBot = explode(' ', self::getText());
 
-        return $word_wp == end($wordFromBot) and $word_wp != $wordFromBot[0];
+        return $word_wp == end($wordFromBot) and ($word_wp != $wordFromBot[0]);
     }
 
     /**
