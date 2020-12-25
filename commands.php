@@ -69,7 +69,6 @@ trait Commands
     protected function _say()
     {
         $this->msg(Utils::textWithoutPrefix($this->getVars()['text_lower']))->send();
-//        $this->heyo();
     }
 
     protected function heyo()

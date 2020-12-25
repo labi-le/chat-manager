@@ -7,7 +7,7 @@ use DigitalStars\SimpleVK\SimpleVkException;
 
 class ChatManager extends longpool
 {
-    use ChatEvents;
+//    use ChatEvents;
     use Commands;
 
     private $initVars;
@@ -73,11 +73,10 @@ class ChatManager extends longpool
         if (isset($data['action'])) $this->handleAction();
 
         $text_lower = $data['text_lower'];
-        if (method_exists($this, $text_lower) && mb_strpos($text_lower, '_') === false) {
-            $this->$text_lower();
-        } else {
-            $this->commandHandler();
-        }
+
+        //если текст в сообщении == method name то он выполняет метод иначе ищет в массиве
+        (method_exists($this, $text_lower) && mb_strpos($text_lower, '_') === false) ? $this->$text_lower() : $this->commandHandler();
+
     }
 
     /**
@@ -89,7 +88,7 @@ class ChatManager extends longpool
         $action = $this->initVars['action'];
         $type = $action['type'];
 
-        ChatEvents::$type($action['member_id']);
+        Events::$type($action['member_id']);
     }
 
     protected function commandHandler()
@@ -119,28 +118,23 @@ class ChatManager extends longpool
     }
 
     /**
-     * проверка по regex
+     * проверка
      * @param string $text
      */
     protected function formatText(string $text)
     {
-        var_dump($text);
-//        die();
         Utils::setText($this->getVars()['text_lower']);
 
         if (mb_substr($text, 0, 1) == '|') {
             $pr = ($this->similar_percent != null) ? $this->similar_percent : 75;
             return Utils::similarTo($text) > $pr;
         } elseif (mb_substr($text, 0, 2) == "[|") {
-            echo 'nulls';
             return Utils::startAs($text);
         } elseif (mb_substr($text, -2, 2) == "|]") {
             return (Utils::endAs($text));
         } elseif (mb_substr($text, 0, 1) == "{" && mb_substr($text, -1, 1) == "}") {
             return (Utils::contains($text));
-        } else
-            echo('условие выполнилось else');
-        return $text == Utils::getText();
+        } else return $text == Utils::getText();
     }
 
     /**
