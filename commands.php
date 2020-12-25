@@ -13,6 +13,21 @@ trait Commands
             ],
 
             [
+                'text' => ['|2121'],
+                'method' => ['_foobar']
+            ],
+
+            [
+                'text' => ['|ffff'],
+                'method' => ['_foobar']
+            ],
+
+            [
+                'text' => ['[|say'],
+                'method' => ['_say']
+            ],
+
+            [
                 'text' => ['hi'],
                 'method' => ['_hiMessage']
             ],
@@ -28,8 +43,11 @@ trait Commands
     protected function вагина()
     {
         $this->msg('Сидел я в МДК,')->send();
+        sleep(1);
         $this->msg('листал картинки про кота~')->send();
+        sleep(1);
         $this->msg('И был доволен всем')->send();
+        sleep(1);
         $this->msg('Но вдруг стряслась беда.
 Опухли два яйца,
 Мне нужно трахаца,
@@ -48,9 +66,10 @@ trait Commands
 Йе-йе-йе...')->send();
     }
 
-    protected function say($text)
+    protected function _say()
     {
-        $this->msg($text)->send();
+        $this->msg(Utils::textWithoutPrefix($this->getVars()['text_lower']))->send();
+//        $this->heyo();
     }
 
     protected function heyo()
