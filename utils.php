@@ -56,10 +56,14 @@ class Utils extends ChatManager
      */
     public static function endAs(string $text)
     {
-        $firstWord = explode(' ', $text);
-        $firstWordFromBot = explode(' ', self::getText());
+        $word = explode(' ', $text);
+        $end_word = end($word);
 
-        return mb_substr($firstWord[count($firstWord) - 1], 0, -1) == $firstWordFromBot[count($firstWordFromBot) - 1];
+        $word_wp = mb_substr($end_word, 0, mb_strlen($end_word) - 2);
+
+        $wordFromBot = explode(' ', self::getText());
+
+        return $word_wp == end($wordFromBot) and $word_wp != $wordFromBot[0];
     }
 
     /**

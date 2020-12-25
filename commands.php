@@ -18,7 +18,7 @@ trait Commands
             ],
 
             [
-                'text' => ['|ffff'],
+                'text' => ['пиво|]'],
                 'method' => ['_foobar']
             ],
 

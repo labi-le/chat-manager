@@ -10,10 +10,10 @@ class ChatManager extends longpool
 //    use ChatEvents;
     use Commands;
 
-    private $initVars;
+    private array $initVars;
     private int $similar_percent = 75;
 
-    public static function create($token, $version, $also_version = null)
+    public static function create($token, $version, $also_version = null): ChatManager
     {
         return new self($token, $version, $also_version);
     }
@@ -43,9 +43,9 @@ class ChatManager extends longpool
 
     /**
      * Обработка Ивента
-     * @param &$type
+     * @param $type
      */
-    private function handleType(&$type)
+    private function handleType($type)
     {
         if (method_exists($this, $type)) $this->$type($this->initVars);
     }
@@ -66,7 +66,7 @@ class ChatManager extends longpool
      * Ивент Новое сообщение
      * @param mixed $data
      */
-    public function message_new($data): void
+    private function message_new($data): void
     {
         print_r($this->initVars);
 
@@ -101,7 +101,7 @@ class ChatManager extends longpool
 
             foreach ($list as $cmd) {
                 if (!is_array($cmd['text'])) {
-                    if ($this->formatText($cmd['text'])) {
+                    if ($this->formatText((string)$cmd['text'])) {
                         $this->method_execute($cmd['method']);
                         break;
                     }
@@ -120,8 +120,9 @@ class ChatManager extends longpool
     /**
      * проверка
      * @param string $text
+     * @return bool
      */
-    protected function formatText(string $text)
+    protected function formatText(string $text): bool
     {
         Utils::setText($this->getVars()['text_lower']);
 
@@ -162,6 +163,7 @@ class ChatManager extends longpool
      */
     private function message_event($data): void
     {
+        echo 1;
         //todo написать обработчик кнопок
     }
 }
