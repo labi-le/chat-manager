@@ -4,6 +4,7 @@ namespace labile\bot;
 
 class Utils extends ChatManager
 {
+    public static $text;
 
     public static function translit($str): string
     {
@@ -28,52 +29,11 @@ class Utils extends ChatManager
     /**
      * Похоже на.
      * @param string $text
-     * @return float|int
+     * @return int
      */
-//    public static function similarTo(string $text)
-//    {
-//        $textFromBot = preg_replace("/(?![.=$'€%-])\p{P}/u", "", mb_strtolower($text));
-//        $text = preg_replace("/(?![.=$'€%-])\p{P}/u", "", $text);
-//
-//        $length = strlen($textFromBot);
-//        $lengthB = strlen($text);
-//
-//        $i = 0;
-//        $segmentCount = 0;
-//        $segmentsInfo = array();
-//        $segment = '';
-//        while ($i < $length) {
-//            $char = mb_substr($text, $i, 1);
-//            if (mb_strpos($textFromBot, $char) !== FALSE) {
-//                $segment = $segment . $char;
-//                if (mb_strpos($textFromBot, $segment) !== FALSE) {
-//                    $segmentPosA = $i - mb_strlen($segment) + 1;
-//                    $segmentPosB = mb_strpos($textFromBot, $segment);
-//                    $positionDiff = abs($segmentPosA - $segmentPosB);
-//                    $posFactor = ($length - $positionDiff) / $lengthB;
-//                    $lengthFactor = mb_strlen($segment) / $length;
-//                    $segmentsInfo[$segmentCount] = array('segment' => $segment, 'score' => ($posFactor * $lengthFactor));
-//                } else {
-//                    $segment = '';
-//                    $i--;
-//                    $segmentCount++;
-//                }
-//            } else {
-//                $segment = '';
-//                $segmentCount++;
-//            }
-//            $i++;
-//        }
-//
-//        $totalScore = array_sum(array_map(function ($v) {
-//            return $v['score'];
-//        }, $segmentsInfo));
-//        return $totalScore;
-//    }
-
-    public static function similarTo(string $text_one, string $text_two)
+    public static function similarTo(string $text): int
     {
-        similar_text($text_one, $text_two, $percent);
+        similar_text($text, self::getText(), $percent);
         return floor($percent);
     }
 
@@ -82,15 +42,11 @@ class Utils extends ChatManager
      * @param string $text
      * @return bool
      */
-    public static function startAs(string $text)
+    public static function startAs(string $text): bool
     {
-        $textFromBot = preg_replace("/(?![.=$'€%-])\p{P}/u", "", mb_strtolower($text));
-        $text1 = preg_replace("/(?![.=$'€%-])\p{P}/u", "", $text);
-
-        $firstWord = explode(' ', $text1)[0];
-        $firstWordFromBot = explode(' ', $textFromBot)[0];
-
-        return mb_substr($firstWord, 1) == $firstWordFromBot;
+        $word = explode(' ', $text)[0];
+        $wordFromBot = explode(' ', self::getText())[0];
+        return mb_substr($word, 2) == $wordFromBot;
     }
 
     /**
@@ -100,11 +56,8 @@ class Utils extends ChatManager
      */
     public static function endAs(string $text)
     {
-        $textFromBot = preg_replace("/(?![.=$'€%-])\p{P}/u", "", mb_strtolower($text));
-        $text1 = preg_replace("/(?![.=$'€%-])\p{P}/u", "", $text);
-
-        $firstWord = explode(' ', $text1);
-        $firstWordFromBot = explode(' ', $textFromBot);
+        $firstWord = explode(' ', $text);
+        $firstWordFromBot = explode(' ', self::getText());
 
         return mb_substr($firstWord[count($firstWord) - 1], 0, -1) == $firstWordFromBot[count($firstWordFromBot) - 1];
     }
@@ -114,12 +67,9 @@ class Utils extends ChatManager
      * @param string $text
      * @return bool
      */
-    public static function contains(string $text)
+    public static function contains(string $text): bool
     {
-        $textFromBot = preg_replace("/(?![.=$'€%-])\p{P}/u", "", mb_strtolower($text));
-        $text1 = preg_replace("/(?![.=$'€%-])\p{P}/u", "", $text);
-
-        return mb_stripos($textFromBot, $text1) !== false;
+        return mb_stripos(self::getText(), $text) !== false;
     }
 
     public static function textWithoutPrefix($text)
@@ -130,8 +80,7 @@ class Utils extends ChatManager
     public static function multiexplode($delimiters, $string)
     {
         $ready = str_replace($delimiters, $delimiters[0], $string);
-        $launch = explode($delimiters[0], $ready);
-        return $launch;
+        return explode($delimiters[0], $ready);
     }
 
     public static function turingTest()
@@ -153,5 +102,21 @@ class Utils extends ChatManager
         shuffle($invalidSum);
 
         return ['array' => $invalidSum, 'result' => $sum, 'text' => $text];
+    }
+
+    /**
+     * @param mixed $text
+     */
+    public static function setText($text): void
+    {
+        self::$text = $text;
+    }
+
+    /**
+     * @return mixed
+     */
+    public static function getText()
+    {
+        return self::$text;
     }
 }
