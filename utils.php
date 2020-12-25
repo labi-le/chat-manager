@@ -5,7 +5,7 @@ namespace labile\bot;
 class Utils extends ChatManager
 {
 
-    public static function translit($str)
+    public static function translit($str): string
     {
         $tr = array(
             "А" => "A", "Б" => "B", "В" => "V", "Г" => "G",
@@ -30,45 +30,51 @@ class Utils extends ChatManager
      * @param string $text
      * @return float|int
      */
-    public static function similarTo(string $text)
+//    public static function similarTo(string $text)
+//    {
+//        $textFromBot = preg_replace("/(?![.=$'€%-])\p{P}/u", "", mb_strtolower($text));
+//        $text = preg_replace("/(?![.=$'€%-])\p{P}/u", "", $text);
+//
+//        $length = strlen($textFromBot);
+//        $lengthB = strlen($text);
+//
+//        $i = 0;
+//        $segmentCount = 0;
+//        $segmentsInfo = array();
+//        $segment = '';
+//        while ($i < $length) {
+//            $char = mb_substr($text, $i, 1);
+//            if (mb_strpos($textFromBot, $char) !== FALSE) {
+//                $segment = $segment . $char;
+//                if (mb_strpos($textFromBot, $segment) !== FALSE) {
+//                    $segmentPosA = $i - mb_strlen($segment) + 1;
+//                    $segmentPosB = mb_strpos($textFromBot, $segment);
+//                    $positionDiff = abs($segmentPosA - $segmentPosB);
+//                    $posFactor = ($length - $positionDiff) / $lengthB;
+//                    $lengthFactor = mb_strlen($segment) / $length;
+//                    $segmentsInfo[$segmentCount] = array('segment' => $segment, 'score' => ($posFactor * $lengthFactor));
+//                } else {
+//                    $segment = '';
+//                    $i--;
+//                    $segmentCount++;
+//                }
+//            } else {
+//                $segment = '';
+//                $segmentCount++;
+//            }
+//            $i++;
+//        }
+//
+//        $totalScore = array_sum(array_map(function ($v) {
+//            return $v['score'];
+//        }, $segmentsInfo));
+//        return $totalScore;
+//    }
+
+    public static function similarTo(string $text_one, string $text_two)
     {
-        $textFromBot = preg_replace("/(?![.=$'€%-])\p{P}/u", "", mb_strtolower($text));
-        $text = preg_replace("/(?![.=$'€%-])\p{P}/u", "", $text);
-
-        $length = strlen($textFromBot);
-        $lengthB = strlen($text);
-
-        $i = 0;
-        $segmentCount = 0;
-        $segmentsInfo = array();
-        $segment = '';
-        while ($i < $length) {
-            $char = mb_substr($text, $i, 1);
-            if (mb_strpos($textFromBot, $char) !== FALSE) {
-                $segment = $segment . $char;
-                if (mb_strpos($textFromBot, $segment) !== FALSE) {
-                    $segmentPosA = $i - mb_strlen($segment) + 1;
-                    $segmentPosB = mb_strpos($textFromBot, $segment);
-                    $positionDiff = abs($segmentPosA - $segmentPosB);
-                    $posFactor = ($length - $positionDiff) / $lengthB;
-                    $lengthFactor = mb_strlen($segment) / $length;
-                    $segmentsInfo[$segmentCount] = array('segment' => $segment, 'score' => ($posFactor * $lengthFactor));
-                } else {
-                    $segment = '';
-                    $i--;
-                    $segmentCount++;
-                }
-            } else {
-                $segment = '';
-                $segmentCount++;
-            }
-            $i++;
-        }
-
-        $totalScore = array_sum(array_map(function ($v) {
-            return $v['score'];
-        }, $segmentsInfo));
-        return $totalScore;
+        similar_text($text_one, $text_two, $percent);
+        return floor($percent);
     }
 
     /**

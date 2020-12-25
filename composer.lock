@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1d5e9d8fba06ffd9e4d176de71e90cf",
+    "content-hash": "e33e1211d6ad3dc13cd16de2c3f83683",
     "packages": [
         {
             "name": "digitalstars/simplevk",
@@ -66,7 +66,9 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "ext-mbstring": "*"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"
 }

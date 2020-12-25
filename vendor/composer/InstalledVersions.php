@@ -19,8 +19,8 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'e6f733f6d7f7a57ef9bdab52b45ef4b478fc1379',
-    'name' => 'labile/cm',
+    'reference' => '510b4dfd44fffcbcd391dcbee0cf4fbf574a2f36',
+    'name' => 'labile/bot',
   ),
   'versions' => 
   array (
@@ -33,14 +33,14 @@ private static $installed = array (
       ),
       'reference' => 'af848cb5990610dc5370a5de38cab3b06275e616',
     ),
-    'labile/cm' => 
+    'labile/bot' => 
     array (
       'pretty_version' => 'dev-master',
       'version' => 'dev-master',
       'aliases' => 
       array (
       ),
-      'reference' => 'e6f733f6d7f7a57ef9bdab52b45ef4b478fc1379',
+      'reference' => '510b4dfd44fffcbcd391dcbee0cf4fbf574a2f36',
     ),
   ),
 );
