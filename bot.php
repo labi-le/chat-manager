@@ -7,10 +7,10 @@ use DigitalStars\SimpleVK\SimpleVkException;
 
 class ChatManager extends longpool
 {
-//    use ChatEvents;
+    use Events;
     use Commands;
 
-    private array $initVars;
+    protected array $initVars;
     private int $similar_percent = 75;
 
     public static function create($token, $version, $also_version = null): ChatManager
@@ -35,7 +35,8 @@ class ChatManager extends longpool
         $this->initVars['text_lower'] = mb_strtolower($message);
         $this->initVars['payload'] = $payload;
         $this->initVars['action'] = $this->data['object']['action'] ?? null;
-        $this->initVars['msg_id'] = $msg_id;
+        $this->initVars['message_id'] = $msg_id > 0 ? $msg_id : $this->data['object']['conversation_message_id'];
+//        $this->initVars['conversation_message_id'] = $this->data['object']['conversation_message_id'];
         $this->initVars['attachments'] = $attachments;
 
         $this->handleType($type);
@@ -75,6 +76,7 @@ class ChatManager extends longpool
         $text_lower = $data['text_lower'];
 
         //если текст в сообщении == method name то он выполняет метод иначе ищет в массиве
+        //чтоб не выполнял методы начинай название с черты _ чёрт
         (method_exists($this, $text_lower) && mb_strpos($text_lower, '_') === false) ? $this->$text_lower() : $this->commandHandler();
 
     }
@@ -88,7 +90,7 @@ class ChatManager extends longpool
         $action = $this->initVars['action'];
         $type = $action['type'];
 
-        Events::$type($action['member_id']);
+        if (method_exists($this, $type)) $this->$type($action['member_id']);
     }
 
     protected function commandHandler()
@@ -97,7 +99,6 @@ class ChatManager extends longpool
             $list = $this->list();
 
             Utils::setText($this->getVars()['text_lower']);
-
 
             foreach ($list as $cmd) {
                 if (!is_array($cmd['text'])) {
@@ -141,7 +142,7 @@ class ChatManager extends longpool
     /**
      * @return mixed
      */
-    public function getVars()
+    public function getVars(): array
     {
         return $this->initVars;
     }
@@ -163,7 +164,6 @@ class ChatManager extends longpool
      */
     private function message_event($data): void
     {
-        echo 1;
         //todo написать обработчик кнопок
     }
 }

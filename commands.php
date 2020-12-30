@@ -4,13 +4,9 @@ namespace labile\bot;
 
 trait Commands
 {
-    public function list()
+    public function list(): array
     {
         return [
-            [
-                'text' => ['|привет'],
-                'method' => ['_foobar']
-            ],
 
             [
                 'text' => ['[|котика', '[|котиков', '[|кот'],
@@ -37,7 +33,12 @@ trait Commands
 
     protected function _hiMessage()
     {
-        $this->msg('Hi ~man~')->send();
+        $this->msg('привет ~кожанный~')->send();
+    }
+
+    protected function pr()
+    {
+        $this->msg(print_r($this->initVars, true))->send();
     }
 
     /*
@@ -53,13 +54,13 @@ trait Commands
         } else {
 
             $cat = [];
-            $smile = \str_repeat('🐈', $count);
+            $smile = str_repeat('🐈', $count);
 
             for ($i = 0; $i < $count; $i++) {
                 $cat[] = json_decode(file_get_contents('https://aws.random.cat/meow'));
             }
 
-            $this->msg($smile)->img($cat)->send();
+            $this->msg($smile)->addImg($cat)->send();
         }
     }
 
@@ -98,6 +99,17 @@ trait Commands
     protected function heyo()
     {
         $this->msg('Heyooo')->send();
+    }
+
+    protected function альберт()
+    {
+        $voices = [
+            'https://psv4.userapi.com/c533636//u326933748/audiomsg/d31/29ca632e24.mp3',
+            'https://psv4.userapi.com/c857032//u326933748/audiomsg/d11/6e93973d30.mp3',
+        ];
+        $this->msg()
+            ->voice(array_rand(array_flip($voices)))
+            ->send();
     }
 
     protected function _foobar()

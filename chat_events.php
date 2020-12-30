@@ -2,42 +2,47 @@
 
 namespace labile\bot;
 
-class Events extends ChatManager
+trait Events
 {
-    public static function chat_invite_user()
+    protected function chat_invite_user($id)
     {
         print_r('invite user chat');
     }
 
-    public static function chat_invite_user_by_link()
+    protected function chat_invite_user_by_link($id)
     {
         print_r('invite user chat');
     }
 
-    public static function chat_kick_user($id)
+    protected function chat_kick_user($id)
     {
         print_r('exit chat');
     }
 
 
-    public static function chat_photo_update()
+    protected function chat_photo_update($id)
     {
         print_r('photo up chat');
     }
 
-    public function chat_photo_remove()
+    protected function chat_photo_remove($id)
     {
         print_r('exit chat');
     }
 
-    public function chat_pin_message()
+    protected function chat_pin_message($id)
     {
         print_r('pin chat');
     }
 
-    public static function chat_unpin_message()
+    protected function chat_unpin_message($id)
     {
         print_r('nice cock');
+    }
+
+    protected function chat_screenshot($id)
+    {
+        $this->msg('~негодяй|' . $id . '~ сделал скриншот')->send();
     }
 
 }
