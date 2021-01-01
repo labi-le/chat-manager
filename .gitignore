@@ -1,2 +1,4 @@
 /vendor/
 /error/
+.idea
+print.php
