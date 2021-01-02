@@ -10,7 +10,7 @@ class ChatManager extends longpool
     use Events;
     use Commands;
 
-    protected array $initVars;
+    protected array $vars;
     private int $similar_percent = 75;
 
     public static function create($token, $version, $also_version = null): ChatManager
@@ -28,16 +28,18 @@ class ChatManager extends longpool
     private function parse(): void
     {
         $this->initVars($id, $user_id, $type, $message, $payload, $msg_id, $attachments);   // Парсинг полученных событий
-        $this->initVars['id'] = $id;
-        $this->initVars['user_id'] = $user_id;
-        $this->initVars['type'] = $type;
-        $this->initVars['text'] = $message;
-        $this->initVars['text_lower'] = mb_strtolower($message);
-        $this->initVars['payload'] = $payload;
-        $this->initVars['action'] = $this->data['object']['action'] ?? null;
-        $this->initVars['message_id'] = $msg_id > 0 ? $msg_id : $this->data['object']['conversation_message_id'];
-//        $this->initVars['conversation_message_id'] = $this->data['object']['conversation_message_id'];
-        $this->initVars['attachments'] = $attachments;
+
+        $this->vars['id'] = $id;
+        $this->vars['user_id'] = $user_id;
+        $this->vars['type'] = $type;
+        $this->vars['text'] = $message;
+        $this->vars['text_lower'] = mb_strtolower($message);
+        $this->vars['payload'] = $payload;
+        $this->vars['action'] = $this->data['object']['action'] ?? null;
+        $this->vars['message_id'] = $msg_id > 0 ? $msg_id : $this->data['object']['conversation_message_id'];
+        $this->vars['attachments'] = $attachments;
+        $this->vars['fwd_messages'] = $this->data['object']['fwd_messages'] ?? null;
+        $this->vars['reply_message'] = $this->data['object']['reply_message'] ?? null;
 
         $this->handleType($type);
     }
@@ -48,7 +50,7 @@ class ChatManager extends longpool
      */
     private function handleType($type)
     {
-        if (method_exists($this, $type)) $this->$type($this->initVars);
+        if (method_exists($this, $type)) $this->$type($this->getVars());
     }
 
     /**
@@ -69,7 +71,7 @@ class ChatManager extends longpool
      */
     private function message_new($data): void
     {
-        print_r($this->initVars);
+        print_r($this->vars);
 
         if (isset($data['action'])) $this->handleAction();
 
@@ -87,7 +89,7 @@ class ChatManager extends longpool
      */
     protected function handleAction(): void
     {
-        $action = $this->initVars['action'];
+        $action = $this->getVars()['action'];
         $type = $action['type'];
 
         if (method_exists($this, $type)) $this->$type($action['member_id']);
@@ -140,11 +142,11 @@ class ChatManager extends longpool
     }
 
     /**
-     * @return mixed
+     * @param $var
      */
-    public function getVars(): array
+    public function getVars(string $var = null): array|string
     {
-        return $this->initVars;
+        if (isset($var)) return $this->vars[$var]; else return $this->vars;
     }
 
     /**

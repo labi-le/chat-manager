@@ -14,6 +14,11 @@ trait Commands
             ],
 
             [
+                'text' => ['кончить', 'кон4ить'],
+                'method' => ['_kon4']
+            ],
+
+            [
                 'text' => ['блин', 'капец', 'блять', 'пиздец', 'ебать', 'елки иголки', 'екарный бабай'],
                 'method' => ['_blin']
             ],
@@ -38,7 +43,7 @@ trait Commands
 
     protected function pr()
     {
-        $this->msg(print_r($this->initVars, true))->send();
+        $this->msg(print_r($this->request('users.get', ['user_ids' => $this->getVars('user_id'), 'fields' => 'photo_id' ]), true))->send();
     }
 
     /*
@@ -86,8 +91,9 @@ trait Commands
         ];
 
         foreach($array_vagina as $word){
+            $this->request('messages.setActivity', ['peer_id' => $this->getVars()['id'], 'type' => 'typing']);
+            sleep(2);
             $this->msg($word)->send();
-            sleep(1);
         }
     }
 
@@ -97,9 +103,32 @@ trait Commands
         $this->msg($word)->send();
     }
 
+    //todo сделать викторину
+
     protected function heyo()
     {
         $this->msg('Heyooo')->send();
+    }
+
+    protected function _kon4()
+    {
+        function kon4($direct_url): string
+        {
+            return 'http://www.lunach.ru/?cum=&url=' . urlencode($direct_url) . '&tpl=vk';
+        }
+
+        $photos = $this->getVars()['attachments']['photo'] ?? false;
+
+        if (!$photos) $this->msg('а где фотка???')->send(); else {
+            $img = [];
+            foreach ($photos as $photo) {
+                $img[] = kon4($photo['url']);
+            }
+
+            $this->msg()->img($img)->send();
+        }
+
+
     }
 
     protected function _blin()
