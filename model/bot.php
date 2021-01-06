@@ -8,6 +8,8 @@ use DigitalStars\SimpleVK\SimpleVK as callback;
 //если нужен callback то просто переименуй
 class ChatManager extends longpool
 {
+    static $commandClass = 'Commands';
+    static $eventClass = 'Events';
 
     protected array $vars;
 
@@ -72,7 +74,7 @@ class ChatManager extends longpool
     private function message_event($data): void
     {
         //todo написать обработчик кнопок
-        is_null($data['payload']) ?: CommandController::payloadHandler();
+        is_null($data['payload']) ?: CommandController::payloadHandler($data['payload']);
     }
 
     /**
