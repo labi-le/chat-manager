@@ -1,9 +1,14 @@
 {
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "6848004a0b9b828f252261543f5c82ff",
     "packages": [
         {
             "name": "digitalstars/simplevk",
             "version": "dev-testing",
-            "version_normalized": "dev-testing",
             "source": {
                 "type": "git",
                 "url": "https://github.com/digitalstars/simplevk.git",
@@ -25,9 +30,7 @@
                 "ext-posix": "*",
                 "php": ">=7.0"
             },
-            "time": "2020-12-19T21:38:08+00:00",
             "type": "library",
-            "installation-source": "source",
             "autoload": {
                 "psr-4": {
                     "DigitalStars\\simplevk\\": "src/"
@@ -52,9 +55,18 @@
                 "issues": "https://github.com/digitalstars/simplevk/issues",
                 "source": "https://github.com/digitalstars/simplevk/tree/testing"
             },
-            "install-path": "../digitalstars/simplevk"
+            "time": "2020-12-19T21:38:08+00:00"
         }
     ],
-    "dev": true,
-    "dev-package-names": []
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "digitalstars/simplevk": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }

@@ -4,6 +4,8 @@
     <include_path>
       <path value="$PROJECT_DIR$/vendor/composer" />
       <path value="$PROJECT_DIR$/vendor/digitalstars/simplevk" />
+      <path value="$PROJECT_DIR$/old/vendor/digitalstars/simplevk" />
+      <path value="$PROJECT_DIR$/old/vendor/composer" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.0">

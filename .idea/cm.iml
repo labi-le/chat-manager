@@ -6,6 +6,8 @@
       <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/digitalstars/simplevk" />
+      <excludeFolder url="file://$MODULE_DIR$/old/vendor/digitalstars/simplevk" />
+      <excludeFolder url="file://$MODULE_DIR$/old/vendor/composer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

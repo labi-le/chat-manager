@@ -67,6 +67,7 @@ class ChatManager extends longpool
         if (isset($var)) return $this->vars[$var] ?? throw new \Exception('Попытка получить переменную которой впринципе нет'); else return $this->vars;
     }
 
+
     /**
      * Event message_event
      * @param $data

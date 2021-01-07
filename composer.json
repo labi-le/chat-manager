@@ -1,0 +1,14 @@
+{
+    "name": "labile/chat-manager",
+    "description": "chat manager vk",
+    "type": "project",
+    "require": {
+        "digitalstars/simplevk": "dev-testing"
+    },
+    "authors": [
+        {
+            "name": "labile",
+            "email": "1a6i1e@gmail.com"
+        }
+    ]
+}
