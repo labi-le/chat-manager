@@ -7,8 +7,6 @@ namespace labile\bot;
 class Controller
 {
     static $vk;
-    static $commandClass = 'Commands';
-    static $eventClass = 'Events';
 
     /**
      * Вызов типа события и передача данных
@@ -34,7 +32,7 @@ class Controller
         $type = $action['type'];
         $member_id = $action['member_id'];
 
-        if (method_exists(self::$eventClass, $type)) self::$eventClass::$type($member_id);
+        if (method_exists(Events::class, $type)) Events::$type($member_id);
     }
 
 
@@ -46,8 +44,8 @@ class Controller
     public static function method_execute(array|string $methods): void
     {
         if (is_array($methods)) {
-            foreach ($methods as $method) self::$commandClass::$method();
-        } else self::$commandClass::$methods();
+            foreach ($methods as $method) Commands::set(self::$vk)->$method();
+        } else Commands::set(self::$vk)->$methods();
     }
 
 }

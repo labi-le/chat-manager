@@ -8,11 +8,18 @@ use DigitalStars\SimpleVK\SimpleVK as callback;
 //если нужен callback то просто переименуй
 class ChatManager extends longpool
 {
-    static $commandClass = 'Commands';
-    static $eventClass = 'Events';
 
+    /**
+     * Массив с данными которые пришли от вк
+     * @var array
+     */
     protected array $vars;
 
+    /**
+     * Процент срабатывания в методе formatText классе Utils
+     * Utils::formatText(string $textFromArray, string $original, $similarPercent = 75)
+     * @var int
+     */
     private int $similar_percent = 75;
 
     public static function create($token, $version, $also_version = null): ChatManager
@@ -21,6 +28,7 @@ class ChatManager extends longpool
     }
 
     /**
+     * Управление многопоточностью
      * simplevk\longpool
      * @param bool $bool
      * @return ChatManager
@@ -33,7 +41,7 @@ class ChatManager extends longpool
 
     }
 
-    /**e
+    /**
      * Парсинг всех данных которые пришли от вк в красивый вид
      * @param void
      * @return void ($this->vars)
@@ -58,6 +66,7 @@ class ChatManager extends longpool
     }
 
     /**
+     * Получить необходимые\все данные которые прислал вк
      * @param string|null $var
      * @return mixed
      * @throws \Exception
@@ -69,6 +78,7 @@ class ChatManager extends longpool
 
 
     /**
+     * Ивент: нажатие калбек кнопки
      * Event message_event
      * @param $data
      */
@@ -79,7 +89,7 @@ class ChatManager extends longpool
     }
 
     /**
-     * Ивент Новое сообщение
+     * Ивент: Новое сообщение
      * @param array $data
      */
     public function message_new(array $data): void
@@ -89,7 +99,9 @@ class ChatManager extends longpool
 
         //если текст в сообщении == method name то он выполняет метод иначе ищет в массиве
         //чтоб не выполнял методы начинай название с черты _
-        (method_exists(Commands::class, $text_lower) && mb_strpos($text_lower, '_') === false) ? Commands::$text_lower() : CommandController::commandHandler($text_lower);
+        //(method_exists(Commands::class, $text_lower) && mb_strpos($text_lower, '_') === false) ? Commands::$text_lower() : CommandController::commandHandler($text_lower);
+
+        CommandController::commandHandler($text_lower);
 
     }
 }

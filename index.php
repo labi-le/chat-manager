@@ -1,6 +1,5 @@
 <?php
 
-
 use labile\bot\ChatManager;
 
 require_once('./vendor/digitalstars/simplevk/autoload.php');

@@ -11,8 +11,8 @@ class CommandController extends Controller
      */
     public static function commandHandler(string $originalText): void
     {
-        if (Commands::textCommands()) {
-            $list = Commands::textCommands();
+        if (CommandList::text()) {
+            $list = CommandList::text();
 
             foreach ($list as $cmd) {
                 if (!is_array($cmd['text'])) {

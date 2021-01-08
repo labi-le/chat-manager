@@ -4,7 +4,12 @@ namespace labile\bot;
 
 class Utils extends ChatManager
 {
-    public static function translit($str): string
+    /**
+     * Транслитерация кириллицы в латиницу
+     * @param $str
+     * @return string
+     */
+    public static function translit(string $str): string
     {
         $tr = array(
             "А" => "A", "Б" => "B", "В" => "V", "Г" => "G",
@@ -25,7 +30,7 @@ class Utils extends ChatManager
     }
 
     /**
-     * Похоже на.
+     * Похоже на
      * @param string $text
      * @param $original
      * @return int
@@ -103,12 +108,22 @@ class Utils extends ChatManager
         } else return $textFromArray == $original;
     }
 
-    public static function multiexplode($delimiters, $string)
+    /**
+     * Православный explode с возможностью использовать несколько символов
+     * @param $delimiters
+     * @param $string
+     * @return array|boolean
+     */
+    public static function multiexplode($delimiters, $string): array|bool
     {
         $ready = str_replace($delimiters, $delimiters[0], $string);
         return explode($delimiters[0], $ready);
     }
 
+    /**
+     * Вот это я не особо помню что за хуёвина
+     * @return array
+     */
     public static function turingTest()
     {
         $firstNum = rand(1, 10);

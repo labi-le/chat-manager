@@ -2,130 +2,71 @@
 
 namespace labile\bot;
 
-class Commands extends Controller
+class Commands
 {
-    public static function textCommands(): array
+    protected $vk;
+//
+    private function __construct($vk)
     {
-        return [
-
-            [
-                'text' => ['[|котика', '[|котиков', '[|кот'],
-                'method' => ['_cat']
-            ],
-
-            [
-                'text' => ['кончить', 'кон4ить'],
-                'method' => ['_kon4']
-            ],
-
-            [
-                'text' => ['блин', 'капец', 'блять', 'пиздец', 'ебать', 'елки иголки', 'екарный бабай'],
-                'method' => ['_blin']
-            ],
-
-            [
-                'text' => ['|фубар'],
-                'method' => ['_foobar']
-            ],
-
-            [
-                'text' => ['hi'],
-                'method' => ['_hiMessage']
-            ],
-
-        ];
+        $this->vk = $vk;
     }
 
-//    public function _keyboard(): array
-//    {
-//        return [
-//
-//            'command' => [
-//                [
-//                    'key' => 'not_supported_button',
-//                    'method' => ['_not_supported_button']
-//                ]
-//            ],
-//
-//            'settings' =>
-//                [
-//                    [
-//                        'key' => 'exit_msg',
-//                        'method' => ['_eventCheckAdmin', '_chatSwitcher']
-//                    ],
-//
-//                    [
-//                        'key' => 'welcome_msg',
-//                        'method' => ['_eventCheckAdmin', '_chatSwitcher']
-//                    ],
-//
-//                    [
-//                        'key' => 'rules',
-//                        'method' => ['_eventCheckAdmin', '_chatSwitcher']
-//                    ],
-//
-//                    [
-//                        'key' => 'auto_kick',
-//                        'method' => ['_eventCheckAdmin', '_chatSwitcher']
-//                    ],
-//
-//                ],
-//
-//            'chat' =>
-//                [
-//                    [
-//                        'key' => 'registration',
-//                        'method' => ['_chatCreate']
-//                    ],
-//
-//                ],
-//
-//        ];
-//    }
-
-    public static function _hiMessage()
+    /**
+     * @param $vk
+     * @return object
+     */
+    public static function set($vk)
     {
-        self::$vk->msg('привет ~кожанный~')->send();
+        return new static($vk);
     }
 
-    public static function pr()
+    use Manager;
+
+    public function _hiMessage()
     {
-        self::$vk->msg(print_r(self::$vk->request('users.get', ['user_ids' => self::$vk->getVars('user_id'), 'fields' => 'photo_id']), true))->send();
+        $this->vk->msg('привет ~кожанный~')->send();
+    }
+
+
+    public function pr()
+    {
+        var_dump(self::set($this->vk));
+//        $this->vk->msg(print_r($this->vk->request('users.get', ['user_ids' => $this->vk->getVars('user_id'), 'fields' => 'photo_id']), true))->send();
     }
 
     /*
      * Котиков int
      * return котики
      */
-//    protected function _cat()
-//    {
-//        $count = intval(Utils::textWithoutPrefix($this->getVars('text_lower')));
-//
-//        if ($count > 10 or $count <= 0) {
-//            $this->msg("Отинь многа котикаф либо их ваще нет!!!")->send();
-//        } else {
-//
-//            $cat = [];
-//            $smile = str_repeat('🐈', $count);
-//
-//            for ($i = 0; $i < $count; $i++) {
-//                $cat[] = json_decode(file_get_contents('https://aws.random.cat/meow'));
-//            }
-//
-//            $this->msg($smile)->addImg($cat)->send();
-//        }
-//    }
-
-    public static function _keyboard()
+    protected function _cat()
     {
-        $kb[] = self::$vk->buttonText('1', 'white', null);
-        $kb[] = self::$vk->buttonText('2', 'red', null);
-        $kb[] = self::$vk->buttonText('3', 'blue', null);
+        $count = intval(Utils::textWithoutPrefix($this->vk->getVars('text_lower')));
 
-        self::$vk->msg('you popal to gay pride')->kbd([$kb], true)->send();
+        if ($count > 10 or $count <= 0) {
+            $this->vk->msg("Отинь многа котикаф либо их ваще нет!!!")->send();
+        } else {
+
+            $cat = [];
+            $smile = str_repeat('🐈', $count);
+
+            for ($i = 0; $i < $count; $i++) {
+                $cat[] = json_decode(file_get_contents('https://aws.random.cat/meow'));
+            }
+
+            $this->vk->msg($smile)->addImg($cat)->send();
+        }
     }
 
-    public static function вагина()
+    public function _keyboard()
+    {
+        $kb[] = $this->vk->buttonText('1', 'white', null);
+        $kb[] = $this->vk->buttonText('2', 'red', null);
+        $kb[] = $this->vk->buttonText('3', 'blue', null);
+
+        $this->vk->msg('you popal to gay pride')->kbd([$kb], true)->send();
+    }
+
+    public function vagina()
     {
         $array_vagina = [
             'Сидел я в МДК', 'листал картинки про кота~', 'И был доволен всем',
@@ -140,7 +81,7 @@ class Commands extends Controller
         foreach ($array_vagina as $word) {
 //            self::$vk->request('messages.setActivity', ['peer_id' => $this->getVars('peer_id'), 'type' => 'typing']);
             sleep(2);
-            self::$vk->msg($word)->send();
+            $this->vk->msg($word)->send();
         }
     }
 
@@ -152,34 +93,33 @@ class Commands extends Controller
 
     //todo сделать викторину
 
-    public static function heyo()
+    public function heyo()
     {
-        var_dump(self::$vk);
-        self::$vk->msg('Heyooo')->send();
+        $this->vk->msg('Heyooo')->send();
     }
 
-//    protected function _kon4()
-//    {
-//        function kon4($direct_url): string
-//        {
-//            return 'http://www.lunach.ru/?cum=&url=' . urlencode($direct_url) . '&tpl=vk';
-//        }
-//
-//        $photos = $this->getVars('attachments')['photo'] ?? false;
-//
-//        if (!$photos) $this->msg('а где фотка???')->send(); else {
-//            $img = [];
-//            foreach ($photos as $photo) {
-//                $img[] = kon4($photo['url']);
-//            }
-//
-//            $this->msg()->img($img)->send();
-//        }
-//
-//
-//    }
+    public function _kon4()
+    {
+        function kon4($direct_url): string
+        {
+            return 'http://www.lunach.ru/?cum=&url=' . urlencode($direct_url) . '&tpl=vk';
+        }
 
-    public static function _blin()
+        $photos = $this->vk->getVars('attachments')['photo'] ?? false;
+
+        if (!$photos) $this->vk->msg('а где фотка???')->send(); else {
+            $img = [];
+            foreach ($photos as $photo) {
+                $img[] = kon4($photo['url']);
+            }
+
+            $this->vk->msg()->img($img)->send();
+        }
+
+
+    }
+
+    public function _blin()
     {
         $img =
             [
@@ -204,7 +144,7 @@ class Commands extends Controller
 
         $blin = array_rand(array_flip($img));
 
-        self::$vk->msg()
+        $this->vk->msg()
             ->img($blin)
             ->forward()
             ->send();
