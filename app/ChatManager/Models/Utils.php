@@ -1,8 +1,8 @@
 <?php
 
-namespace labile\bot;
+namespace ChatManager\Models;
 
-class Utils extends ChatManager
+class Utils
 {
     /**
      * Транслитерация кириллицы в латиницу

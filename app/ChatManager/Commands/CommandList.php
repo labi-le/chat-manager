@@ -1,10 +1,8 @@
 <?php
 
+namespace ChatManager\Commands;
 
-namespace labile\bot;
-
-
-class CommandList extends Commands
+final class CommandList
 {
     /**
      * Массив с командами

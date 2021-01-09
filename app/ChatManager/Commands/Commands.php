@@ -1,12 +1,13 @@
 <?php
 
-namespace labile\bot;
+namespace ChatManager\Commands;
 
 class Commands
 {
+    use Manager;
+
     protected $vk;
 
-//
     private function __construct($vk)
     {
         $this->vk = $vk;
@@ -20,8 +21,6 @@ class Commands
     {
         return new static($vk);
     }
-
-    use Manager;
 
     public function _hiMessage()
     {

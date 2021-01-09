@@ -1,8 +1,11 @@
 <?php
 
-namespace labile\bot;
+namespace ChatManager\Controller;
 
-class CommandController extends Controller
+use ChatManager\Commands\CommandList;
+use ChatManager\Models\Utils;
+
+final class CommandController extends Controller
 {
     /**
      * Поиск и выполнение команд (если нашел)

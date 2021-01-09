@@ -1,7 +1,7 @@
 <?php
 namespace labile\bot;
 
-require_once('model/bot.php');
+require_once('model/Bot.php');
 require_once('model/utils.php');
 require_once('controller/Controller.php');
 require_once('controller/CommandController.php');

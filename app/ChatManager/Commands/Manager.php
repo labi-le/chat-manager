@@ -1,6 +1,6 @@
 <?php
 
-namespace labile\bot;
+namespace ChatManager\Commands;
 
 /**
  * Трейт для команд подходящих под категорию чат менеджмента

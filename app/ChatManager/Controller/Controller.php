@@ -1,8 +1,9 @@
 <?php
+namespace ChatManager\Controller;
 
-
-namespace labile\bot;
-
+use ChatManager\Commands\Commands;
+use ChatManager\Commands\Events;
+use ChatManager\Models\Bot;
 
 class Controller
 {
@@ -11,15 +12,12 @@ class Controller
     /**
      * Вызов типа события и передача данных
      * @param string $type
-     * @param array $vars
-     * @param $vk
-     * @return void
+     * @param array $data
+     * @return bool
      */
-    public static function handler(string $type, array $vars, $vk): void
+    public static function handle(string $type, array $data): bool
     {
-        self::$vk = $vk;
-        if (method_exists($vk, $type)) $vk->$type($vars);
-
+        if (method_exists(self::class, $type)) TypeController::$data($data);
     }
 
     /**
@@ -27,7 +25,7 @@ class Controller
      * @param array $action
      * @return void
      */
-    public static function handleAction(array $action): void
+    protected static function handleAction(array $action): void
     {
         $type = $action['type'];
         $member_id = $action['member_id'];

@@ -3,12 +3,21 @@
     "description": "chat manager vk",
     "type": "project",
     "require": {
-        "digitalstars/simplevk": "dev-testing"
+        "digitalstars/simplevk": "dev-testing",
+        "ext-mbstring": "*"
     },
     "authors": [
         {
             "name": "labile",
             "email": "1a6i1e@gmail.com"
         }
-    ]
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "ChatManager\\" : "app/ChatManager"
+        }
+    }
+
+
 }

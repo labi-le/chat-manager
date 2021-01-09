@@ -1,8 +1,8 @@
 <?php
 
-namespace labile\bot;
+namespace ChatManager\Commands;
 
-class Events extends Controller
+final class Events
 {
     /**
      * Пользователь присоединился к беседе
