@@ -5,6 +5,7 @@ namespace labile\bot;
 class Commands
 {
     protected $vk;
+
 //
     private function __construct($vk)
     {
@@ -38,7 +39,7 @@ class Commands
      * Котиков int
      * return котики
      */
-    protected function _cat()
+    public function _cat()
     {
         $count = intval(Utils::textWithoutPrefix($this->vk->getVars('text_lower')));
 
@@ -79,17 +80,16 @@ class Commands
         ];
 
         foreach ($array_vagina as $word) {
-//            self::$vk->request('messages.setActivity', ['peer_id' => $this->getVars('peer_id'), 'type' => 'typing']);
             sleep(2);
             $this->vk->msg($word)->send();
         }
     }
 
-//    protected function _say()
-//    {
-//        $word = Utils::textWithoutPrefix($this->getVars('text_lower')); //получить все подстроки кроме первой
-//        $this->msg($word)->send();
-//    }
+    public function _say()
+    {
+        $word = Utils::textWithoutPrefix($this->vk->getVars('text_lower')); //получить все подстроки кроме первой
+        $this->vk->msg($word)->send();
+    }
 
     //todo сделать викторину
 
@@ -100,17 +100,12 @@ class Commands
 
     public function _kon4()
     {
-        function kon4($direct_url): string
-        {
-            return 'http://www.lunach.ru/?cum=&url=' . urlencode($direct_url) . '&tpl=vk';
-        }
-
         $photos = $this->vk->getVars('attachments')['photo'] ?? false;
 
         if (!$photos) $this->vk->msg('а где фотка???')->send(); else {
             $img = [];
             foreach ($photos as $photo) {
-                $img[] = kon4($photo['url']);
+                $img[] = 'http://www.lunach.ru/?cum=&url=' . urlencode($photo['url']) . '&tpl=vk';
             }
 
             $this->vk->msg()->img($img)->send();

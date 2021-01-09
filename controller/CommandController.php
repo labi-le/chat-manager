@@ -16,14 +16,18 @@ class CommandController extends Controller
 
             foreach ($list as $cmd) {
                 if (!is_array($cmd['text'])) {
-                    if (Utils::formatText( (string) $cmd['text'], $originalText)) self::method_execute($cmd['method']);
-                    break;
+                    if (Utils::formatText(( string)$cmd['text'], $originalText)) {
+                        self::method_execute($cmd['method']);
+                        break;
+                    }
                 }
 
                 if (is_array($cmd['text'])) {
                     foreach ($cmd['text'] as $textFromArray) {
-                        if (Utils::formatText($textFromArray, $originalText)) self::method_execute($cmd['method']);
-                        break;
+                        if (Utils::formatText($textFromArray, $originalText)) {
+                            self::method_execute($cmd['method']);
+                            break;
+                        }
 
                     }
                 }
@@ -38,11 +42,6 @@ class CommandController extends Controller
      */
     public static function payloadHandler(array $payload): void
     {
-
         //todo написать обработчик кнопок типа payload и калбек кнопок
-
-//        if (method_exists($this, 'keyboard')) {
-//            $map = $this->keyboard();
-//        }
     }
 }

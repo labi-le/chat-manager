@@ -7,11 +7,9 @@ class Events extends Controller
     /**
      * Пользователь присоединился к беседе
      * @param $id
-     * @return void
      */
-    public static function chat_invite_user($id): void
+    public static function chat_invite_user($id)
     {
-        self::$vk->msg('invite user chat')->send();
     }
 
     /**
@@ -21,7 +19,6 @@ class Events extends Controller
      */
     public static function chat_invite_user_by_link($id)
     {
-        self::$vk->msg('invite user chat from link')->send();
     }
 
     /**
@@ -31,7 +28,6 @@ class Events extends Controller
      */
     public static function chat_kick_user($id)
     {
-        print_r('exit chat');
     }
 
     /**
@@ -40,7 +36,6 @@ class Events extends Controller
      */
     public static function chat_photo_update($id)
     {
-        print_r('photo up chat');
     }
 
     /**
@@ -49,7 +44,6 @@ class Events extends Controller
      */
     public static function chat_photo_remove($id)
     {
-        print_r('exit chat');
     }
 
     /**
@@ -58,7 +52,6 @@ class Events extends Controller
      */
     public static function chat_pin_message($id)
     {
-        print_r('pin chat');
     }
 
     /**
@@ -67,7 +60,6 @@ class Events extends Controller
      */
     public static function chat_unpin_message($id)
     {
-        print_r('nice cock');
     }
 
     /**
@@ -76,7 +68,6 @@ class Events extends Controller
      */
     public static function chat_screenshot($id)
     {
-        self::$vk->msg('~негодяй|' . $id . '~ сделал скриншот')->send();
     }
 
 }

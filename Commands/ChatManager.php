@@ -2,15 +2,18 @@
 
 namespace labile\bot;
 
+/**
+ * Трейт для команд подходящих под категорию чат менеджмента
+ * @package labile\bot
+ */
 trait Manager
 {
     /**
      * Кикнуть пользователя
-     * @param int|null $id
      */
-    public function kick($id = null)
+    public function kick()
     {
-        $this->msg('бутовски')->send();
+        $this->vk->msg('бутовски')->send();
     }
 
     //todo написать команды для чм

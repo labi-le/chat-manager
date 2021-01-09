@@ -97,6 +97,8 @@ class ChatManager extends longpool
         if (isset($data['action'])) Events::handleAction($data['action']);
         $text_lower = $data['text_lower'];
 
+//        print_r($this->getVars()) . PHP_EOL;
+
         //если текст в сообщении == method name то он выполняет метод иначе ищет в массиве
         //чтоб не выполнял методы начинай название с черты _
         //(method_exists(Commands::class, $text_lower) && mb_strpos($text_lower, '_') === false) ? Commands::$text_lower() : CommandController::commandHandler($text_lower);
