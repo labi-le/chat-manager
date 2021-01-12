@@ -1,6 +1,8 @@
 <?php
+
 namespace ChatManager\Controller;
 
+use ChatManager\ChatManager;
 use ChatManager\Commands\Commands;
 use ChatManager\Commands\Events;
 use ChatManager\Models\Bot;
@@ -13,11 +15,14 @@ class Controller
      * Вызов типа события и передача данных
      * @param string $type
      * @param array $data
-     * @return bool
+     * @param Bot $bot
+     * @return void
      */
-    public static function handle(string $type, array $data): bool
+    public static function handle(string $type, array $data, Bot $bot): void
     {
-        if (method_exists(self::class, $type)) TypeController::$data($data);
+        if (method_exists(TypeController::class, $type))
+            self::$vk = $bot;
+            TypeController::$type($data);
     }
 
     /**
