@@ -3,50 +3,64 @@
 namespace ChatManager;
 
 use ChatManager\Controller\Controller;
-use ChatManager\Controller\TypeController;
-use ChatManager\Models\Bot;
+use ChatManager\Models\Callback;
+use ChatManager\Models\LongPoll;
 use Exception;
 
 class ChatManager
 {
-    public static function run($type = 'longpool')
-    {
-        $file = self::configFile();
-        isset($type) ?: $file->type;
+    private static $configFile = './config.json';
 
-        $bot = self::auth();
+    public static function run($type = null)
+    {
+        self::checkPhpVersion();
+
+        $config = self::getConfigFile();
+        $auth = $config->auth;
+
+        $type = $type ?? $config->type;
+
 
         if ($type == 'longpool') {
+            $bot = LongPoll::create($auth->token, $auth->v);
             PHP_OS == 'linux' ? $bot->isMultiThread(true) : $bot->isMultiThread(false);
-
             $bot->listen(function () use ($bot) {
-                $data = $bot->parse();
-                Controller::handle($data['type'], $data, $bot);
+                $bot->parse();
+                Controller::handle($bot->getVars(), $bot);
             });
         } elseif ($type == 'callback') {
-            $confirm_key = $file->confirmation_key ?? throw new Exception('Confirmation key not found');
-            $bot->setConfirm($confirm_key);
-            $data = $bot->parse();
+            $confirm_key = $auth->confirmation ?? throw new Exception('Confirmation key not found');
+            $bot = Callback::create($auth->token, $auth->v)->setConfirm($confirm_key);
+            $bot->parse();
 
-            Controller::handle($data['type'], $data, $bot);
+            Controller::handle($bot->getVars(), $bot);
 
-        } else throw new Exception('Не указан способ работы бота в config.json (longpool\callback)');
-
-    }
-
-    public static function auth()
-    {
-        $file = self::configFile();
-        $auth = $file->auth ?? throw new Exception('Auth data not found');
-                $file->type ?? throw new Exception('Type not found');
-
-        return Bot::create($auth->token, $auth->v);
+        }
 
     }
 
-    public static function configFile()
+    private static function checkConfigFile($file)
     {
-        $file = './config.json';
-        return $file = file_get_contents($file) ? json_decode(file_get_contents($file)) : throw new Exception('config.json не найден');
+        $file ?? throw new Exception('config.json не найден');
+        $file->auth ?? throw new Exception('Auth data not found');
+        $file->type ?? throw new Exception('Type not found');
+
+    }
+
+    private static function configFile()
+    {
+        return json_decode(file_get_contents(self::$configFile));
+    }
+
+    public static function checkPhpVersion()
+    {
+        PHP_MAJOR_VERSION >= 8 ?: die('Версия PHP ниже 8, обновляйся');
+    }
+
+    private static function getConfigFile()
+    {
+        $config = self::configFile();
+        self::checkConfigFile($config);
+        return $config;
     }
 }

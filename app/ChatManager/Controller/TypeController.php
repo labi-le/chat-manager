@@ -2,8 +2,6 @@
 
 namespace ChatManager\Controller;
 
-use ChatManager\Commands\Events;
-
 final class TypeController extends Controller
 {
 

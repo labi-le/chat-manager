@@ -2,11 +2,14 @@
 
 namespace ChatManager\Commands;
 
-class Commands
+use ChatManager\Models\Bot;
+use ChatManager\Models\Utils;
+
+final class Commands
 {
     use Manager;
 
-    protected $vk;
+    private Bot $vk;
 
     private function __construct($vk)
     {
@@ -14,12 +17,13 @@ class Commands
     }
 
     /**
+     * Вероломно используем модель бота для выполнения команд и других пошлых действий...
      * @param $vk
      * @return object
      */
     public static function set($vk)
     {
-        return new static($vk);
+        return new Commands($vk);
     }
 
     public function _hiMessage()
