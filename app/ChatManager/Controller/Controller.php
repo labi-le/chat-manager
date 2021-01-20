@@ -8,16 +8,15 @@ use ChatManager\Models\Bot;
 
 class Controller
 {
-    static $vk;
+    static object $vk;
 
     /**
      * Вызов типа события и передача данных
-     * @param string $type
      * @param array $data
-     * @param Bot $bot
+     * @param object $bot
      * @return void
      */
-    public static function handle(array $data, Bot $bot): void
+    public static function handle(array $data, object $bot): void
     {
         $type = $data['type'];
 

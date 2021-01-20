@@ -3,7 +3,7 @@
 namespace ChatManager\Commands;
 
 /**
- * Трейт для команд подходящих под категорию чат менеджмента
+ * Трейт для команд подходящих под категорию чат пидорства и блядства
  * @package labile\bot
  */
 trait Manager
@@ -13,7 +13,7 @@ trait Manager
      */
     public function kick()
     {
-        $this->vk->msg('бутовски')->send();
+        $this->vk->msg(print_r($this->vk->getVars(), true))->send();
     }
 
     //todo написать команды для чм

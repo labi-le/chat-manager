@@ -2,14 +2,13 @@
 
 namespace ChatManager\Commands;
 
-use ChatManager\Models\Bot;
 use ChatManager\Models\Utils;
 
 final class Commands
 {
     use Manager;
 
-    private Bot $vk;
+    private object $vk;
 
     private function __construct($vk)
     {
@@ -17,11 +16,11 @@ final class Commands
     }
 
     /**
-     * Вероломно используем модель бота для выполнения команд и других пошлых действий...
+     * Вероломно используем объект бота для выполнения команд и других пошлых действий...
      * @param $vk
-     * @return object
+     * @return Commands
      */
-    public static function set($vk)
+    public static function set($vk): Commands
     {
         return new Commands($vk);
     }
@@ -31,11 +30,34 @@ final class Commands
         $this->vk->msg('привет ~кожанный~')->send();
     }
 
+    /**
+     * Является ли админом
+     */
+    public function isAdmin()
+    {
+        if (!$this->vk->isAdmin($this->vk->getVars('user_id'), $this->vk->getVars('peer_id'))) {
+//            $this->vk->msg('~!fn~, когда ты успел стать админом?')->send();
+            return;
+        }
+    }
 
+    /**
+     * Является ли чатом
+     */
+    public function isChat()
+    {
+        if (is_null($this->vk->getVars('chat_id'))) return;
+
+    }
+
+
+    /**
+     * Для дебага
+     * return VKMessage
+     */
     public function pr()
     {
-        var_dump(self::set($this->vk));
-//        $this->vk->msg(print_r($this->vk->request('users.get', ['user_ids' => $this->vk->getVars('user_id'), 'fields' => 'photo_id']), true))->send();
+
     }
 
     /*
@@ -44,17 +66,18 @@ final class Commands
      */
     public function _cat()
     {
-        $count = intval(Utils::textWithoutPrefix($this->vk->getVars('text_lower')));
+        $count = intval(Utils::getWord($this->vk->getVars('text_lower'), 1));
 
         if ($count > 10 or $count <= 0) {
             $this->vk->msg("Отинь многа котикаф либо их ваще нет!!!")->send();
         } else {
 
             $cat = [];
+            $api = 'https://aws.random.cat/meow';
             $smile = str_repeat('🐈', $count);
 
             for ($i = 0; $i < $count; $i++) {
-                $cat[] = json_decode(file_get_contents('https://aws.random.cat/meow'));
+                $cat[] = json_decode(file_get_contents($api));
             }
 
             $this->vk->msg($smile)->addImg($cat)->send();
@@ -88,9 +111,9 @@ final class Commands
         }
     }
 
-    public function _say()
+    public function say()
     {
-        $word = Utils::textWithoutPrefix($this->vk->getVars('text_lower')); //получить все подстроки кроме первой
+        $word = Utils::removeFirstWord($this->vk->getVars('text_lower')); //получить все подстроки кроме первой
         $this->vk->msg($word)->send();
     }
 

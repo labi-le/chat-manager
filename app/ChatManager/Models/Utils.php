@@ -2,6 +2,8 @@
 
 namespace ChatManager\Models;
 
+use function rand;
+
 class Utils
 {
     /**
@@ -35,7 +37,7 @@ class Utils
      * @param $original
      * @return int
      */
-    public static function similarTo(string $text, $original): int
+    private static function similarTo(string $text, $original): int
     {
         similar_text($text, $original, $percent);
         return floor($percent);
@@ -47,7 +49,7 @@ class Utils
      * @param $original
      * @return bool
      */
-    public static function startAs(string $text, $original): bool
+    private static function startAs(string $text, $original): bool
     {
         $word = explode(' ', $text)[0];
         $wordFromBot = explode(' ', $original)[0];
@@ -60,7 +62,7 @@ class Utils
      * @param string $original
      * @return bool
      */
-    public static function endAs(string $text, string $original)
+    private static function endAs(string $text, string $original)
     {
         $word = explode(' ', $text);
         $end_word = end($word);
@@ -78,18 +80,36 @@ class Utils
      * @param string $original
      * @return bool
      */
-    public static function contains(string $text, string $original): bool
+    private static function contains(string $text, string $original): bool
     {
         return mb_stripos($original, $text) !== false;
     }
 
-    public static function textWithoutPrefix($text)
+    /**
+     * Удаляет из строки самую первую подстроку
+     * @param $text
+     * @return string
+     */
+    public static function removeFirstWord($text) : string
     {
         return strstr($text, " ");
     }
 
     /**
-     * проверка
+     * Выборка необходимой строки по ключу
+     * @param string $string
+     * @param int $substring
+     * @return string|bool
+     */
+    public static function getWord(string $string, int $substring) :string|bool
+    {
+        $substrings = explode(' ', $string);
+
+        return $substrings[$substring] ?? false;
+    }
+
+    /**
+     * Проверка подстроки по шаблону
      * @param string $textFromArray
      * @param string $original
      * @param int $similarPercent
@@ -112,9 +132,9 @@ class Utils
      * Православный explode с возможностью использовать несколько символов
      * @param $delimiters
      * @param $string
-     * @return array|boolean
+     * @return array|bool
      */
-    public static function multiexplode($delimiters, $string): array|bool
+    public static function multiExplode($delimiters, $string): array|bool
     {
         $ready = str_replace($delimiters, $delimiters[0], $string);
         return explode($delimiters[0], $ready);
@@ -134,9 +154,9 @@ class Utils
         $text = $firstNum . ' + ' . $secondNum . ' - ' . $thirdNum . ' * ' . $fourthNum;
         $sum = $firstNum + $secondNum - $thirdNum * $fourthNum;
 
-        $invalidSum[] = $sum - \rand(1, 10);
-        $invalidSum[] = $sum + \rand(1, 10);
-        $invalidSum[] = $sum - \rand(1, 10);
+        $invalidSum[] = $sum - rand(1, 10);
+        $invalidSum[] = $sum + rand(1, 10);
+        $invalidSum[] = $sum - rand(1, 10);
         $invalidSum[] = $sum;
         // $invalidSum[] = $sum + \rand(1, 10);
 

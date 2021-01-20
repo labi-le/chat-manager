@@ -6,6 +6,10 @@ final class CommandList
 {
     /**
      * Массив с командами
+     * [| - начинается с
+     * | - похоже на
+     * {} - содержит
+     * |] - заканчивается на
      * @return array
      */
     public static function text(): array
@@ -23,7 +27,7 @@ final class CommandList
             ],
 
             [
-                'text' => ['вагина', 'вагина'],
+                'text' => ['вагина'],
                 'method' => ['vagina']
             ],
 
@@ -33,13 +37,23 @@ final class CommandList
             ],
 
             [
-                'text' => ['кик'],
-                'method' => ['kick']
+                'text' => ['[|кик', '[|kick', '[|выгнать', '[|кикнуть'],
+                'method' => ['isChat', 'isAdmin', 'kick']
+            ],
+
+            [
+                'text' => ['меню', 'настройки', 'gui', 'menu'],
+                'method' => ['isChat', 'isAdmin', 'createGui']
             ],
 
             [
                 'text' => ['pr'],
                 'method' => ['pr']
+            ],
+
+            [
+                'text' => ['[|скажи', '[|повтори', '[|say'],
+                'method' => ['say']
             ],
 
             [
