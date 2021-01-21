@@ -37,7 +37,7 @@ trait Bot
         $this->initVars($id, $user_id, $type, $message, $payload, $msg_id, $attachments);   // Парсинг полученных событий
 
         $chat_id = $id - 2e9;
-        $chat_id = $chat_id > 0 ? $chat_id : null;
+        $chat_id = $chat_id > 0 ? (int) $chat_id : null;
 
         $this->vars['peer_id'] = $id ?? null;
         $this->vars['chat_id'] = $chat_id;
@@ -63,6 +63,7 @@ trait Bot
      */
     public function getVars(string $var = null): mixed
     {
-        if (isset($var)) return $this->vars[$var] ??  die('Попытка получить переменную которой впринципе нет'); else return $this->vars;
+//        var_dump($this->vars);
+        if (isset($var, $this->vars[$var])) return $this->vars[$var]; else return $this->vars;
     }
 }

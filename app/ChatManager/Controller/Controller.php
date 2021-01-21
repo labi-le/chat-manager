@@ -49,7 +49,9 @@ class Controller
     public static function method_execute(array|string $methods): void
     {
         if (is_array($methods)) {
-            foreach ($methods as $method) Commands::set(self::$vk)->$method();
+            foreach ($methods as $method) {
+                if(Commands::set(self::$vk)->$method() === false) break;
+            }
         } else Commands::set(self::$vk)->$methods();
     }
 

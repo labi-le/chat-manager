@@ -23,9 +23,8 @@ final class TypeController extends Controller
     public static function message_new(array $data): void
     {
         $action = $data['action'];
-        $member_id = $data['member_id'] ?? false;
 
-        if (isset($action)) self::handleAction($member_id);
+        if (isset($action)) self::handleAction($action);
         $text_lower = $data['text_lower'];
 
 //        print_r($this->getVars()) . PHP_EOL;

@@ -2,13 +2,28 @@
 
 namespace ChatManager\Commands;
 
+use ChatManager\Models\Callback;
+use ChatManager\Models\LongPoll;
 use ChatManager\Models\Utils;
+use Exception;
 
+/**
+ * Фичи бота пишутся здесь, можно подключать трейты
+ * Метод не должен возвращать значение false если он не является методом-проверкой по типу isAdmin, isChat
+ * Class Commands
+ * @package ChatManager\Commands
+ */
 final class Commands
 {
     use Manager;
+    use Debug;
 
-    private object $vk;
+    /**
+     * Явно указываем класс, чтоб IDE помогал
+     */
+    private LongPoll|Callback $vk;
+
+//    private object $vk;
 
     private function __construct($vk)
     {
@@ -32,22 +47,25 @@ final class Commands
 
     /**
      * Является ли админом
+     * @return bool
+     * @throws Exception
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
-        if (!$this->vk->isAdmin($this->vk->getVars('user_id'), $this->vk->getVars('peer_id'))) {
-//            $this->vk->msg('~!fn~, когда ты успел стать админом?')->send();
-            return;
-        }
+        $user_id = $this->vk->getVars('user_id');
+        $peer_id = $this->vk->getVars('peer_id');
+
+        return $this->vk->isAdmin($user_id, $peer_id) ? true : false;
     }
 
     /**
      * Является ли чатом
+     * @return bool
+     * @throws Exception
      */
-    public function isChat()
+    public function isChat(): bool
     {
-        if (is_null($this->vk->getVars('chat_id'))) return;
-
+        return $this->vk->getVars('chat_id') ? true : false;
     }
 
 
@@ -165,7 +183,7 @@ final class Commands
 
         $blin = array_rand(array_flip($img));
 
-        $this->vk->msg()
+        $this->vk->msg($blin)
             ->img($blin)
             ->forward()
             ->send();

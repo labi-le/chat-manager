@@ -2,6 +2,11 @@
 
 namespace ChatManager\Commands;
 
+/**
+ * Класс для получения списка команд и пэйлоадов
+ * Class CommandList
+ * @package ChatManager\Commands
+ */
 final class CommandList
 {
     /**
@@ -27,17 +32,22 @@ final class CommandList
             ],
 
             [
+                'text' => ['варс', 'варсы'],
+                'method' => ['vars']
+            ],
+
+            [
                 'text' => ['вагина'],
                 'method' => ['vagina']
             ],
 
             [
-                'text' => ['блин', 'капец', 'блять', 'пиздец', 'ебать', '|елки иголки', 'екарный бабай'],
+                'text' => ['блин', 'капец', 'блять', 'пиздец', 'ебать', '|елки иголки', 'екарный бабай', 'бляха муха'],
                 'method' => ['_blin']
             ],
 
             [
-                'text' => ['[|кик', '[|kick', '[|выгнать', '[|кикнуть'],
+                'text' => ['[|кик', '[|kick', '[|выгнать', '[|кикнуть', '[|ремув', '[|убрать'],
                 'method' => ['isChat', 'isAdmin', 'kick']
             ],
 
