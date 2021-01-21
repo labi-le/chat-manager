@@ -51,15 +51,15 @@ trait Manager
      */
     private function kickStatus(array $data): array
     {
-        $text[1] = null;
-        $text[15] = null;
-        $text[935] = null;
+        $text[1] = null; //успешно кикнут
+        $text[15] = null; //не получилось
+        $text[935] = null; //нет в беседе
 
         foreach ($data as $member_id => $status) {
             match ($status) {
-                1 => $text[1] .= $member_id > 0 ? "@id$member_id " : -$member_id . ' ',
-                15 => $text[15] .= $member_id > 0 ? "@id$member_id " : -$member_id . ' ',
-                935 => $text[935] .= $member_id > 0 ? "@id$member_id " : -$member_id . ' ',
+                1 => $text[1] .= $member_id > 0 ? "~!fn|$member_id~ " : -$member_id . ' ',
+                15 => $text[15] .= $member_id > 0 ? "~!fn|$member_id~ " : -$member_id . ' ',
+                935 => $text[935] .= $member_id > 0 ? "~!fn|$member_id~ " : -$member_id . ' ',
             };
         }
         return $text;
@@ -122,6 +122,7 @@ trait Manager
     }
 
     /**
+     * Простой и сексуальный кикер
      * @param int $chat_id
      * @param mixed $member_ids
      * @param mixed $user_ids
