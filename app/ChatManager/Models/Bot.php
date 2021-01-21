@@ -49,8 +49,8 @@ trait Bot
         $this->vars['action'] = $this->data['object']['action'] ?? null;
         $this->vars['message_id'] = $msg_id > 0 ? $msg_id : $this->data['object']['conversation_message_id'] ?? null;
         $this->vars['attachments'] = $attachments ?? null; //если вложений больше 4 то они не будут отображаться (баг вк), как костыль можно использовать getById
-        $this->vars['fwd_messages'] = $this->data['object']['fwd_messages'] ?? null;
-        $this->vars['reply_message'] = $this->data['object']['reply_message'] ?? null;
+        $this->vars['fwd_messages'] = $this->data['object']['fwd_messages'] ?? [];
+        $this->vars['reply_message'] = $this->data['object']['reply_message'] ?? [];
 
 //        return $this->vars;
     }

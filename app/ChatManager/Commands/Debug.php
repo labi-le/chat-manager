@@ -11,8 +11,11 @@ trait Debug
 {
     public function vars()
     {
-        $this->print($this->vk->getVars());
+        $vars = $this->vk->getVars();
+        var_dump($vars);
+        $this->print($vars);
     }
+
 
     private function print($data)
     {

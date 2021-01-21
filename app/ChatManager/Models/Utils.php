@@ -90,7 +90,7 @@ class Utils
      * @param $text
      * @return string
      */
-    public static function removeFirstWord($text) : string
+    public static function removeFirstWord($text): string
     {
         return strstr($text, " ");
     }
@@ -101,7 +101,7 @@ class Utils
      * @param int $substring
      * @return string|bool
      */
-    public static function getWord(string $string, int $substring) :string|bool
+    public static function getWord(string $string, int $substring): string|bool
     {
         $substrings = explode(' ', $string);
 
@@ -138,6 +138,29 @@ class Utils
     {
         $ready = str_replace($delimiters, $delimiters[0], $string);
         return explode($delimiters[0], $ready);
+    }
+
+    /**
+     * Является ли массив ассоциативным
+     * @param array $arr
+     * @return bool
+     */
+    public static function isAssoc(array $arr): bool
+    {
+        if ([] === $arr) return false;
+        return array_keys($arr) !== range(0, count($arr) - 1);
+    }
+
+    /**
+     * Регулярка чтоб выбрать все айдишники из текста
+     * @param string $string
+     * @return array|bool
+     */
+    public static function regexId(string $string): array|bool
+    {
+        preg_match_all('/\[(?:id|club)([0-9]*)\|.*?]/', $string, $match);
+
+        return $match[1];
     }
 
     /**

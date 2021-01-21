@@ -23,16 +23,16 @@ final class CommandList
 
             [
                 'text' => ['[|котика', '[|котиков', '[|кот'],
-                'method' => ['_cat']
+                'method' => ['cat']
             ],
 
             [
                 'text' => ['кончить', 'кон4ить'],
-                'method' => ['_kon4']
+                'method' => ['kon4']
             ],
 
             [
-                'text' => ['варс', 'варсы'],
+                'text' => ['[|варс', '[|варсы', '[|pr', '[|print'],
                 'method' => ['vars']
             ],
 
@@ -43,7 +43,7 @@ final class CommandList
 
             [
                 'text' => ['блин', 'капец', 'блять', 'пиздец', 'ебать', '|елки иголки', 'екарный бабай', 'бляха муха'],
-                'method' => ['_blin']
+                'method' => ['blin']
             ],
 
             [
@@ -64,11 +64,6 @@ final class CommandList
             [
                 'text' => ['[|скажи', '[|повтори', '[|say'],
                 'method' => ['say']
-            ],
-
-            [
-                'text' => ['hi'],
-                'method' => ['_hiMessage']
             ],
 
         ];

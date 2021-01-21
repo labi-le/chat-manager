@@ -18,6 +18,8 @@ final class Commands
     use Manager;
     use Debug;
 
+    //todo сделать викторину
+
     /**
      * Явно указываем класс, чтоб IDE помогал
      */
@@ -38,11 +40,6 @@ final class Commands
     public static function set($vk): Commands
     {
         return new Commands($vk);
-    }
-
-    public function _hiMessage()
-    {
-        $this->vk->msg('привет ~кожанный~')->send();
     }
 
     /**
@@ -68,21 +65,11 @@ final class Commands
         return $this->vk->getVars('chat_id') ? true : false;
     }
 
-
-    /**
-     * Для дебага
-     * return VKMessage
-     */
-    public function pr()
-    {
-
-    }
-
     /*
      * Котиков int
      * return котики
      */
-    public function _cat()
+    public function cat()
     {
         $count = intval(Utils::getWord($this->vk->getVars('text_lower'), 1));
 
@@ -102,7 +89,7 @@ final class Commands
         }
     }
 
-    public function _keyboard()
+    public function keyboard()
     {
         $kb[] = $this->vk->buttonText('1', 'white', null);
         $kb[] = $this->vk->buttonText('2', 'red', null);
@@ -135,14 +122,8 @@ final class Commands
         $this->vk->msg($word)->send();
     }
 
-    //todo сделать викторину
 
-    public function heyo()
-    {
-        $this->vk->msg('Heyooo')->send();
-    }
-
-    public function _kon4()
+    public function kon4()
     {
         $photos = $this->vk->getVars('attachments')['photo'] ?? false;
 
@@ -158,7 +139,7 @@ final class Commands
 
     }
 
-    public function _blin()
+    public function blin()
     {
         $img =
             [
