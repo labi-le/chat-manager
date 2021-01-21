@@ -152,6 +152,29 @@ class Utils
     }
 
     /**
+     * Является ли массив последовательным
+     * @param array $arr
+     * @return bool
+     */
+    public static function isSeq(array $arr): bool
+    {
+        if ([] === $arr) return false;
+        return array_keys($arr) === range(0, count($arr) - 1);
+    }
+
+    /**
+     * Является ли массив многомерным
+     * @param array $array
+     * @return bool
+     */
+    public static function isMulti(array $array): bool
+    {
+        $rv = array_filter($array, 'is_array');
+        if (count($rv) > 0) return true;
+        return false;
+    }
+
+    /**
      * Регулярка чтоб выбрать все айдишники из текста
      * @param string $string
      * @return array|bool

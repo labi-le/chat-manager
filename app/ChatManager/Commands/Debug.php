@@ -12,13 +12,13 @@ trait Debug
     public function vars()
     {
         $vars = $this->vk->getVars();
-        var_dump($vars);
         $this->print($vars);
     }
 
 
     private function print($data)
     {
+        var_dump($data);
         $this->vk->msg(print_r($data, true))->send();
     }
 }

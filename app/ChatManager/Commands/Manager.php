@@ -18,12 +18,11 @@ trait Manager
      */
     public function kick()
     {
-        $reply = $this->vk->getVars('reply_message');
-        $fwd = $this->vk->getVars('fwd_messages');
-        $chat_id = $this->vk->getVars('chat_id');
+        $vars = $this->vk->getVars();
+        $chat_id = $vars['chat_id'];
         $text = Utils::removeFirstWord($this->vk->getVars('text'));
 
-        $result = $this->kickFromReplyMsg($chat_id, $reply) ?? $result = $this->kickFromForwardMsg($chat_id, $fwd) ?? $this->kickFromText($chat_id, $text) ?? false;
+        $result = $this->kickFromReplyMsg($chat_id, $vars['reply_message']) ?? $result = $this->kickFromForwardMsg($chat_id, $vars['fwd_messages']) ?? $this->kickFromText($chat_id, $text) ?? false;
 
         if (!$result) {
             $this->vk->msg('Кого?')->send();
@@ -67,15 +66,16 @@ trait Manager
 
     }
 
+    /**
+     * Кик по упоминанию
+     * @param int $chat_id
+     * @param string $string
+     * @return array|null
+     */
     private function kickFromText(int $chat_id, string $string): array|null
     {
-        $member_ids = Utils::regexId($string);
-
-        $results = null;
-        foreach ($member_ids as $id) {
-            $results[$id] = $this->removeChatUser($chat_id, $id);
-        }
-        return $results;
+        $array = Utils::regexId($string);
+        return $this->smartKick($chat_id, $array);
     }
 
     /**
@@ -87,12 +87,7 @@ trait Manager
     private function kickFromForwardMsg(int $chat_id, array $array): array|null
     {
         if (empty($array)) return null;
-
-        $results = null;
-        foreach ($array as $message) {
-            $results[$message['from_id']] = $this->removeChatUser($chat_id, $message['from_id']);
-        }
-        return $results;
+        return $this->smartKick($chat_id, $array);
     }
 
     /**
@@ -104,11 +99,7 @@ trait Manager
     private function kickFromReplyMsg(int $chat_id, array|null $array): array|null
     {
         if (empty($array)) return null;
-
-        $results = null;
-        $results[$array['from_id']] = $this->removeChatUser($chat_id, $array['from_id']);
-
-        return $results;
+        return $this->smartKick($chat_id, $array);
     }
 
     /**
@@ -116,9 +107,9 @@ trait Manager
      * @param int $chat_id
      * @param int $member_id
      * @param int|null $user_id
-     * @return bool|int
+     * @return int
      */
-    private function removeChatUser(int $chat_id, int $member_id, int $user_id = null): bool|int
+    private function removeChatUser(int $chat_id, int $member_id, int $user_id = null): int
     {
         try {
             $this->vk->request('messages.removeChatUser',
@@ -128,5 +119,29 @@ trait Manager
         }
 
         return 1;
+    }
+
+    /**
+     * @param int $chat_id
+     * @param mixed $member_ids
+     * @param mixed $user_ids
+     * @return array|null
+     */
+    private function smartKick(int $chat_id, mixed $member_ids, mixed $user_ids = null): array|null
+    {
+        $array = $user_ids ?? $member_ids;
+        $results = null;
+        if (Utils::isMulti($array)) {
+            if(!isset($array[0])) $array = [0 => $array]; //Если сообщение является ответом
+
+            foreach ($array as $arr) {
+                $results[$arr['from_id']] = $this->removeChatUser($chat_id, $arr['from_id']);
+            }
+        } elseif (Utils::isSeq($array)) {
+            foreach ($array as $arr) {
+                $results[$arr] = $this->removeChatUser($chat_id, (int) $arr);
+            }
+        }
+        return $results;
     }
 }

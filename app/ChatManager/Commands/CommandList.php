@@ -56,10 +56,6 @@ final class CommandList
                 'method' => ['isChat', 'isAdmin', 'createGui']
             ],
 
-            [
-                'text' => ['pr'],
-                'method' => ['pr']
-            ],
 
             [
                 'text' => ['[|скажи', '[|повтори', '[|say'],
