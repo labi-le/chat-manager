@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use ChatManager\ChatManager;
+use Manager\Launcher;
 
 require_once('./vendor/digitalstars/simplevk/autoload.php');
 require_once('./vendor/autoload.php');
@@ -10,4 +10,4 @@ require_once('./vendor/autoload.php');
 /**
  * Настрой файл config.json
  */
-ChatManager::run('longpool');
+Launcher::run('longpool');

@@ -1,6 +1,6 @@
 <?php
 
-namespace ChatManager\Controller;
+namespace Manager\Controller;
 
 final class TypeController extends Controller
 {

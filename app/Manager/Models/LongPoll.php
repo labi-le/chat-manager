@@ -1,7 +1,7 @@
 <?php
 
 
-namespace ChatManager\Models;
+namespace Manager\Models;
 
 use DigitalStars\SimpleVK\LongPoll as lp;
 use DigitalStars\SimpleVK\SimpleVkException;
@@ -17,7 +17,7 @@ class LongPoll extends lp
      * @return lp
      * @throws SimpleVkException
      */
-    public function isMultiThread($bool = true) :lp
+    public function isMultiThread($bool = true): lp
     {
         parent::isMultiThread($bool);
         return $this;

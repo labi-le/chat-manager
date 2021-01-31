@@ -1,11 +1,11 @@
 <?php
 
-namespace ChatManager\Commands;
+namespace Manager\Commands;
 
-use ChatManager\Models\Callback;
-use ChatManager\Models\LongPoll;
-use ChatManager\Models\Utils;
 use Exception;
+use Manager\Models\Callback;
+use Manager\Models\LongPoll;
+use Manager\Models\Utils;
 
 /**
  * Фичи бота пишутся здесь, можно подключать трейты

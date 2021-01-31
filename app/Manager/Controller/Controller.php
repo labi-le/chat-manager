@@ -1,10 +1,9 @@
 <?php
 
-namespace ChatManager\Controller;
+namespace Manager\Controller;
 
-use ChatManager\Commands\Commands;
-use ChatManager\Commands\Events;
-use ChatManager\Models\Bot;
+use Manager\Commands\Commands;
+use Manager\Commands\Events;
 
 class Controller
 {
@@ -20,7 +19,7 @@ class Controller
     {
         $type = $data['type'];
 
-        if (method_exists(TypeController::class, $type)){
+        if (method_exists(TypeController::class, $type)) {
             self::$vk = $bot;
             TypeController::$type($data);
         }
@@ -50,7 +49,7 @@ class Controller
     {
         if (is_array($methods)) {
             foreach ($methods as $method) {
-                if(Commands::set(self::$vk)->$method() === false) break;
+                if (Commands::set(self::$vk)->$method() === false) break;
             }
         } else Commands::set(self::$vk)->$methods();
     }

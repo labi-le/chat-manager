@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4b44b292a3773343354924db06442a8d",
+    "content-hash": "28841d6c7e4fa292a8fb019f0d9a9179",
     "packages": [
         {
             "name": "digitalstars/simplevk",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/digitalstars/simplevk.git",
-                "reference": "45f3b2acd88b042c956a9f8146f0497937a8342e"
+                "reference": "8ed044e51c6a97c8275ab0d08fa873cdca7ba313"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/45f3b2acd88b042c956a9f8146f0497937a8342e",
-                "reference": "45f3b2acd88b042c956a9f8146f0497937a8342e",
+                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/8ed044e51c6a97c8275ab0d08fa873cdca7ba313",
+                "reference": "8ed044e51c6a97c8275ab0d08fa873cdca7ba313",
                 "shasum": ""
             },
             "require": {
@@ -55,7 +55,7 @@
                 "issues": "https://github.com/digitalstars/simplevk/issues",
                 "source": "https://github.com/digitalstars/simplevk/tree/testing"
             },
-            "time": "2021-01-20T14:25:16+00:00"
+            "time": "2021-01-29T21:58:35+00:00"
         }
     ],
     "packages-dev": [],
@@ -67,7 +67,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-iconv": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"

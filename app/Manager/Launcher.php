@@ -1,13 +1,13 @@
 <?php
 
-namespace ChatManager;
+namespace Manager;
 
-use ChatManager\Controller\Controller;
-use ChatManager\Models\Callback;
-use ChatManager\Models\LongPoll;
 use Exception;
+use Manager\Controller\Controller;
+use Manager\Models\Callback;
+use Manager\Models\LongPoll;
 
-class ChatManager
+class Launcher
 {
     private static $configFile = './config.json';
 

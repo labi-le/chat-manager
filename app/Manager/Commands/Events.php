@@ -1,6 +1,6 @@
 <?php
 
-namespace ChatManager\Commands;
+namespace Manager\Commands;
 
 final class Events
 {

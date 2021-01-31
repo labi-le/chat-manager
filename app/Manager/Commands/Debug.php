@@ -1,11 +1,11 @@
 <?php
 
 
-namespace ChatManager\Commands;
+namespace Manager\Commands;
 
 /**
  * Trait Debug
- * @package ChatManager\Commands
+ * @package Manager\Commands
  */
 trait Debug
 {

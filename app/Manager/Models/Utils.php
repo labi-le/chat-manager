@@ -1,8 +1,6 @@
 <?php
 
-namespace ChatManager\Models;
-
-use function rand;
+namespace Manager\Models;
 
 class Utils
 {

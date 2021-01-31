@@ -1,6 +1,6 @@
 <?php
 
-namespace ChatManager\Commands;
+namespace Manager\Commands;
 
 /**
  * Класс для получения списка команд и пэйлоадов

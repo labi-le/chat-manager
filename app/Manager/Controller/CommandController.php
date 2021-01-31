@@ -1,9 +1,9 @@
 <?php
 
-namespace ChatManager\Controller;
+namespace Manager\Controller;
 
-use ChatManager\Commands\CommandList;
-use ChatManager\Models\Utils;
+use Manager\Commands\CommandList;
+use Manager\Models\Utils;
 
 final class CommandController extends Controller
 {

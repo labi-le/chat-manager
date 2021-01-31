@@ -1,9 +1,9 @@
 <?php
 
-namespace ChatManager\Commands;
+namespace Manager\Commands;
 
-use ChatManager\Models\Utils;
 use Exception;
+use Manager\Models\Utils;
 
 /**
  * Трейт для команд подходящих под категорию чат пидорства и блядства
@@ -133,14 +133,14 @@ trait Manager
         $array = $user_ids ?? $member_ids;
         $results = null;
         if (Utils::isMulti($array)) {
-            if(!isset($array[0])) $array = [0 => $array]; //Если сообщение является ответом
+            if (!isset($array[0])) $array = [0 => $array]; //Если сообщение является ответом
 
             foreach ($array as $arr) {
                 $results[$arr['from_id']] = $this->removeChatUser($chat_id, $arr['from_id']);
             }
         } elseif (Utils::isSeq($array)) {
             foreach ($array as $arr) {
-                $results[$arr] = $this->removeChatUser($chat_id, (int) $arr);
+                $results[$arr] = $this->removeChatUser($chat_id, (int)$arr);
             }
         }
         return $results;

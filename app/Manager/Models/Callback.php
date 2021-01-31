@@ -1,7 +1,6 @@
 <?php
 
-
-namespace ChatManager\Models;
+namespace Manager\Models;
 
 use DigitalStars\SimpleVK\SimpleVK as cb;
 
