@@ -6,7 +6,9 @@ use PDO;
 
 class QueryBuilder
 {
-    private PDO $db;
+    use ChatsQuery;
+
+    public PDO $db;
 
     public function __construct(PDO $connection)
     {
