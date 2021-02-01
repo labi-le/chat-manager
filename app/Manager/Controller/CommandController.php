@@ -14,8 +14,8 @@ final class CommandController extends Controller
      */
     public static function commandHandler(string $originalText): void
     {
-        if (CommandList::text()) {
-            $list = CommandList::text();
+        $list = CommandList::text();
+        if (is_array($list)) {
 
             foreach ($list as $cmd) {
                 if (!is_array($cmd['text'])) {
@@ -38,6 +38,7 @@ final class CommandController extends Controller
         }
     }
 
+
     /**
      * Обработчик нажатий по клавиатуре
      * @param array $payload
@@ -45,6 +46,14 @@ final class CommandController extends Controller
      */
     public static function payloadHandler(array $payload): void
     {
-        //todo написать обработчик кнопок типа payload и калбек кнопок
+        $payloads = CommandList::payload();
+        if (is_array($payloads)) {
+            $key = key($payload);
+            $value = current($payload);
+
+            $method = $payloads[$key][$value]['method'] ?? null;
+
+            if (isset($method)) self::method_execute($method);
+        }
     }
 }

@@ -18,14 +18,7 @@ final class Commands
     use Manager;
     use Debug;
 
-    //todo сделать викторину
-
-    /**
-     * Явно указываем класс, чтоб IDE помогал
-     */
     private LongPoll|Callback $vk;
-
-//    private object $vk;
 
     private function __construct($vk)
     {
@@ -63,6 +56,16 @@ final class Commands
     public function isChat(): bool
     {
         return $this->vk->getVars('chat_id') ? true : false;
+    }
+
+    /**
+     * Является ли чатом
+     * @return bool
+     * @throws Exception
+     */
+    public function isPrivateMessage(): bool
+    {
+        if ($this->isChat() === false) return true; else return false;
     }
 
     /*
@@ -143,7 +146,7 @@ final class Commands
     {
         $img =
             [
-                'https://sun9-9.userapi.com/impg/OXEYAB9A45etB9ZWDa-pd-g6tEvjSosgu6JHyQ/pLC71Zu9sUU.jpg?size=1080x1080&quality=96&proxy=1&sign=91dd401c3d043cf036f8587cbc2d5c89&type=album',
+                'https://sun9-9.userapi.com/impg/OXEYAB9A45etB9ZWDa-pd-g6tEjSosgu6JHyQ/pLC71Zu9sUU.jpg?size=1080x1080&quality=96&proxy=1&sign=91dd401c3d043cf036f8587cbc2d5c89&type=album',
                 'https://sun9-68.userapi.com/impg/TvfweW24n8ffknPNPcWsuQqiuffC8VTJFBMrJw/3EwRxpnZe1o.jpg?size=1280x1166&quality=96&proxy=1&sign=e22852dfdf69127ae922d637e841fc38&type=album',
                 'https://sun9-7.userapi.com/impg/kccsB2njnNlCOoTDTLpoQKXXQ86sJKUwNnwE-Q/3VGkoOt451Y.jpg?size=300x168&quality=96&proxy=1&sign=fdc0e0e717db356fd5673d0790ced491&type=album',
                 'https://sun9-30.userapi.com/impg/ZhvR6WdVHVrKJTEjlNdZ0EgNBDrsSbJEkPX4XA/BtUz52CKjLk.jpg?size=750x469&quality=96&proxy=1&sign=a74aa824c6d37d7994ac3644d043e800&type=album',

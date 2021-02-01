@@ -1,11 +1,12 @@
 {
-    "name": "labile/chat-manager",
-    "description": "chat manager vk",
+    "name": "labile/manager",
+    "description": "manager vk",
     "type": "project",
     "require": {
         "digitalstars/simplevk": "dev-testing",
         "ext-mbstring": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-pdo": "*"
     },
     "authors": [
         {
@@ -16,7 +17,7 @@
 
     "autoload": {
         "psr-4": {
-            "ChatManager\\" : "app/ChatManager"
+            "Manager\\": "app/Manager"
         }
     }
 

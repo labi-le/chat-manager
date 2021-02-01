@@ -44,7 +44,6 @@ class Launcher
         $file ?? throw new Exception('config.json не найден');
         $file->auth ?? throw new Exception('Auth data not found');
         $file->type ?? throw new Exception('Type not found');
-
     }
 
     private static function configFile()
@@ -62,5 +61,10 @@ class Launcher
         $config = self::configFile();
         self::checkConfigFile($config);
         return $config;
+    }
+
+    public static function database()
+    {
+        return self::getConfigFile()->auth->database ?? throw new Exception('Database not found');
     }
 }

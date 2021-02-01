@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Manager\Models;
 
 class Utils
@@ -207,5 +209,24 @@ class Utils
         shuffle($invalidSum);
 
         return ['array' => $invalidSum, 'result' => $sum, 'text' => $text];
+    }
+
+    /**
+     * Простой дебаг в stdout
+     * @param $data
+     */
+    public static function var_dumpToStdout($data)
+    {
+        file_put_contents('php://stdout', print_r($data, true));
+    }
+
+    /**
+     * Регулярка для ников
+     * @param $string
+     * @return bool
+     */
+    public static function regexNickName($string): bool
+    {
+        return preg_match('/^[a-zA-Z0-9А-Яа-я_-]{1,16}$/u', $string, $match) ?? false;
     }
 }
