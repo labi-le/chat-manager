@@ -1,19 +1,16 @@
 <?php
 
-
 namespace Manager\Models;
-
-use PDOStatement;
 
 trait ChatsQuery
 {
-    private string $table_name = 'chats';
+    private string $table_name = 'oleg';
 
     /**
      * Создать таблицу
-     * @return false|PDOStatement
+     * @return bool
      */
-    public function createChatTable()
+    public function createChatTable(): bool
     {
         $sql = "CREATE TABLE `$this->table_name`(
                 `id` INT(11) NOT NULL UNIQUE,
@@ -21,7 +18,7 @@ trait ChatsQuery
                 `welcome_text-status` TINYINT(1) NOT NULL,
                 `auto_kick-status` TINYINT(1) NOT NULL)";
 
-        return $this->db->query($sql);
+        return (bool)$this->db->query($sql);
     }
 
 
