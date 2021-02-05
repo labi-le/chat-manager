@@ -101,24 +101,6 @@ final class Commands
         $this->vk->msg('you popal to gay pride')->kbd([$kb], true)->send();
     }
 
-    public function vagina()
-    {
-        $array_vagina = [
-            'Сидел я в МДК', 'листал картинки про кота~', 'И был доволен всем',
-            'Но вдруг стряслась беда', 'Опухли два яйца', 'Мне нужно трахаца',
-            'Но у меня прыщи', 'Как классно, что есть ты!', 'Ведь ты! Ты лежала в магазине',
-            'Между членом и вагиной', 'И меня к тебе манило', 'Твоё тело из резины',
-            'Полные глаза любви', 'И широко раскрытый рот', 'Девушка моей мечты',
-            'Плачу лишь раз - всю жизнь дает!', 'В ПИЗДУ И В РОТ!', 'Плачу лишь раз - всю жизнь дает!',
-            'Йе - йе - йе...'
-        ];
-
-        foreach ($array_vagina as $word) {
-            sleep(2);
-            $this->vk->msg($word)->send();
-        }
-    }
-
     public function say()
     {
         $word = Utils::removeFirstWord($this->vk->getVars('text_lower')); //получить все подстроки кроме первой
@@ -167,7 +149,7 @@ final class Commands
 
         $blin = array_rand(array_flip($img));
 
-        $this->vk->msg($blin)
+        $this->vk->msg()
             ->img($blin)
             ->forward()
             ->send();

@@ -42,7 +42,7 @@ final class CommandList
             ],
 
             [
-                'text' => ['блин', 'капец', 'блять', 'пиздец', 'ебать', '|елки иголки', 'екарный бабай', 'бляха муха'],
+                'text' => ['блин', 'капец', 'блять', 'пиздец', 'ебать', 'елки иголки', 'екарный бабай', 'бляха муха'],
                 'method' => ['blin']
             ],
 
@@ -59,7 +59,7 @@ final class CommandList
 
             [
                 'text' => ['[|скажи', '[|повтори', '[|say'],
-                'method' => ['say']
+                'method' => ['isPrivateMessage', 'say']
             ],
 
         ];
@@ -71,7 +71,6 @@ final class CommandList
      */
     public static function payload(): array
     {
-        //todo реализовать команды из массива
         return [
 
             'command' => [

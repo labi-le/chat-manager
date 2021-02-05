@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Manager\Models;
 
 use Exception;
@@ -38,7 +36,7 @@ trait Bot
         $this->initVars($id, $user_id, $type, $message, $payload, $msg_id, $attachments);   // Парсинг полученных событий
 
         $chat_id = $id - 2e9;
-        $chat_id = $chat_id > 0 ? (int)$chat_id : null;
+        $chat_id = $chat_id > 0 ? (int)$chat_id : false;
 
         $this->vars['peer_id'] = $id ?? null;
         $this->vars['chat_id'] = $chat_id;
@@ -53,7 +51,6 @@ trait Bot
         $this->vars['fwd_messages'] = $this->data['object']['fwd_messages'] ?? [];
         $this->vars['reply_message'] = $this->data['object']['reply_message'] ?? [];
 
-//        return $this->vars;
     }
 
     /**
@@ -64,7 +61,6 @@ trait Bot
      */
     public function getVars(string $var = null): mixed
     {
-//        var_dump($this->vars);
         if (isset($var, $this->vars[$var])) return $this->vars[$var]; else return $this->vars;
     }
 }

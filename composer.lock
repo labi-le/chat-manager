@@ -12,13 +12,13 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/digitalstars/simplevk.git",
-                "reference": "8ed044e51c6a97c8275ab0d08fa873cdca7ba313"
+                "reference": "c5f565decbfb6480bb5544c7dd9e62981823b8c8"
             },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/8ed044e51c6a97c8275ab0d08fa873cdca7ba313",
-                "reference": "8ed044e51c6a97c8275ab0d08fa873cdca7ba313",
-                "shasum": ""
+              "type": "zip",
+              "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/c5f565decbfb6480bb5544c7dd9e62981823b8c8",
+              "reference": "c5f565decbfb6480bb5544c7dd9e62981823b8c8",
+              "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
@@ -55,7 +55,7 @@
                 "issues": "https://github.com/digitalstars/simplevk/issues",
                 "source": "https://github.com/digitalstars/simplevk/tree/testing"
             },
-            "time": "2021-01-29T21:58:35+00:00"
+          "time": "2021-02-04T13:45:29+00:00"
         }
     ],
     "packages-dev": [],

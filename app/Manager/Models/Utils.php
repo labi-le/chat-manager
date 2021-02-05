@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace Manager\Models;
 
 class Utils
@@ -35,12 +33,11 @@ class Utils
      * Похоже на
      * @param string $text
      * @param $original
-     * @return int
+     * @return float|false
      */
-    private static function similarTo(string $text, $original): int
+    private static function similarTo(string $text, $original): bool|float
     {
-        similar_text($text, $original, $percent);
-        return floor($percent);
+        return similar_text($text, $original, $percent);
     }
 
     /**
@@ -104,7 +101,6 @@ class Utils
     public static function getWord(string $string, int $substring): string|bool
     {
         $substrings = explode(' ', $string);
-
         return $substrings[$substring] ?? false;
     }
 
@@ -118,7 +114,7 @@ class Utils
     public static function formatText(string $textFromArray, string $original, $similarPercent = 75): bool
     {
         if (mb_substr($textFromArray, 0, 1) == '|') {
-            return self::similarTo($textFromArray, $original) > $similarPercent;
+            return self::similarTo($textFromArray, $original) >= $similarPercent;
         } elseif (mb_substr($textFromArray, 0, 2) == "[|") {
             return self::startAs($textFromArray, $original);
         } elseif (mb_substr($textFromArray, -2, 2) == "|]") {
@@ -182,7 +178,6 @@ class Utils
     public static function regexId(string $string): array|bool
     {
         preg_match_all('/\[(?:id|club)([0-9]*)\|.*?]/', $string, $match);
-
         return $match[1];
     }
 
@@ -228,5 +223,6 @@ class Utils
     public static function regexNickName($string): bool
     {
         return preg_match('/^[a-zA-Z0-9А-Яа-я_-]{1,16}$/u', $string, $match) ?? false;
+//        return preg_match('/([a-zA-Z0-9А-Яа-я_-]{1,16})+/u', $string, $match) ?? false;
     }
 }

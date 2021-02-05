@@ -2,7 +2,7 @@
 
 namespace Manager\Models;
 
-trait ChatsQuery
+class ChatsQuery extends QueryBuilder
 {
     private string $table_name = 'oleg';
 

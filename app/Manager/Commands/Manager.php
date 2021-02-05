@@ -11,8 +11,6 @@ use Manager\Models\Utils;
  */
 trait Manager
 {
-    //todo написать команды для чм
-
     /**
      * Кикнуть пользователя
      */
@@ -117,7 +115,6 @@ trait Manager
         } catch (Exception $e) {
             return $e->getCode();
         }
-
         return 1;
     }
 
@@ -134,7 +131,6 @@ trait Manager
         $results = null;
         if (Utils::isMulti($array)) {
             if (!isset($array[0])) $array = [0 => $array]; //Если сообщение является ответом
-
             foreach ($array as $arr) {
                 $results[$arr['from_id']] = $this->removeChatUser($chat_id, $arr['from_id']);
             }
