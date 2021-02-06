@@ -3,18 +3,22 @@
 namespace Manager\Controller;
 
 use Manager\Commands\Commands;
+use Manager\Models\Callback;
+use Manager\Models\IQuery;
+use Manager\Models\LongPoll;
 
 class Controller
 {
-    static object $vk;
+    static Callback|LongPoll $vk;
+    static IQuery $db;
 
     /**
      * Вызов типа события и передача данных
      * @param array $data
-     * @param object $bot
+     * @param Callback|LongPoll $bot
      * @return void
      */
-    public static function handle(array $data, object $bot): void
+    public static function handle(array $data, Callback|LongPoll $bot): void
     {
         $type = $data['type'];
 
@@ -25,7 +29,6 @@ class Controller
 
     }
 
-
     /**
      * Выполнить метод\методы
      * @param array|string $methods
@@ -35,9 +38,9 @@ class Controller
     {
         if (is_array($methods)) {
             foreach ($methods as $method) {
-                if (Commands::set(self::$vk)->$method() === false) break;
+                if (Commands::set(self::$vk, self::$db)->$method() === false) break;
             }
-        } else Commands::set(self::$vk)->$methods();
+        } else Commands::set(self::$vk, self::$db)->$methods();
     }
 
 }

@@ -9,7 +9,7 @@ use Manager\Models\LongPoll;
 
 class Launcher
 {
-    private static $configFile = './config.json';
+    private static string $configFile = './config.json';
 
     public static function run($type = null)
     {

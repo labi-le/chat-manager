@@ -5,6 +5,16 @@ namespace Manager\Models;
 class Utils
 {
     /**
+     * Получить картинки с котинками
+     * @param string $api
+     * @return mixed
+     */
+    public static function snowCat($api = 'https://aws.random.cat/meow'): mixed
+    {
+        return json_decode(file_get_contents($api));
+    }
+
+    /**
      * Транслитерация кириллицы в латиницу
      * @param $str
      * @return string
@@ -33,11 +43,12 @@ class Utils
      * Похоже на
      * @param string $text
      * @param $original
-     * @return float|false
+     * @return int
      */
-    private static function similarTo(string $text, $original): bool|float
+    public static function similarTo(string $text, $original): int
     {
-        return similar_text($text, $original, $percent);
+        similar_text($text, $original, $percent);
+        return (int)$percent;
     }
 
     /**
@@ -59,7 +70,7 @@ class Utils
      * @param string $original
      * @return bool
      */
-    private static function endAs(string $text, string $original)
+    private static function endAs(string $text, string $original): bool
     {
         $word = explode(' ', $text);
         $end_word = end($word);
@@ -111,7 +122,7 @@ class Utils
      * @param int $similarPercent
      * @return bool
      */
-    public static function formatText(string $textFromArray, string $original, $similarPercent = 75): bool
+    public static function formatText(string $textFromArray, string $original, $similarPercent = 80): bool
     {
         if (mb_substr($textFromArray, 0, 1) == '|') {
             return self::similarTo($textFromArray, $original) >= $similarPercent;

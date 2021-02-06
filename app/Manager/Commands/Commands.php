@@ -4,6 +4,8 @@ namespace Manager\Commands;
 
 use Exception;
 use Manager\Models\Callback;
+use Manager\Models\ChatsQuery;
+use Manager\Models\IQuery;
 use Manager\Models\LongPoll;
 use Manager\Models\Utils;
 
@@ -19,20 +21,22 @@ final class Commands
     use Debug;
 
     private LongPoll|Callback $vk;
+    private IQuery|ChatsQuery $db;
 
-    private function __construct($vk)
+    private function __construct(LongPoll|Callback $vk, IQuery $db)
     {
         $this->vk = $vk;
+        $this->db = $db;
     }
 
     /**
-     * Вероломно используем объект бота для выполнения команд и других пошлых действий...
-     * @param $vk
+     * @param LongPoll|Callback $vk
+     * @param IQuery $db
      * @return Commands
      */
-    public static function set($vk): Commands
+    public static function set(LongPoll|Callback $vk, $db): Commands
     {
-        return new Commands($vk);
+        return new Commands($vk, $db);
     }
 
     /**
@@ -42,10 +46,9 @@ final class Commands
      */
     public function isAdmin(): bool
     {
-        $user_id = $this->vk->getVars('user_id');
-        $peer_id = $this->vk->getVars('peer_id');
-
-        return $this->vk->isAdmin($user_id, $peer_id) ? true : false;
+        return $this->vk
+            ->isAdmin($this->vk->getVars('user_id'), $this->vk->getVars('peer_id'))
+            ? true : false;
     }
 
     /**
@@ -81,11 +84,10 @@ final class Commands
         } else {
 
             $cat = [];
-            $api = 'https://aws.random.cat/meow';
             $smile = str_repeat('🐈', $count);
 
             for ($i = 0; $i < $count; $i++) {
-                $cat[] = json_decode(file_get_contents($api));
+                $cat[] = Utils::snowCat();
             }
 
             $this->vk->msg($smile)->addImg($cat)->send();

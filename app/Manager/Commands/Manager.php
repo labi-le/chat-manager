@@ -2,15 +2,28 @@
 
 namespace Manager\Commands;
 
-use Exception;
+use DigitalStars\SimpleVK\SimpleVkException;
 use Manager\Models\Utils;
 
 /**
- * Трейт для команд подходящих под категорию чат пидорства и блядства
+ * Трейт для команд подходящих под категорию чат администрирования cumzone
  * @package labile\bot
  */
 trait Manager
 {
+
+    public function chatRegistration()
+    {
+        try {
+            $this->vk->isAdmin(-$this->vk->getVars('group_id'), $this->vk->getVars('peer_id'));
+        } catch (SimpleVkException $e) {
+            if ($e->getCode() === 0) return $this->vk->reply('Ты меня обманул!!!');
+        }
+
+        $this->db->createChatRecord($this->vk->getVars('chat_id'))
+            ? $this->vk->reply('верю-верю') : $this->vk->reply('А мы раньше где-то встречались?');
+    }
+
     /**
      * Кикнуть пользователя
      */
@@ -112,7 +125,7 @@ trait Manager
         try {
             $this->vk->request('messages.removeChatUser',
                 ['chat_id' => $chat_id, 'member_id' => $member_id, 'user_id' => $user_id]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $e->getCode();
         }
         return 1;

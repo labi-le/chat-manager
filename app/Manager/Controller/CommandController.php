@@ -41,19 +41,21 @@ final class CommandController extends Controller
 
     /**
      * Обработчик нажатий по клавиатуре
+     * type === 'default' - обычные кнопки
+     * type === 'callback' - калбек кнопки
      * @param array $payload
+     * @param string $type
      * @return void
      */
-    public static function payloadHandler(array $payload): void
+    public static function payloadHandler(array $payload, string $type = 'default'): void
     {
         $payloads = CommandList::payload();
-        if (is_array($payloads)) {
-            $key = key($payload);
-            $value = current($payload);
+        $key = key($payload);
+        $value = current($payload);
 
-            $method = $payloads[$key][$value]['method'] ?? null;
-
-            if (isset($method)) self::method_execute($method);
+        foreach ($payloads[$key] as $array) {
+            if ($value === $array['payload'] and $array['type'] === $type) self::method_execute($array['method']);
         }
     }
+
 }

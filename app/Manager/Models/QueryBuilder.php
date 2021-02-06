@@ -4,20 +4,19 @@ namespace Manager\Models;
 
 use PDO;
 
-class QueryBuilder implements IQuery
+abstract class QueryBuilder implements IQuery
 {
     public PDO $db;
-    private string|null $table;
+    protected string $table;
+    public int $id;
 
     /**
      * QueryBuilder constructor.
      * @param PDO $connection
-     * @param string|null $table
      */
-    public function __construct(PDO $connection, string $table = null)
+    public function __construct(PDO $connection)
     {
         $this->db = $connection;
-        $this->table = $table;
     }
 
     /**
@@ -36,7 +35,7 @@ class QueryBuilder implements IQuery
      * @param string $sql
      * @return array|bool
      */
-    private function query(string $sql): array|bool
+    protected function query(string $sql): array|bool
     {
         return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
     }

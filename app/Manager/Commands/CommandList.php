@@ -32,18 +32,19 @@ final class CommandList
             ],
 
             [
+                'text' => ['/chat_reg'],
+                'method' => ['isChat', 'chatRegistration']
+            ],
+
+            [
                 'text' => ['[|варс', '[|варсы', '[|pr', '[|print'],
                 'method' => ['vars']
             ],
 
             [
-                'text' => ['вагина'],
-                'method' => ['vagina']
-            ],
-
-            [
-                'text' => ['блин', 'капец', 'блять', 'пиздец', 'ебать', 'елки иголки', 'екарный бабай', 'бляха муха'],
-                'method' => ['blin']
+                'text' => ['|едрен батон', 'блин', 'капец', 'блять', 'пиздец', 'ебать',
+                    '|елки иголки', '|екарный бабай', '|бляха муха', '|твою дивизию'],
+                'method' => ['isChat', 'blin']
             ],
 
             [
@@ -59,7 +60,7 @@ final class CommandList
 
             [
                 'text' => ['[|скажи', '[|повтори', '[|say'],
-                'method' => ['isPrivateMessage', 'say']
+                'method' => ['isChat', 'say']
             ],
 
         ];
@@ -83,22 +84,22 @@ final class CommandList
             'settings' =>
                 [
                     [
-                        'key' => 'exit_msg',
+                        'payload' => 'exit_msg',
                         'method' => ['_eventCheckAdmin', '_chatSwitcher']
                     ],
 
                     [
-                        'key' => 'welcome_msg',
+                        'payload' => 'welcome_msg',
                         'method' => ['_eventCheckAdmin', '_chatSwitcher']
                     ],
 
                     [
-                        'key' => 'rules',
+                        'payload' => 'rules',
                         'method' => ['_eventCheckAdmin', '_chatSwitcher']
                     ],
 
                     [
-                        'key' => 'auto_kick',
+                        'payload' => 'auto_kick',
                         'method' => ['_eventCheckAdmin', '_chatSwitcher']
                     ],
 
@@ -107,8 +108,9 @@ final class CommandList
             'chat' =>
                 [
                     [
-                        'key' => 'registration',
-                        'method' => ['_chatCreate']
+                        'payload' => 'registration',
+                        'method' => ['chatRegistration'],
+                        'type' => 'default'
                     ],
 
                 ],

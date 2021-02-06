@@ -21,11 +21,9 @@ final class TypeController extends Controller
      */
     public static function message_new(array $data): void
     {
-        $action = $data['action'];
-
-        if (isset($action)) ActionController::handleAction($action);
-        $text_lower = $data['text_lower'];
-        CommandController::commandHandler($text_lower);
+        if ($data['chat_id']) ChatController::handler($data);
+        CommandController::commandHandler($data['text_lower']);
+        if ($data['payload']) CommandController::payloadHandler($data['payload']);
 
     }
 

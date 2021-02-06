@@ -10,7 +10,9 @@ trait Debug
 {
     public function vars()
     {
-        $vars = $this->vk->getVars();
+//        $vars = $this->vk->getVars();
+        $vars = $this->db->snowAllSettings();
+//        \Manager\Models\Utils::var_dumpToStdout($vars);
         $this->print($vars);
     }
 
