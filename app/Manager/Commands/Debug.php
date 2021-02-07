@@ -2,6 +2,8 @@
 
 namespace Manager\Commands;
 
+use Manager\Models\Utils;
+
 /**
  * Trait Debug
  * @package Manager\Commands
@@ -12,7 +14,7 @@ trait Debug
     {
 //        $vars = $this->vk->getVars();
         $vars = $this->db->snowAllSettings();
-//        \Manager\Models\Utils::var_dumpToStdout($vars);
+        Utils::var_dumpToStdout($vars);
         $this->print($vars);
     }
 

@@ -6,7 +6,8 @@
         "digitalstars/simplevk": "dev-testing",
         "ext-mbstring": "*",
         "ext-iconv": "*",
-        "ext-pdo": "*"
+        "ext-pdo": "*",
+        "rakibtg/sleekdb": "^2.1"
     },
     "authors": [
         {

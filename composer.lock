@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c1d6c0f8a69c8dc992adf202ca0b6b0",
+    "content-hash": "f063b9d29443ad965a89936fb01ade34",
     "packages": [
         {
             "name": "digitalstars/simplevk",
@@ -15,10 +15,10 @@
                 "reference": "c5f565decbfb6480bb5544c7dd9e62981823b8c8"
             },
             "dist": {
-              "type": "zip",
-              "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/c5f565decbfb6480bb5544c7dd9e62981823b8c8",
-              "reference": "c5f565decbfb6480bb5544c7dd9e62981823b8c8",
-              "shasum": ""
+                "type": "zip",
+                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/c5f565decbfb6480bb5544c7dd9e62981823b8c8",
+                "reference": "c5f565decbfb6480bb5544c7dd9e62981823b8c8",
+                "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
@@ -55,7 +55,63 @@
                 "issues": "https://github.com/digitalstars/simplevk/issues",
                 "source": "https://github.com/digitalstars/simplevk/tree/testing"
             },
-          "time": "2021-02-04T13:45:29+00:00"
+            "time": "2021-02-04T13:45:29+00:00"
+        },
+        {
+            "name": "rakibtg/sleekdb",
+            "version": "2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rakibtg/SleekDB.git",
+                "reference": "08dfdb1f5abb14f38ad752eab1a4944ae002f542"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rakibtg/SleekDB/zipball/08dfdb1f5abb14f38ad752eab1a4944ae002f542",
+                "reference": "08dfdb1f5abb14f38ad752eab1a4944ae002f542",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5",
+                "spatie/phpunit-watcher": "^1.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SleekDB\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "rakibtg",
+                    "email": "rakibtg@gmail.com"
+                }
+            ],
+            "description": "SleekDB - A 30Kb NoSQL Database made using PHP",
+            "keywords": [
+                "SleekDB",
+                "api",
+                "database",
+                "flatfile",
+                "framework",
+                "micro",
+                "nosql",
+                "php",
+                "rest"
+            ],
+            "support": {
+                "issues": "https://github.com/rakibtg/SleekDB/issues",
+                "source": "https://github.com/rakibtg/SleekDB/tree/2.1.1"
+            },
+            "time": "2021-01-31T21:52:20+00:00"
         }
     ],
     "packages-dev": [],

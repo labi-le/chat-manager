@@ -5,6 +5,7 @@ namespace Manager\Commands;
 use Exception;
 use Manager\Models\Callback;
 use Manager\Models\ChatsQuery;
+use Manager\Models\IChatSettings;
 use Manager\Models\IQuery;
 use Manager\Models\LongPoll;
 use Manager\Models\Utils;
@@ -18,10 +19,11 @@ use Manager\Models\Utils;
 final class Commands
 {
     use Manager;
+    use Chat;
     use Debug;
 
     private LongPoll|Callback $vk;
-    private IQuery|ChatsQuery $db;
+    private IQuery|ChatsQuery|IChatSettings $db;
 
     private function __construct(LongPoll|Callback $vk, IQuery $db)
     {

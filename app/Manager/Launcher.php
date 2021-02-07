@@ -62,9 +62,4 @@ class Launcher
         self::checkConfigFile($config);
         return $config;
     }
-
-    public static function database()
-    {
-        return self::getConfigFile()->auth->database ?? throw new Exception('Database not found');
-    }
 }

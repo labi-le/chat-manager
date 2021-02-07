@@ -40,6 +40,48 @@ class Utils
     }
 
     /**
+     * Удаляет из строки самую первую подстроку
+     * @param $text
+     * @return string
+     */
+    public static function removeFirstWord($text): string
+    {
+        return strstr($text, " ");
+    }
+
+    /**
+     * Выборка необходимой строки по ключу
+     * @param string $string
+     * @param int $substring
+     * @return string|bool
+     */
+    public static function getWord(string $string, int $substring): string|bool
+    {
+        $substrings = explode(' ', $string);
+        return $substrings[$substring] ?? false;
+    }
+
+    /**
+     * Проверка подстроки по шаблону
+     * @param string $textFromArray
+     * @param string $original
+     * @param int $similarPercent
+     * @return bool
+     */
+    public static function formatText(string $textFromArray, string $original, $similarPercent = 80): bool
+    {
+        if (mb_substr($textFromArray, 0, 1) == '|') {
+            return self::similarTo($textFromArray, $original) >= $similarPercent;
+        } elseif (mb_substr($textFromArray, 0, 2) == "[|") {
+            return self::startAs($textFromArray, $original);
+        } elseif (mb_substr($textFromArray, -2, 2) == "|]") {
+            return (self::endAs($textFromArray, $original));
+        } elseif (mb_substr($textFromArray, 0, 1) == "{" && mb_substr($textFromArray, -1, 1) == "}") {
+            return (self::contains($textFromArray, $original));
+        } else return $textFromArray == $original;
+    }
+
+    /**
      * Похоже на
      * @param string $text
      * @param $original
@@ -91,48 +133,6 @@ class Utils
     private static function contains(string $text, string $original): bool
     {
         return mb_stripos($original, $text) !== false;
-    }
-
-    /**
-     * Удаляет из строки самую первую подстроку
-     * @param $text
-     * @return string
-     */
-    public static function removeFirstWord($text): string
-    {
-        return strstr($text, " ");
-    }
-
-    /**
-     * Выборка необходимой строки по ключу
-     * @param string $string
-     * @param int $substring
-     * @return string|bool
-     */
-    public static function getWord(string $string, int $substring): string|bool
-    {
-        $substrings = explode(' ', $string);
-        return $substrings[$substring] ?? false;
-    }
-
-    /**
-     * Проверка подстроки по шаблону
-     * @param string $textFromArray
-     * @param string $original
-     * @param int $similarPercent
-     * @return bool
-     */
-    public static function formatText(string $textFromArray, string $original, $similarPercent = 80): bool
-    {
-        if (mb_substr($textFromArray, 0, 1) == '|') {
-            return self::similarTo($textFromArray, $original) >= $similarPercent;
-        } elseif (mb_substr($textFromArray, 0, 2) == "[|") {
-            return self::startAs($textFromArray, $original);
-        } elseif (mb_substr($textFromArray, -2, 2) == "|]") {
-            return (self::endAs($textFromArray, $original));
-        } elseif (mb_substr($textFromArray, 0, 1) == "{" && mb_substr($textFromArray, -1, 1) == "}") {
-            return (self::contains($textFromArray, $original));
-        } else return $textFromArray == $original;
     }
 
     /**
@@ -223,7 +223,7 @@ class Utils
      */
     public static function var_dumpToStdout($data)
     {
-        file_put_contents('php://stdout', print_r($data, true));
+        file_put_contents('php://stdout', var_export($data, true));
     }
 
     /**
@@ -236,4 +236,18 @@ class Utils
         return preg_match('/^[a-zA-Z0-9А-Яа-я_-]{1,16}$/u', $string, $match) ?? false;
 //        return preg_match('/([a-zA-Z0-9А-Яа-я_-]{1,16})+/u', $string, $match) ?? false;
     }
+
+    /**
+     * Булев в смайлы
+     * @param $bool
+     * @return string
+     */
+    public static function boolToSmile($bool): string
+    {
+        $logic[0] = '⛔';
+        $logic[1] = '✅';
+
+        return $logic[(bool)$bool];
+    }
+
 }

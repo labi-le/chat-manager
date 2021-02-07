@@ -53,8 +53,13 @@ final class CommandList
             ],
 
             [
-                'text' => ['меню', 'настройки', 'gui', 'menu'],
-                'method' => ['isChat', 'isAdmin', 'createGui']
+                'text' => ['меню', 'настройки'],
+                'method' => ['isChat', 'isAdmin', 'snowAllSettings']
+            ],
+
+            [
+                'text' => ['gui'],
+                'method' => ['isChat', 'isAdmin', 'sendCallbackSettings']
             ],
 
 

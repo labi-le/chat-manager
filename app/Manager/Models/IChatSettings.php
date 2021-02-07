@@ -8,21 +8,21 @@ interface IChatSettings
 {
     /**
      * Показать приветственное сообщение
-     * @return string|bool|null
+     * @return string|bool
      */
-    public function snowWelcomeMessage(): string|bool|null;
+    public function snowWelcomeMessage(): string|bool;
 
     /**
      * Показать сообщение при выходе
-     * @return string|bool|null
+     * @return string|bool
      */
-    public function snowExitMessage(): string|bool|null;
+    public function snowExitMessage(): string|bool;
 
     /**
      * Показать запретные слова
-     * @return string|bool|null
+     * @return string|bool
      */
-    public function snowForbiddenWords(): string|bool|null;
+    public function snowForbiddenWords(): string|bool;
 
     /*
      * Статусы (что-то типа выкл вкл)
@@ -59,4 +59,10 @@ interface IChatSettings
     public function switchExitMessage(): bool|null;
     public function switchUrlWarn(): bool|null;
     public function switchAutoKick(): bool|null;
+
+    /**
+     * Показать статус всех настроек
+     * @return bool|array
+     */
+    public function snowAllSettings():null|array;
 }

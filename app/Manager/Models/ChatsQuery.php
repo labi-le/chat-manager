@@ -1,203 +1,241 @@
 <?php
 
+
 namespace Manager\Models;
+
 
 class ChatsQuery extends QueryBuilder implements IChatSettings
 {
-    protected string $table = 'chats';
-    /**
-     * Константы содержащие названия колонок в бд
-     */
-
 
     /**
      * Название идентификатора
      */
     const ID = 'id';
-
+    /**
+     * Константы содержащие названия колонок в бд
+     */
     /**
      * Идентификатор статуса, добавляется в конце возможной настройки,
      * Можно без дефиса
      */
     const STATUS = '-status';
+
     /**
      * Текст привественного сообщения
      * Переключатель для прив сообщения
      */
-
     const WELCOME_MESSAGE_TEXT = 'welcome_text';
-    const WELCOME_MESSAGE_STATUS = 'welcome_text' . self::STATUS;
 
     const EXIT_MESSAGE_TEXT = 'exit_text';
-    const EXIT_MESSAGE_STATUS = 'exit_text' . self::STATUS;
+
+    const MAX_WORDS = 'max_words';
+    const MAX_WORDS_COUNT = 2000;
 
     /**
      * Выдача варнов за ссылки в чате
      * Переключатель
      */
-    const URL_WARN_STATUS = 'url_warn' . self::STATUS;
-
+    const URL = 'url';
     /**
      * Большая коллекция запрещенных слов
      * И его переключатель
      */
     const FORBIDDEN_WORDS = 'forbidden_words';
-    const FORBIDDEN_WORDS_STATUS = 'forbidden_words' . self::STATUS;
-
     /**
      * Переключатель автокика
      */
-    const AUTO_KICK_STATUS = 'auto_kick' . self::STATUS;
+    const AUTO_KICK = 'user_exit';
+
+    const STICKER = 'sticker';
+    const VOICE_MESSAGE = 'voice';
+    /**
+     * Стандартные настройки для базы данных
+     * https://sleekdb.github.io/#/configurations
+     */
+    const CONFIGURATION_DB =
+        [
+            "auto_cache" => false,
+            "cache_lifetime" => null,
+            "timeout" => 120,
+            "primary_key" => self::ID
+        ];
+
+    protected string $store_name = 'chats';
 
     /**
-     * Создать таблицу
+     * Создать запись из готового генератора
+     * @param int|array $params
      * @return bool
      */
-    public function createChatTable(): bool
+    public function createRecord(int|array $params): bool
     {
-        $sql = "CREATE TABLE `$this->table`(
-                `" . self::ID . "` INT(11) NOT NULL UNIQUE,
-                `" . self::WELCOME_MESSAGE_TEXT . "` TEXT NOT NULL,
-                `" . self::WELCOME_MESSAGE_STATUS . "` TINYINT(1) NOT NULL,
-                `" . self::EXIT_MESSAGE_TEXT . "` TEXT NOT NULL,
-                `" . self::EXIT_MESSAGE_STATUS . "` TINYINT(1) NOT NULL,
-                `" . self::URL_WARN_STATUS . "` TINYINT(1) NOT NULL,
-                `" . self::FORBIDDEN_WORDS . "` TEXT NOT NULL,
-                `" . self::FORBIDDEN_WORDS_STATUS . "` TINYINT(1) NOT NULL,
-                `" . self::AUTO_KICK_STATUS . "` TINYINT(1) NOT NULL)";
-
-//        var_dump($sql);
-        return (bool)$this->db->query($sql);
+        return parent::createRecord($this->generateTable($params));
     }
 
-
     /**
-     * Создать новую запись в таблице
-     * @param $id
-     * @return bool
+     * Сгенерировать таблицу
+     * @param int $id
+     * @return array
      */
-    public function createChatRecord($id): bool
+    private function generateTable(int $id): array
     {
-        try {
-            return $this->createRecord(
+        return [
+            'id' => $id,
+            'settings' =>
+
+                [/**
+                 * Возможные нарушение и потенциальные наказания
+                 */
+                    'penalty' =>
+                        [
+                            /**
+                             * 0 - nothing, 1 - warn, 2 - kick, 3 - ban
+                             */
+                            self::URL => 0,
+                            self::STICKER => 0,
+                            self::VOICE_MESSAGE => 0,
+                            self::FORBIDDEN_WORDS => 0,
+                            self::MAX_WORDS => 0
+                        ],
+
+                    'status' =>
+                        [
+                            /**
+                             * 0 - no action, 1 - all action ||bool
+                             */
+                            self::AUTO_KICK => 0,
+                            self::EXIT_MESSAGE_TEXT => 0,
+                            self::WELCOME_MESSAGE_TEXT => 0
+
+                        ],
+
+                    /**
+                     * Список запрещенных слов
+                     * ['ddawdwa', 'dwdaawd', 'dwadwadwfe']
+                     */
+                    'forbidden_words' => [],
+
+                    /**
+                     * Дефолтные настройки
+                     */
+                    'default' =>
+                        [
+                            'warn' => 3, //кол-во варнов после которых бан
+                            'ban' => 3600, //1 hour
+                            self::MAX_WORDS => self::MAX_WORDS_COUNT //слов
+                        ]
+                ],
+
+            'members' =>
                 [
-                    self::ID => $id,
-                    self::WELCOME_MESSAGE_TEXT => 0, //выключено
-                    self::WELCOME_MESSAGE_STATUS => 0,
-                    self::EXIT_MESSAGE_TEXT => 0,
-                    self::EXIT_MESSAGE_STATUS => 0,
-                    self::AUTO_KICK_STATUS => 0,
-                    self::FORBIDDEN_WORDS => 0,
-                    self::FORBIDDEN_WORDS_STATUS => 0,
-                    self::URL_WARN_STATUS => 0,
-                    //etc..
-                ]);
-        } catch (\Exception){
-            return false;
-        }
+                    'exited' => [],
+                    'banned' =>
+                        [
+                            /**
+                             * 418618 =>
+                             * [
+                             * 'time' => 212, //Время бана
+                             * 'reason' => 'Причина бана'
+                             * ]
+                             */
+
+                        ]
+                ]
+        ];
     }
 
     /**
-     * Получить все настройки с бд
-     * @return bool|array
+     * @inheritDoc
      */
-    public function snowAllSettings(): null|array
-    {
-        $status = null;
-        $count_status = mb_strlen(self::STATUS);
-        foreach ($this->getRecord($this->id) as $setting => $value) {
-            if (mb_substr($setting, -$count_status) == self::STATUS)
-                $status[$setting] = (bool)$value;
-        }
-        return $status;
-    }
-
-    /**
-     * Switch true\false and save
-     * @param string $settings_name
-     * @return bool
-     */
-    protected function switchStatus(string $settings_name): bool
-    {
-        $status = $this->snowAllSettings()[$settings_name];
-        if (is_null($status)) return false;
-
-        $sql = "UPDATE $this->table SET $settings_name = !$status WHERE " . self::ID . " = $this->id";
-        return (bool)$this->query($sql);
-    }
-
     public function snowWelcomeMessage(): string|bool
     {
-        return $this->getRecord($this->id)[self::WELCOME_MESSAGE_TEXT];
+        // TODO: Implement snowWelcomeMessage() method.
     }
 
-    public function snowExitMessage(): string|bool|null
+    /**
+     * @inheritDoc
+     */
+    public function snowExitMessage(): string|bool
     {
-        return $this->getRecord($this->id)[self::EXIT_MESSAGE_TEXT];
+        // TODO: Implement snowExitMessage() method.
     }
 
-    public function snowForbiddenWords(): string|bool|null
+    /**
+     * @inheritDoc
+     */
+    public function snowForbiddenWords(): string|bool
     {
-        return $this->getRecord($this->id)[self::FORBIDDEN_WORDS];
+        // TODO: Implement snowForbiddenWords() method.
     }
 
-    public function statusForbiddenWords(): bool
+    public function statusForbiddenWords(): bool|null
     {
-        return $this->getRecord($this->id)[self::FORBIDDEN_WORDS_STATUS];
+        // TODO: Implement statusForbiddenWords() method.
     }
 
-    public function statusWelcomeMessage(): bool
+    public function statusWelcomeMessage(): bool|null
     {
-        return $this->getRecord($this->id)[self::WELCOME_MESSAGE_STATUS];
+        // TODO: Implement statusWelcomeMessage() method.
     }
 
-    public function statusExitMessage(): bool
+    public function statusExitMessage(): bool|null
     {
-        return $this->getRecord($this->id)[self::EXIT_MESSAGE_STATUS];
+        // TODO: Implement statusExitMessage() method.
     }
 
-    public function statusUrlWarn(): bool
+    public function statusUrlWarn(): bool|null
     {
-        return $this->getRecord($this->id)[self::URL_WARN_STATUS];
+        // TODO: Implement statusUrlWarn() method.
     }
 
-    public function statusAutoKick(): bool
+    public function statusAutoKick(): bool|null
     {
-        return $this->getRecord($this->id)[self::AUTO_KICK_STATUS];
+        // TODO: Implement statusAutoKick() method.
     }
 
+    /**
+     * @inheritDoc
+     */
     public function setWelcomeMessage(string $text): bool
     {
-        return $this->switchStatus(self::WELCOME_MESSAGE_STATUS);
+        // TODO: Implement setWelcomeMessage() method.
     }
 
     public function setExitMessage(string $text): bool
     {
-        return $this->switchStatus(self::EXIT_MESSAGE_STATUS);
+        // TODO: Implement setExitMessage() method.
     }
 
     public function switchForbiddenWords(): bool|null
     {
-        return $this->switchStatus(self::FORBIDDEN_WORDS_STATUS);
+        // TODO: Implement switchForbiddenWords() method.
     }
 
     public function switchWelcomeMessage(): bool|null
     {
-        return $this->switchStatus(self::WELCOME_MESSAGE_STATUS);
+        // TODO: Implement switchWelcomeMessage() method.
     }
 
     public function switchExitMessage(): bool|null
     {
-        return $this->switchStatus(self::EXIT_MESSAGE_STATUS);
+        // TODO: Implement switchExitMessage() method.
     }
 
     public function switchUrlWarn(): bool|null
     {
-        return $this->switchStatus(self::URL_WARN_STATUS);
+        // TODO: Implement switchUrlWarn() method.
     }
 
     public function switchAutoKick(): bool|null
     {
-        return $this->switchStatus(self::AUTO_KICK_STATUS);
+        // TODO: Implement switchAutoKick() method.
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function snowAllSettings(): null|array
+    {
+        // TODO: Implement snowAllSettings() method.
     }
 }
