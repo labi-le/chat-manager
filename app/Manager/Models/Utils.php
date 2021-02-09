@@ -2,8 +2,14 @@
 
 namespace Manager\Models;
 
+use DateTime;
+use DateTimeZone;
+use Exception;
+
 class Utils
 {
+    const FORMAT_TIME = 'Y-m-d H:i';
+
     /**
      * Получить картинки с котинками
      * @param string $api
@@ -250,4 +256,46 @@ class Utils
         return $logic[(bool)$bool];
     }
 
+    /**
+     * DateTime
+     * Временная зона Европа/Москва
+     * @param $now
+     * @return DateTime
+     * @throws Exception
+     */
+    public static function datetime($now = null): DateTime
+    {
+        return new DateTime($now, new DateTimeZone('Europe/Moscow'));
+    }
+
+    /**
+     * Строка в unixtime
+     * 1 час
+     * unixtime + 3600
+     * @param string $string
+     * @return int|false
+     */
+    public static function strTime(string $string):int|false
+    {
+        $exp = explode(' ', $string);
+        $strtime = end($exp);
+        $prev = prev($exp);
+
+        $int = intval($prev);
+//        $str = trim($prev . ' ' . self::remove_numbers($strtime));
+
+        return match ($strtime) {
+            'с', 'сек', 'секунд', 'секунда', 'секунды', 's', 'second', 'seconds' => time() + (1 * $int),
+            'м', 'мин', 'минут', 'минута', 'минуты', 'm', 'minute', 'minutes' => time() + (60 * $int),
+            'ч', 'час', 'часов', 'часа', 'hour', 'hours' => time() + (3600 * $int),
+            'д', 'дн', 'дней', 'дня', 'd', 'day', 'days' => time() + (86400 * $int),
+            default => false,
+        };
+    }
+
+    public static function remove_numbers(string $string): string
+    {
+        $num = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
+        return str_replace($num, null, $string);
+    }
 }

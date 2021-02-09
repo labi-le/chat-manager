@@ -4,8 +4,8 @@ namespace Manager\Models;
 
 interface IQuery
 {
-    public function deleteTable(): bool;
-    public function createRecord(array|int $params): bool;
-    public function getRecord(int $id): array|null;
-    public function deleteRecord(int $id): bool;
+//    public function deleteTable(): bool;
+//    public function createTable(): array;
+//    protected function loadRecord(int $id = null): array|null;
+//    public function deleteRecord(): bool;
 }

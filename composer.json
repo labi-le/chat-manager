@@ -6,8 +6,8 @@
         "digitalstars/simplevk": "dev-testing",
         "ext-mbstring": "*",
         "ext-iconv": "*",
-        "ext-pdo": "*",
-        "rakibtg/sleekdb": "^2.1"
+        "rakibtg/sleekdb": "^2.1",
+        "adbario/php-dot-notation": "^2.2"
     },
     "authors": [
         {
