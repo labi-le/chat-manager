@@ -5,6 +5,7 @@ namespace Manager\Commands;
 
 
 use Exception;
+use Manager\Models\ChatsQuery;
 use Manager\Models\Utils;
 
 trait Chat
@@ -31,9 +32,13 @@ trait Chat
      */
     public function snowAllSettings()
     {
-        $text = null;
-        foreach ($this->db->snowAllSettings() as $setting => $option)
-            $text .= $option['description'] . ' ' . Utils::boolToSmile($option['status']) . PHP_EOL;
+        $settings = $this->db->snowAllSettings();
+        $text = "\nДефолтные настройки:\n";
+        $text .= $settings['ban']['description'] . ': ' . $settings['ban']['default'] . PHP_EOL;
+        $text .= $settings['mute']['description'] . ': ' . $settings['mute']['action'] . PHP_EOL;
+        $text .= $settings[ChatsQuery::MAX_WORDS]['description'] . ': ' . $settings[ChatsQuery::MAX_WORDS]['default'] . PHP_EOL. PHP_EOL;
+        $text .= $settings[ChatsQuery::WELCOME_MESSAGE_TEXT]['description'] . ': ' . Utils::boolToSmile($settings[ChatsQuery::WELCOME_MESSAGE_TEXT]['action']) . PHP_EOL;
+        $text .= $settings[ChatsQuery::EXIT_MESSAGE_TEXT]['description'] . ': ' . Utils::boolToSmile($settings[ChatsQuery::EXIT_MESSAGE_TEXT]['action']) . PHP_EOL;
         $this->vk->reply($text);
     }
 
@@ -44,7 +49,7 @@ trait Chat
     {
         $button = null;
         $i = 0;
-        foreach ($this->db->snowAllSettings() as $setting => $option) {
+        foreach ($this->db->showAllSettings() as $setting => $option) {
             $button[$i][] = $this->vk->buttonCallback($option['description'], $option['status'] ? 'green' : 'red');
             $i++;
         }

@@ -50,7 +50,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     const WARN_ACTION = 1;
     const KICK_ACTION = 2;
     const BAN_ACTION = 3;
-    const SNOW_ACTION = 4;
+    const SHOW_ACTION = 4;
 
     const DEFAULT = 'default';
     const ACTION = 'action';
@@ -193,7 +193,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     /**
      * @inheritDoc
      */
-    public function snowWelcomeMessage(): string
+    public function showWelcomeMessage(): string
     {
         $welcome_message = $this->statusSettings(self::WELCOME_MESSAGE_TEXT, self::DEFAULT);
         return mb_strlen($welcome_message) ? 'Сообщение не установлено' : $welcome_message;
@@ -210,7 +210,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     /**
      * @inheritDoc
      */
-    public function snowExitMessage(): string
+    public function showExitMessage(): string
     {
         $exit_message = $this->statusSettings(self::EXIT_MESSAGE_TEXT, self::DEFAULT);
         return mb_strlen($exit_message) ? 'Сообщение не установлено' : $exit_message;
@@ -220,7 +220,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     /**
      * @inheritDoc
      */
-    public function snowForbiddenWords(): string
+    public function showForbiddenWords(): string
     {
         $forbidden_words = $this->statusSettings(self::FORBIDDEN_WORDS, self::DEFAULT);
         return $forbidden_words === [] ? 'Список запрещенных слов пуст' : implode(', ', $forbidden_words);
@@ -229,7 +229,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     /**
      * @inheritDoc
      */
-    public function snowAllSettings(): array
+    public function showAllSettings(): array
     {
         return $this->data->get(self::SETTINGS);
     }
@@ -239,7 +239,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionWelcomeMessage(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::SNOW_ACTION], $action, self::WELCOME_MESSAGE_TEXT);
+        return $this->setAction([self::NO_ACTION, self::SHOW_ACTION], $action, self::WELCOME_MESSAGE_TEXT);
     }
 
     /**
@@ -287,7 +287,6 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
                 [
 
-
                     /**
                      * Настройки
                      */
@@ -297,54 +296,64 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                             self::DEFAULT => 3,
                             self::ACTION => self::BAN_ACTION
                         ],
+
                     'ban' =>
                         [
-                            self::DESCRIPTION => 'Дефолтное время бана (если не было указано время)',
+                            self::DESCRIPTION => 'Дефолтное время бана',
                             self::DEFAULT => 3600
                         ],
+
                     'mute' =>
                         [
-                            self::DESCRIPTION => 'Дефолтное время мута (если не было указано время)',
+                            self::DESCRIPTION => 'Дефолтное время мута',
                             self::DEFAULT => 3600
                         ],
+
                     self::MAX_WORDS =>
                         [
-                            self::DESCRIPTION => 'Лимит слов после которых юзер получит наказание (0 - выключен)',
+                            self::DESCRIPTION => 'Лимит слов после которых юзер получит наказание',
                             self::DEFAULT => 0,
                             self::ACTION => self::NO_ACTION
                         ],
+
                     self::WELCOME_MESSAGE_TEXT =>
                         [
                             self::DESCRIPTION => 'Приветственное сообщение',
                             self::DEFAULT => 'Привет!',
                             self::ACTION => self::NO_ACTION
                         ],
+
                     self::EXIT_MESSAGE_TEXT =>
                         [
                             self::DESCRIPTION => 'Сообщение после выхода участника',
                             self::DEFAULT => 'Пока',
                             self::ACTION => self::NO_ACTION
                         ],
+
                     self::USER_LEAVE =>
                         [
                             self::DESCRIPTION => 'Действие которое будет применено к юзеру который покинул конференцию',
                             self::ACTION => self::NO_ACTION
                         ],
+
                     self::URL =>
                         [
                             self::DESCRIPTION => 'Действие которое будет применено к юзеру который отправил ссылку',
                             self::ACTION => self::NO_ACTION
                         ],
+
                     self::STICKER =>
                         [
                             self::DESCRIPTION => 'Действие которое будет применено к юзеру который отправил стикер',
                             self::ACTION => self::NO_ACTION
                         ],
+
                     self::WALL =>
                         [
                             self::DESCRIPTION => 'Действие которое будет применено к юзеру который отправил стикер',
                             self::ACTION => self::NO_ACTION
                         ],
+
                     self::VOICE_MESSAGE =>
                         [
                             self::DESCRIPTION => 'Действие которое будет применено к юзеру который отправил голосовое сообщение',

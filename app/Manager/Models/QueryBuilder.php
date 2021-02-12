@@ -12,6 +12,7 @@ use SleekDB\Exceptions\IOException;
 use SleekDB\Exceptions\JsonException;
 use SleekDB\Store;
 
+
 abstract class QueryBuilder implements IQuery
 {
 
@@ -38,11 +39,10 @@ abstract class QueryBuilder implements IQuery
             "timeout" => 120,
 //            "primary_key" => self::ID
         ];
-
-    private Store $db;
     protected string $store_name;
     protected int $id;
     protected Dot $data;
+    private Store $db;
 
     /**
      * QueryBuilder constructor.
@@ -141,6 +141,11 @@ abstract class QueryBuilder implements IQuery
         } else return false;
     }
 
+    /**
+     * Удалить таблицу
+     * @return bool
+     * @throws IOException
+     */
     private function deleteTable(): bool
     {
         unset($this->data);

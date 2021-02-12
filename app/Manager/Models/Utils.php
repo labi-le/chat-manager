@@ -229,7 +229,7 @@ class Utils
      */
     public static function var_dumpToStdout($data)
     {
-        file_put_contents('php://stdout', var_export($data, true));
+        file_put_contents('php://stdout', print_r($data, true));
     }
 
     /**

@@ -10,31 +10,31 @@ interface IChatActions
      * Показать приветственное сообщение
      * @return string
      */
-    public function snowWelcomeMessage(): string;
+    public function showWelcomeMessage(): string;
 
     /**
      * Показать сообщение при выходе
      * @return string
      */
-    public function snowExitMessage(): string;
+    public function showExitMessage(): string;
 
     /**
      * Показать запретные слова
      * @return string
      */
-    public function snowForbiddenWords(): string;
+    public function showForbiddenWords(): string;
 
     /**
      * Получить все настройки
      * @return array
      */
-    public function snowAllSettings(): array;
+    public function showAllSettings(): array;
 
     /**
      * Получить статус настройки
      * @param string $setting
      * @param string $action
-     * @return int
+     * @return int|string|array
      */
     public function statusSettings(string $setting, string $action): int|string|array;
 
