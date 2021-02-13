@@ -54,14 +54,16 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     const DEFAULT = 'default';
     const ACTION = 'action';
-    const DESCRIPTION = 'description';
+    const SPECIFIC = 'specific';
+    const PENALTY = 'penalty';
 
+    const DESCRIPTION = 'description';
     const MEMBERS = 'members';
     const EXITED = 'exited';
     const WARNED = 'warned';
     const MUTED = 'muted';
-    const BANNED = 'banned';
 
+    const BANNED = 'banned';
     /**
      * Стандартные настройки для базы данных
      * https://sleekdb.github.io/#/configurations
@@ -195,7 +197,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function showWelcomeMessage(): string
     {
-        $welcome_message = $this->statusSettings(self::WELCOME_MESSAGE_TEXT, self::DEFAULT);
+        $welcome_message = $this->statusSettings(self::ACTION . self::WELCOME_MESSAGE_TEXT, self::DEFAULT);
         return mb_strlen($welcome_message) ? 'Сообщение не установлено' : $welcome_message;
     }
 
@@ -212,7 +214,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function showExitMessage(): string
     {
-        $exit_message = $this->statusSettings(self::EXIT_MESSAGE_TEXT, self::DEFAULT);
+        $exit_message = $this->statusSettings(self::ACTION . self::EXIT_MESSAGE_TEXT, self::DEFAULT);
         return mb_strlen($exit_message) ? 'Сообщение не установлено' : $exit_message;
 
     }
@@ -222,7 +224,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function showForbiddenWords(): string
     {
-        $forbidden_words = $this->statusSettings(self::FORBIDDEN_WORDS, self::DEFAULT);
+        $forbidden_words = $this->statusSettings(self::SPECIFIC . self::FORBIDDEN_WORDS, self::DEFAULT);
         return $forbidden_words === [] ? 'Список запрещенных слов пуст' : implode(', ', $forbidden_words);
     }
 
@@ -239,7 +241,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionWelcomeMessage(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::SHOW_ACTION], $action, self::WELCOME_MESSAGE_TEXT);
+        return $this->setAction([self::NO_ACTION, self::SHOW_ACTION], $action, self::ACTION . self::WELCOME_MESSAGE_TEXT);
     }
 
     /**
@@ -255,7 +257,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionUrl(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::URL);
+        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::ACTION . self::URL);
     }
 
     /**
@@ -263,7 +265,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionVoiceMessage(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::VOICE_MESSAGE);
+        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::ACTION . self::VOICE_MESSAGE);
     }
 
     /**
@@ -271,7 +273,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionSticker(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::STICKER);
+        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::ACTION . self::STICKER);
     }
 
     /**
@@ -290,87 +292,106 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                     /**
                      * Настройки
                      */
-                    'warn' =>
+
+                    self::ACTION =>
                         [
-                            self::DESCRIPTION => 'Количество варнов после которых будет бан',
-                            self::DEFAULT => 3,
-                            self::ACTION => self::BAN_ACTION
+                            self::WELCOME_MESSAGE_TEXT =>
+                                [
+                                    self::DESCRIPTION => 'Приветственное сообщение',
+                                    self::DEFAULT => 'Привет!',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+
+                            self::EXIT_MESSAGE_TEXT =>
+                                [
+                                    self::DESCRIPTION => 'Сообщение после выхода участника',
+                                    self::DEFAULT => 'Пока',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+
+                            self::USER_LEAVE =>
+                                [
+                                    self::DESCRIPTION => 'Юзер покинул конференцию',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+
+                            self::URL =>
+                                [
+                                    self::DESCRIPTION => 'Юзеру отправил ссылку',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+
+                            self::STICKER =>
+                                [
+                                    self::DESCRIPTION => 'Юзеру отправил стикер',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+
+                            self::WALL =>
+                                [
+                                    self::DESCRIPTION => 'Юзеру отправил пост',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+
+                            self::VOICE_MESSAGE =>
+                                [
+                                    self::DESCRIPTION => 'Юзер отправил голосовое сообщение',
+                                    self::ACTION => self::NO_ACTION
+                                ],
                         ],
 
-                    'ban' =>
+                    self::PENALTY =>
                         [
-                            self::DESCRIPTION => 'Дефолтное время бана',
-                            self::DEFAULT => 3600
+                            'warn' =>
+                                [
+                                    self::DESCRIPTION => 'Дефолтное кол-во варнов',
+                                    self::DEFAULT => 3,
+                                    self::ACTION => self::BAN_ACTION
+                                ],
+
+                            'ban' =>
+                                [
+                                    self::DESCRIPTION => 'Дефолтное время бана',
+                                    self::DEFAULT => 3600,
+                                    self::ACTION => self::BAN_ACTION
+                                ],
+
+                            'add_banned_user' =>
+                                [
+                                    self::DESCRIPTION => 'Добавил пользователя который находится в бане',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+
+                            'mute' =>
+                                [
+                                    self::DESCRIPTION => 'Дефолтное время мута',
+                                    self::DEFAULT => 3600,
+                                    self::ACTION => self::WARN_ACTION
+                                ],
+
                         ],
 
-                    'mute' =>
+                    self::SPECIFIC =>
                         [
-                            self::DESCRIPTION => 'Дефолтное время мута',
-                            self::DEFAULT => 3600
-                        ],
-
-                    self::MAX_WORDS =>
-                        [
-                            self::DESCRIPTION => 'Лимит слов после которых юзер получит наказание',
-                            self::DEFAULT => 0,
-                            self::ACTION => self::NO_ACTION
-                        ],
-
-                    self::WELCOME_MESSAGE_TEXT =>
-                        [
-                            self::DESCRIPTION => 'Приветственное сообщение',
-                            self::DEFAULT => 'Привет!',
-                            self::ACTION => self::NO_ACTION
-                        ],
-
-                    self::EXIT_MESSAGE_TEXT =>
-                        [
-                            self::DESCRIPTION => 'Сообщение после выхода участника',
-                            self::DEFAULT => 'Пока',
-                            self::ACTION => self::NO_ACTION
-                        ],
-
-                    self::USER_LEAVE =>
-                        [
-                            self::DESCRIPTION => 'Действие которое будет применено к юзеру который покинул конференцию',
-                            self::ACTION => self::NO_ACTION
-                        ],
-
-                    self::URL =>
-                        [
-                            self::DESCRIPTION => 'Действие которое будет применено к юзеру который отправил ссылку',
-                            self::ACTION => self::NO_ACTION
-                        ],
-
-                    self::STICKER =>
-                        [
-                            self::DESCRIPTION => 'Действие которое будет применено к юзеру который отправил стикер',
-                            self::ACTION => self::NO_ACTION
-                        ],
-
-                    self::WALL =>
-                        [
-                            self::DESCRIPTION => 'Действие которое будет применено к юзеру который отправил стикер',
-                            self::ACTION => self::NO_ACTION
-                        ],
-
-                    self::VOICE_MESSAGE =>
-                        [
-                            self::DESCRIPTION => 'Действие которое будет применено к юзеру который отправил голосовое сообщение',
-                            self::ACTION => self::NO_ACTION
-                        ],
-                    /**
-                     * Список запрещенных слов
-                     * ['ddawdwa', 'dwdaawd', 'dwadwadwfe']
-                     */
-                    self::FORBIDDEN_WORDS =>
-                        [
-                            self::DESCRIPTION => 'Список запрещенных слов (0 - выключен)',
-                            self::DEFAULT => [],
-                            self::ACTION => self::NO_ACTION
-                        ],
+                            self::MAX_WORDS =>
+                                [
+                                    self::DESCRIPTION => 'Лимит слов',
+                                    self::DEFAULT => 0,
+                                    self::ACTION => self::NO_ACTION
+                                ],
 
 
+                            /**
+                             * Список запрещенных слов
+                             * ['ddawdwa', 'dwdaawd', 'dwadwadwfe']
+                             */
+                            self::FORBIDDEN_WORDS =>
+                                [
+                                    self::DESCRIPTION => 'Список запрещенных слов',
+                                    self::DEFAULT => [],
+                                    self::ACTION => self::NO_ACTION
+                                ],
+                        ],
                 ],
 
             self::MEMBERS =>

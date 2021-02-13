@@ -32,14 +32,25 @@ trait Chat
      */
     public function snowAllSettings()
     {
-        $settings = $this->db->snowAllSettings();
-        $text = "\nДефолтные настройки:\n";
-        $text .= $settings['ban']['description'] . ': ' . $settings['ban']['default'] . PHP_EOL;
-        $text .= $settings['mute']['description'] . ': ' . $settings['mute']['action'] . PHP_EOL;
-        $text .= $settings[ChatsQuery::MAX_WORDS]['description'] . ': ' . $settings[ChatsQuery::MAX_WORDS]['default'] . PHP_EOL. PHP_EOL;
-        $text .= $settings[ChatsQuery::WELCOME_MESSAGE_TEXT]['description'] . ': ' . Utils::boolToSmile($settings[ChatsQuery::WELCOME_MESSAGE_TEXT]['action']) . PHP_EOL;
-        $text .= $settings[ChatsQuery::EXIT_MESSAGE_TEXT]['description'] . ': ' . Utils::boolToSmile($settings[ChatsQuery::EXIT_MESSAGE_TEXT]['action']) . PHP_EOL;
-        $this->vk->reply($text);
+        $settings = $this->db->showAllSettings();
+        $text['action'] = "default:\n";
+        $text['penalty'] = "penalty:\n";
+        $text['specific'] = "specific:\n";
+
+        foreach ($settings as $setting => $key) {
+            foreach ($key as $value) {
+                if (!isset($value['default'])) $default = '';
+                elseif (is_array($value['default'])) $default = implode(", ", $value['default']);
+                else $default = $value['default'];
+
+                if ($setting === ChatsQuery::ACTION) $text['action'] .= $value['description'] . "\nСтатус - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
+                if ($setting === ChatsQuery::PENALTY) $text['penalty'] .= $value['description'] . ' - ' . $default . "\nНаказание - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
+                if ($setting === ChatsQuery::SPECIFIC) $text['specific'] .= $value['description'] . ' - ' . $default . "\nНаказание - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
+            }
+        }
+        $this->print(implode("\n", $text));
+//        $text .= $settings['mute']['description'] . ': ' . $settings['mute']['default'] . PHP_EOL;
+
     }
 
     /**

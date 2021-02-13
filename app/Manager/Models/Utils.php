@@ -275,7 +275,7 @@ class Utils
      * @param string $string
      * @return int|false
      */
-    public static function strTime(string $string):int|false
+    public static function strTime(string $string): int|false
     {
         $exp = explode(' ', $string);
         $strtime = end($exp);
@@ -293,9 +293,24 @@ class Utils
         };
     }
 
-    public static function remove_numbers(string $string): string
+    /**
+     * Преобразование определённого числа в действие
+     * const NO_ACTION = 0;
+     * const WARN_ACTION = 1;
+     * const KICK_ACTION = 2;
+     * const BAN_ACTION = 3;
+     * const SHOW_ACTION = 4;
+     * @param int $int
+     * @return false|string
+     */
+    public static function intToStringAction(int $int): bool|string
     {
-        $num = array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-        return str_replace($num, null, $string);
+        $array[0] = 'Ничего';
+        $array[1] = 'Варн';
+        $array[2] = 'Кикнуть';
+        $array[3] = 'Забанить';
+        $array[4] = 'Показывать';
+
+        return $array[$int] ?? false;
     }
 }
