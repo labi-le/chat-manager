@@ -6,7 +6,6 @@ use Exception;
 
 trait Bot
 {
-
     /**
      * Массив с данными которые пришли от вк
      * есть также ванильный $this->data от SimpleVK

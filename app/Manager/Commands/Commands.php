@@ -4,11 +4,8 @@ namespace Manager\Commands;
 
 use Exception;
 use Manager\Models\Callback;
-use Manager\Models\ChatsQuery;
-use Manager\Models\IChatActions;
-use Manager\Models\IChatSettings;
-use Manager\Models\IQuery;
 use Manager\Models\LongPoll;
+use Manager\Models\QueryBuilder;
 use Manager\Models\Utils;
 
 /**
@@ -24,9 +21,9 @@ final class Commands
     use Debug;
 
     private LongPoll|Callback $vk;
-    private IQuery|ChatsQuery|IChatActions $db;
+    private QueryBuilder $db;
 
-    private function __construct(LongPoll|Callback $vk, IQuery $db)
+    private function __construct(LongPoll|Callback $vk, QueryBuilder $db)
     {
         $this->vk = $vk;
         $this->db = $db;
@@ -34,10 +31,10 @@ final class Commands
 
     /**
      * @param LongPoll|Callback $vk
-     * @param IQuery $db
+     * @param QueryBuilder $db
      * @return Commands
      */
-    public static function set(LongPoll|Callback $vk, $db): Commands
+    public static function set(LongPoll|Callback $vk, QueryBuilder $db): Commands
     {
         return new Commands($vk, $db);
     }
@@ -78,7 +75,6 @@ final class Commands
      * Котиков int
      * return котики
      */
-
     public function cat()
     {
         $count = intval(Utils::getWord($this->vk->getVars('text_lower'), 1));
@@ -153,10 +149,8 @@ final class Commands
                 'https://sun9-48.userapi.com/impg/oq7n1m04LetAZZDgNX4xTmW9SPvZw1Y6PqPuFA/zY3mD94A1HE.jpg?size=720x456&quality=96&proxy=1&sign=574ef396acf77df78de5b7003a8d1ae6&type=album'
             ];
 
-        $blin = array_rand(array_flip($img));
-
         $this->vk->msg()
-            ->img($blin)
+            ->img(array_rand(array_flip($img)))
             ->forward()
             ->send();
     }

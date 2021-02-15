@@ -26,9 +26,13 @@ final class MessageController extends Controller
             /**
              * На десктопной версии контакта не работают калбек кнопки, делаем заглушку...
              */
-            $data['payload']['command'] == 'not_supported_button'
-                ? self::payloadHandler(['command' => 'not_supported_button'], 'callback')
-                : self::payloadHandler($data['payload']);
+            if (isset($data['payload']['command']) and $data['payload']['command'] == 'not_supported_button')
+                self::payloadHandler(['command' => 'not_supported_button'], 'callback');
+            else
+                $data['type'] == 'message_event'
+                    ? self::payloadHandler($data['payload'], 'callback')
+                    : self::payloadHandler($data['payload'], 'default');
+
         }
     }
 
@@ -73,9 +77,11 @@ final class MessageController extends Controller
      */
     private static function payloadHandler(array $payload, string $type = 'default'): void
     {
+
         $payloads = CommandList::payload();
         $key = key($payload);
-        $value = current($payload);
+        Utils::var_dumpToStdout($payload[$key]);
+        $value = is_array($payload[$key]) ? current($payload[$key]) : $payload[$key];
 
         foreach ($payloads[$key] as $array) {
             if ($value === $array['payload'] and $array['type'] === $type) self::method_execute($array['method']);

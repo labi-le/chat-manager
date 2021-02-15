@@ -13,7 +13,7 @@ use SleekDB\Exceptions\JsonException;
 use SleekDB\Store;
 
 
-abstract class QueryBuilder implements IQuery
+abstract class QueryBuilder
 {
 
     /**
@@ -146,7 +146,7 @@ abstract class QueryBuilder implements IQuery
      * @return bool
      * @throws IOException
      */
-    private function deleteTable(): bool
+    public function deleteTable(): bool
     {
         unset($this->data);
         return $this->db->deleteStore();

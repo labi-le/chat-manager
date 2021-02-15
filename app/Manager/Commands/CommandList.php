@@ -59,7 +59,7 @@ final class CommandList
 
             [
                 'text' => ['gui'],
-                'method' => ['isChat', 'isAdmin', 'sendCallbackSettings']
+                'method' => ['isChat', 'isAdmin', 'guiSettingsOffset']
             ],
 
 
@@ -94,26 +94,22 @@ final class CommandList
 
             'settings' =>
                 [
+
+                ],
+
+            'gui_settings' =>
+                [
                     [
-                        'payload' => 'exit_msg',
-                        'method' => ['_eventCheckAdmin', '_chatSwitcher']
+                        'payload' => 'next',
+                        'method' => ['guiSettingsOffset'],
+                        'type' => 'callback'
                     ],
 
                     [
-                        'payload' => 'welcome_msg',
-                        'method' => ['_eventCheckAdmin', '_chatSwitcher']
-                    ],
-
-                    [
-                        'payload' => 'rules',
-                        'method' => ['_eventCheckAdmin', '_chatSwitcher']
-                    ],
-
-                    [
-                        'payload' => 'auto_kick',
-                        'method' => ['_eventCheckAdmin', '_chatSwitcher']
-                    ],
-
+                        'payload' => 'back',
+                        'method' => ['guiSettingsOffset'],
+                        'type' => 'callback'
+                    ]
                 ],
 
             'chat' =>

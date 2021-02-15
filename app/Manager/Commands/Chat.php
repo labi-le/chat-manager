@@ -53,37 +53,73 @@ trait Chat
 
     }
 
+    public function guiSettingsOffset($offset = 0)
+    {
+        $offset = $this->vk->getVars('payload')['gui_settings']['offset'] ?? $offset;
+
+        $message = $this->vk
+            ->msg('🔧 Callback Settings')
+            ->kbd($this->sendCallbackSettings($offset), true);
+
+        Utils::var_dumpToStdout($this->sendCallbackSettings($offset));
+        $this->vk->getVars('type') == 'message_new'
+            ? $message->send()
+            : $message->sendEdit($this->vk->getVars('peer_id'), null, $this->vk->getVars('message_id'));
+
+
+//            ->send();
+//        Utils::var_dumpToStdout(212221122121);
+
+    }
+
     /**
      * Отправить каллбек кнопки с настройками с возможностью их переключать
+     * @param int $offset
+     * @return array
      */
-    public function sendCallbackSettings()
+    private function sendCallbackSettings(int $offset): array
     {
         $button = null;
         $i = 0;
-        foreach ($this->db->showAllSettings() as $setting => $key) {
-            foreach ($key as $value) {
-                $button[$i][] = $this->vk->buttonCallback($value['description'], $value['action'] ? 'green' : 'red', ['gui' => 'settings', 'action' => key($key)]);
+        foreach ($this->db->showAllSettings() as $category => $actions) {
+            foreach ($actions as $action => $setting) {
+                $button[$i][] = $this->vk->buttonCallback($setting['description'], $setting['action'] ? 'green' : 'red',
+                    [
+                        'gui_settings' =>
+                            [
+                                'action' => $action
+                            ]
+                    ]);
                 $i++;
-                if (count($button) === 5) {
-                    $button[$i][] = $this->vk->buttonCallback('⏩', 'white', ['gui' => 'settings', 'action' => 'next']);
-                    break(2);
-                }
             }
         }
-//        $button[$i][] = $this->vk->buttonCallback('⏪', 'white', ['gui_settings' => 'info']);
 
-        Utils::var_dumpToStdout($button);
+        $button = array_splice($button, $offset, 5);
+        if ($offset > 0) $button[6666][] = $this->vk->buttonCallback('Back', 'white',
+            [
+                'gui_settings' =>
+                    [
+                        'action' => 'back',
+                        'offset' => $offset - 5
+                    ]
+            ]);
 
-        $this->vk
-            ->msg('🔧 Gui Settings')
-            ->kbd($button, true)
-            ->send();
+        if ($offset >= 0 and count($button) >= $offset) $button[6666][] = $this->vk->buttonCallback('Next', 'white',
+            [
+                'gui_settings' =>
+                    [
+                        'action' => 'next',
+                        'offset' => $offset + 5
+                    ]
+            ]);
 
-        $b[] = $this->vk->buttonText('⏩', 'white', ['command' => 'not_supported_button']);
-        $this->vk
-            ->msg('🔧')
-            ->kbd([$b], true)
-            ->send();
+        return $button;
+//        Utils::var_dumpToStdout($button);
+//        $this->vk
+//            ->msg('🔧 Callback Settings')
+//            ->kbd($button, true)
+//            ->send();
+
     }
     //TODO Написать изменение настроек гуи
     //TODO написать регулярку для варна за ссылки

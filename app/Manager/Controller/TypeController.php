@@ -12,7 +12,7 @@ final class TypeController extends Controller
      */
     public static function message_event(array $data): void
     {
-        is_null($data['payload']) ?: CommandController::payloadHandler($data['payload']);
+        MessageController::parse($data);
     }
 
     /**

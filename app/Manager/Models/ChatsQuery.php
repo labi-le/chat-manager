@@ -338,6 +338,27 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                                     self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
                                     self::ACTION => self::NO_ACTION
                                 ],
+
+                            'gaysex' =>
+                                [
+                                    self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+                            'gay' =>
+                                [
+                                    self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+                            'dwdww' =>
+                                [
+                                    self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
+                                    self::ACTION => self::NO_ACTION
+                                ],
+                            'dwdwdwdwdwdw' =>
+                                [
+                                    self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
+                                    self::ACTION => self::NO_ACTION
+                                ],
                         ],
 
                     self::PENALTY =>

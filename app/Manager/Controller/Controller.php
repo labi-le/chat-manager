@@ -4,13 +4,13 @@ namespace Manager\Controller;
 
 use Manager\Commands\Commands;
 use Manager\Models\Callback;
-use Manager\Models\IQuery;
 use Manager\Models\LongPoll;
+use Manager\Models\QueryBuilder;
 
 class Controller
 {
     static Callback|LongPoll $vk;
-    static IQuery $db;
+    static QueryBuilder $db;
 
     /**
      * Вызов типа события и передача данных
@@ -21,7 +21,6 @@ class Controller
     public static function handle(array $data, Callback|LongPoll $bot): void
     {
         $type = $data['type'];
-
         if (method_exists(TypeController::class, $type)) {
             self::$vk = $bot;
             TypeController::$type($data);
