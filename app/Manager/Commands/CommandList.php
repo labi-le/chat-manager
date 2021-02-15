@@ -73,6 +73,11 @@ final class CommandList
 
     /**
      * Массив с payload (нажатие на кнопку)
+     * первый ключ - категория команды
+     * payload - команда из категории
+     * method - какой метод должен выполняться
+     * type - тип кнопки (callback или default)
+     *
      * @return array
      */
     public static function payload(): array
@@ -81,8 +86,9 @@ final class CommandList
 
             'command' => [
                 [
-                    'key' => 'not_supported_button',
-                    'method' => ['_not_supported_button']
+                    'payload' => 'not_supported_button',
+                    'method' => ['not_supported_button'],
+                    'type' => 'callback'
                 ]
             ],
 

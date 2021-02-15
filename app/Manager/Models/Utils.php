@@ -300,17 +300,17 @@ class Utils
      * const KICK_ACTION = 2;
      * const BAN_ACTION = 3;
      * const SHOW_ACTION = 4;
-     * @param int $int
-     * @return false|string
+     * @param int|null $int $int
+     * @return string|null
      */
-    public static function intToStringAction(int $int): bool|string
+    public static function intToStringAction(int|null $int): null|string
     {
-        $array[0] = 'Ничего';
-        $array[1] = 'Варн';
-        $array[2] = 'Кикнуть';
-        $array[3] = 'Забанить';
-        $array[4] = 'Показывать';
+        $array[0] = '¯\_(ツ)_/¯';
+        $array[1] = '⚠ Варн';
+        $array[2] = '🚷 Кик';
+        $array[3] = '🚯 Бан';
+        $array[4] = '🔔 Показать';
 
-        return $array[$int] ?? false;
+        return $array[$int] ?? null;
     }
 }

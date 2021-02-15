@@ -297,45 +297,45 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                         [
                             self::WELCOME_MESSAGE_TEXT =>
                                 [
-                                    self::DESCRIPTION => 'Приветственное сообщение',
+                                    self::DESCRIPTION => '👋🏻 Приветственное сообщение',
                                     self::DEFAULT => 'Привет!',
                                     self::ACTION => self::NO_ACTION
                                 ],
 
                             self::EXIT_MESSAGE_TEXT =>
                                 [
-                                    self::DESCRIPTION => 'Сообщение после выхода участника',
+                                    self::DESCRIPTION => '👋🏻 Сообщение после выхода участника',
                                     self::DEFAULT => 'Пока',
                                     self::ACTION => self::NO_ACTION
                                 ],
 
                             self::USER_LEAVE =>
                                 [
-                                    self::DESCRIPTION => 'Юзер покинул конференцию',
+                                    self::DESCRIPTION => '🚪 Юзер покинул конференцию',
                                     self::ACTION => self::NO_ACTION
                                 ],
 
                             self::URL =>
                                 [
-                                    self::DESCRIPTION => 'Юзеру отправил ссылку',
+                                    self::DESCRIPTION => '🔗 Юзер отправил ссылку',
                                     self::ACTION => self::NO_ACTION
                                 ],
 
                             self::STICKER =>
                                 [
-                                    self::DESCRIPTION => 'Юзеру отправил стикер',
+                                    self::DESCRIPTION => '😡 Юзер отправил стикер',
                                     self::ACTION => self::NO_ACTION
                                 ],
 
                             self::WALL =>
                                 [
-                                    self::DESCRIPTION => 'Юзеру отправил пост',
+                                    self::DESCRIPTION => '📒 Юзер отправил пост',
                                     self::ACTION => self::NO_ACTION
                                 ],
 
                             self::VOICE_MESSAGE =>
                                 [
-                                    self::DESCRIPTION => 'Юзер отправил голосовое сообщение',
+                                    self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
                                     self::ACTION => self::NO_ACTION
                                 ],
                         ],
@@ -344,29 +344,15 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                         [
                             'warn' =>
                                 [
-                                    self::DESCRIPTION => 'Дефолтное кол-во варнов',
+                                    self::DESCRIPTION => '⚠ Дефолтное кол-во варнов',
                                     self::DEFAULT => 3,
-                                    self::ACTION => self::BAN_ACTION
-                                ],
-
-                            'ban' =>
-                                [
-                                    self::DESCRIPTION => 'Дефолтное время бана',
-                                    self::DEFAULT => 3600,
                                     self::ACTION => self::BAN_ACTION
                                 ],
 
                             'add_banned_user' =>
                                 [
-                                    self::DESCRIPTION => 'Добавил пользователя который находится в бане',
+                                    self::DESCRIPTION => '🍼🍌 Приглашение юзера который находится в бане',
                                     self::ACTION => self::NO_ACTION
-                                ],
-
-                            'mute' =>
-                                [
-                                    self::DESCRIPTION => 'Дефолтное время мута',
-                                    self::DEFAULT => 3600,
-                                    self::ACTION => self::WARN_ACTION
                                 ],
 
                         ],
@@ -375,7 +361,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                         [
                             self::MAX_WORDS =>
                                 [
-                                    self::DESCRIPTION => 'Лимит слов',
+                                    self::DESCRIPTION => '📖 Лимит слов',
                                     self::DEFAULT => 0,
                                     self::ACTION => self::NO_ACTION
                                 ],
@@ -387,7 +373,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                              */
                             self::FORBIDDEN_WORDS =>
                                 [
-                                    self::DESCRIPTION => 'Список запрещенных слов',
+                                    self::DESCRIPTION => '📕 Список запрещенных слов',
                                     self::DEFAULT => [],
                                     self::ACTION => self::NO_ACTION
                                 ],

@@ -43,9 +43,9 @@ trait Chat
                 elseif (is_array($value['default'])) $default = implode(", ", $value['default']);
                 else $default = $value['default'];
 
-                if ($setting === ChatsQuery::ACTION) $text['action'] .= $value['description'] . "\nСтатус - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
-                if ($setting === ChatsQuery::PENALTY) $text['penalty'] .= $value['description'] . ' - ' . $default . "\nНаказание - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
-                if ($setting === ChatsQuery::SPECIFIC) $text['specific'] .= $value['description'] . ' - ' . $default . "\nНаказание - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
+                if ($setting === ChatsQuery::ACTION) $text['action'] .= $value['description'] . "\nДействие - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
+                if ($setting === ChatsQuery::PENALTY) $text['penalty'] .= $value['description'] . ' - ' . $default . "\nВ случае нарушения - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
+                if ($setting === ChatsQuery::SPECIFIC) $text['specific'] .= $value['description'] . ' - ' . $default . "\nВ случае нарушения - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
             }
         }
         $this->print(implode("\n", $text));
@@ -60,18 +60,29 @@ trait Chat
     {
         $button = null;
         $i = 0;
-        foreach ($this->db->showAllSettings() as $setting => $option) {
-            $button[$i][] = $this->vk->buttonCallback($option['description'], $option['status'] ? 'green' : 'red');
-            $i++;
+        foreach ($this->db->showAllSettings() as $setting => $key) {
+            foreach ($key as $value) {
+                $button[$i][] = $this->vk->buttonCallback($value['description'], $value['action'] ? 'green' : 'red', ['gui' => 'settings', 'action' => key($key)]);
+                $i++;
+                if (count($button) === 5) {
+                    $button[$i][] = $this->vk->buttonCallback('⏩', 'white', ['gui' => 'settings', 'action' => 'next']);
+                    break(2);
+                }
+            }
         }
-        $button[$i][] = $this->vk->buttonCallback('⏪', 'white', ['gui_settings' => 'info']);
-        $button[$i][] = $this->vk->buttonCallback('⏩', 'white', ['gui_settings' => 'info']);
+//        $button[$i][] = $this->vk->buttonCallback('⏪', 'white', ['gui_settings' => 'info']);
 
         Utils::var_dumpToStdout($button);
 
         $this->vk
             ->msg('🔧 Gui Settings')
             ->kbd($button, true)
+            ->send();
+
+        $b[] = $this->vk->buttonText('⏩', 'white', ['command' => 'not_supported_button']);
+        $this->vk
+            ->msg('🔧')
+            ->kbd([$b], true)
             ->send();
     }
     //TODO Написать изменение настроек гуи

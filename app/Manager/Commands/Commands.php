@@ -59,9 +59,9 @@ final class Commands
      * @return bool
      * @throws Exception
      */
-    public function isChat(): bool
+    public function isPrivateMessage(): bool
     {
-        return $this->vk->getVars('chat_id') ? true : false;
+        if ($this->isChat() === false) return true; else return false;
     }
 
     /**
@@ -69,15 +69,16 @@ final class Commands
      * @return bool
      * @throws Exception
      */
-    public function isPrivateMessage(): bool
+    public function isChat(): bool
     {
-        if ($this->isChat() === false) return true; else return false;
+        return $this->vk->getVars('chat_id') ? true : false;
     }
 
     /*
      * Котиков int
      * return котики
      */
+
     public function cat()
     {
         $count = intval(Utils::getWord($this->vk->getVars('text_lower'), 1));
@@ -157,6 +158,12 @@ final class Commands
         $this->vk->msg()
             ->img($blin)
             ->forward()
+            ->send();
+    }
+
+    public function not_supported_button()
+    {
+        $this->vk->msg('callback кнопки не работают в десктопной версии сайта')
             ->send();
     }
 }
