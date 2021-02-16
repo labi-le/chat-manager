@@ -53,6 +53,10 @@ trait Chat
 
     }
 
+    /**
+     * Листнуть вперед или назад в sendCallbackSettings
+     * @param int $offset
+     */
     public function guiSettingsOffset($offset = 0)
     {
         $offset = $this->vk->getVars('payload')['gui_settings']['offset'] ?? $offset;
@@ -66,10 +70,6 @@ trait Chat
             ? $message->send()
             : $message->sendEdit($this->vk->getVars('peer_id'), null, $this->vk->getVars('message_id'));
 
-
-//            ->send();
-//        Utils::var_dumpToStdout(212221122121);
-
     }
 
     /**
@@ -79,23 +79,27 @@ trait Chat
      */
     private function sendCallbackSettings(int $offset): array
     {
-        $button = null;
-        $i = 0;
-        foreach ($this->db->showAllSettings() as $category => $actions) {
-            foreach ($actions as $action => $setting) {
-                $button[$i][] = $this->vk->buttonCallback($setting['description'], $setting['action'] ? 'green' : 'red',
-                    [
-                        'gui_settings' =>
-                            [
-                                'action' => $action
-                            ]
-                    ]);
-                $i++;
+        $generateKeyboard = call_user_func(function (): array {
+            $i = 0;
+            $button = [];
+            foreach ($this->db->showAllSettings() as $category => $actions) {
+                foreach ($actions as $action => $setting) {
+                    mb_strlen($setting['description'] > 40) ? $description = mb_substr($setting['description'], 0, 40) : $description = $setting['description'];
+                    $button[$i][] = $this->vk->buttonCallback($description, 'blue',
+                        [
+                            'gui_settings' =>
+                                [
+                                    'action' => $action
+                                ]
+                        ]);
+                    $i++;
+                }
             }
-        }
+            return $button;
+        });
 
-        $button = array_splice($button, $offset, 5);
-        if ($offset > 0) $button[6666][] = $this->vk->buttonCallback('Back', 'white',
+        $button = array_splice($generateKeyboard, $offset, 5);
+        if ($offset > 0) $button[2e9][] = $this->vk->buttonCallback('Back', 'white',
             [
                 'gui_settings' =>
                     [
@@ -104,7 +108,7 @@ trait Chat
                     ]
             ]);
 
-        if ($offset >= 0 and count($button) >= $offset) $button[6666][] = $this->vk->buttonCallback('Next', 'white',
+        if ($offset >= 0 and count($button) >= $offset) $button[2e9][] = $this->vk->buttonCallback('Next', 'white',
             [
                 'gui_settings' =>
                     [

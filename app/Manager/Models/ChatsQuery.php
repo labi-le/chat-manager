@@ -339,24 +339,9 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                                     self::ACTION => self::NO_ACTION
                                 ],
 
-                            'gaysex' =>
+                            'do_crap' =>
                                 [
-                                    self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
-                                    self::ACTION => self::NO_ACTION
-                                ],
-                            'gay' =>
-                                [
-                                    self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
-                                    self::ACTION => self::NO_ACTION
-                                ],
-                            'dwdww' =>
-                                [
-                                    self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
-                                    self::ACTION => self::NO_ACTION
-                                ],
-                            'dwdwdwdwdwdw' =>
-                                [
-                                    self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
+                                    self::DESCRIPTION => '🤪 Придать живости боту',
                                     self::ACTION => self::NO_ACTION
                                 ],
                         ],
@@ -372,7 +357,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
                             'add_banned_user' =>
                                 [
-                                    self::DESCRIPTION => '🍼🍌 Приглашение юзера который находится в бане',
+                                    self::DESCRIPTION => '🍼🍌 Приглашение забаненного юзера',
                                     self::ACTION => self::NO_ACTION
                                 ],
 
