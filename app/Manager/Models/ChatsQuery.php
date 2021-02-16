@@ -56,6 +56,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     const ACTION = 'action';
     const SPECIFIC = 'specific';
     const PENALTY = 'penalty';
+    const ALLOWED_OPTIONS = 'allowed_options';
 
     const DESCRIPTION = 'description';
     const MEMBERS = 'members';
@@ -299,50 +300,60 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                                 [
                                     self::DESCRIPTION => '👋🏻 Приветственное сообщение',
                                     self::DEFAULT => 'Привет!',
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::SHOW_ACTION]
                                 ],
 
                             self::EXIT_MESSAGE_TEXT =>
                                 [
                                     self::DESCRIPTION => '👋🏻 Сообщение после выхода участника',
                                     self::DEFAULT => 'Пока',
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::SHOW_ACTION]
+
                                 ],
 
                             self::USER_LEAVE =>
                                 [
                                     self::DESCRIPTION => '🚪 Юзер покинул конференцию',
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION, self::WARN_ACTION]
                                 ],
 
                             self::URL =>
                                 [
                                     self::DESCRIPTION => '🔗 Юзер отправил ссылку',
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION, self::WARN_ACTION]
                                 ],
 
                             self::STICKER =>
                                 [
                                     self::DESCRIPTION => '😡 Юзер отправил стикер',
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION, self::WARN_ACTION]
                                 ],
 
                             self::WALL =>
                                 [
                                     self::DESCRIPTION => '📒 Юзер отправил пост',
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION, self::WARN_ACTION]
                                 ],
 
                             self::VOICE_MESSAGE =>
                                 [
                                     self::DESCRIPTION => '🎙 Юзер отправил голосовое сообщение',
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION, self::WARN_ACTION]
                                 ],
 
                             'do_crap' =>
                                 [
                                     self::DESCRIPTION => '🤪 Придать живости боту',
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    //todo доделать
+                                    self::ALLOWED_OPTIONS => []
                                 ],
                         ],
 
@@ -352,13 +363,15 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                                 [
                                     self::DESCRIPTION => '⚠ Дефолтное кол-во варнов',
                                     self::DEFAULT => 3,
-                                    self::ACTION => self::BAN_ACTION
+                                    self::ACTION => self::BAN_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION]
                                 ],
 
                             'add_banned_user' =>
                                 [
                                     self::DESCRIPTION => '🍼🍌 Приглашение забаненного юзера',
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION, self::WARN_ACTION]
                                 ],
 
                         ],
@@ -369,7 +382,8 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                                 [
                                     self::DESCRIPTION => '📖 Лимит слов',
                                     self::DEFAULT => 0,
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION, self::WARN_ACTION]
                                 ],
 
 
@@ -381,7 +395,8 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                                 [
                                     self::DESCRIPTION => '📕 Список запрещенных слов',
                                     self::DEFAULT => [],
-                                    self::ACTION => self::NO_ACTION
+                                    self::ACTION => self::NO_ACTION,
+                                    self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION, self::WARN_ACTION]
                                 ],
                         ],
                 ],

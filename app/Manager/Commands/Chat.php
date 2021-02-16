@@ -54,6 +54,14 @@ trait Chat
     }
 
     /**
+     * Провалиться в определенный пункт настроек
+     */
+    public function guiSetOptions()
+    {
+
+    }
+
+    /**
      * Листнуть вперед или назад в sendCallbackSettings
      * @param int $offset
      */
@@ -65,7 +73,7 @@ trait Chat
             ->msg('🔧 Callback Settings')
             ->kbd($this->sendCallbackSettings($offset), true);
 
-        Utils::var_dumpToStdout($this->sendCallbackSettings($offset));
+//        Utils::var_dumpToStdout($this->sendCallbackSettings($offset));
         $this->vk->getVars('type') == 'message_new'
             ? $message->send()
             : $message->sendEdit($this->vk->getVars('peer_id'), null, $this->vk->getVars('message_id'));
@@ -118,12 +126,6 @@ trait Chat
             ]);
 
         return $button;
-//        Utils::var_dumpToStdout($button);
-//        $this->vk
-//            ->msg('🔧 Callback Settings')
-//            ->kbd($button, true)
-//            ->send();
-
     }
     //TODO Написать изменение настроек гуи
     //TODO написать регулярку для варна за ссылки

@@ -65,12 +65,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/digitalstars/simplevk.git",
-                "reference": "625efaf16e0397dcd2ef08517088a286167f93b2"
+                "reference": "6fc1dce93cedf6d7a0bc7f50dc5d0deeee9bc489"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/625efaf16e0397dcd2ef08517088a286167f93b2",
-                "reference": "625efaf16e0397dcd2ef08517088a286167f93b2",
+                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/6fc1dce93cedf6d7a0bc7f50dc5d0deeee9bc489",
+                "reference": "6fc1dce93cedf6d7a0bc7f50dc5d0deeee9bc489",
                 "shasum": ""
             },
             "require": {
@@ -108,20 +108,20 @@
                 "issues": "https://github.com/digitalstars/simplevk/issues",
                 "source": "https://github.com/digitalstars/simplevk/tree/testing"
             },
-            "time": "2021-02-06T15:04:52+00:00"
+            "time": "2021-02-16T12:04:12+00:00"
         },
         {
             "name": "rakibtg/sleekdb",
-            "version": "2.1.1",
+            "version": "2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rakibtg/SleekDB.git",
-                "reference": "08dfdb1f5abb14f38ad752eab1a4944ae002f542"
+                "reference": "27be7fb3111811a33d9ed744ae47f1eee60c6567"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rakibtg/SleekDB/zipball/08dfdb1f5abb14f38ad752eab1a4944ae002f542",
-                "reference": "08dfdb1f5abb14f38ad752eab1a4944ae002f542",
+                "url": "https://api.github.com/repos/rakibtg/SleekDB/zipball/27be7fb3111811a33d9ed744ae47f1eee60c6567",
+                "reference": "27be7fb3111811a33d9ed744ae47f1eee60c6567",
                 "shasum": ""
             },
             "require": {
@@ -162,9 +162,9 @@
             ],
             "support": {
                 "issues": "https://github.com/rakibtg/SleekDB/issues",
-                "source": "https://github.com/rakibtg/SleekDB/tree/2.1.1"
+                "source": "https://github.com/rakibtg/SleekDB/tree/2.5"
             },
-            "time": "2021-01-31T21:52:20+00:00"
+            "time": "2021-02-11T02:47:29+00:00"
         }
     ],
     "packages-dev": [],

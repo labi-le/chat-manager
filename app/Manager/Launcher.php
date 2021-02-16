@@ -11,15 +11,12 @@ class Launcher
 {
     private static string $configFile = './config.json';
 
-    public static function run($type = null)
+    public static function run()
     {
         self::checkPhpVersion();
-
-        $config = self::getConfigFile();
+        $config = self::openFile();
         $auth = $config->auth;
-
-        $type = $type ?? $config->type;
-
+        $type = $config->type;
 
         if ($type == 'longpool') {
             $bot = LongPoll::create($auth->token, $auth->v);
@@ -28,27 +25,15 @@ class Launcher
                 $bot->parse();
                 Controller::handle($bot->getVars(), $bot);
             });
-        } elseif ($type == 'callback') {
-            $confirm_key = $auth->confirmation ?? throw new Exception('Confirmation key not found');
-            $bot = Callback::create($auth->token, $auth->v)->setConfirm($confirm_key);
-            $bot->parse();
 
+        } elseif ($type == 'callback') {
+            $bot = Callback::create($auth->token, $auth->v)->setConfirm($auth->confirmation)->setSecret($auth->secret);
+
+            $bot->parse();
             Controller::handle($bot->getVars(), $bot);
 
         }
 
-    }
-
-    private static function checkConfigFile($file)
-    {
-        $file ?? throw new Exception('config.json не найден');
-        $file->auth ?? throw new Exception('Auth data not found');
-        $file->type ?? throw new Exception('Type not found');
-    }
-
-    private static function configFile()
-    {
-        return json_decode(file_get_contents(self::$configFile));
     }
 
     public static function checkPhpVersion()
@@ -56,10 +41,37 @@ class Launcher
         PHP_MAJOR_VERSION >= 8 ?: die('Версия PHP ниже 8, обновляйся');
     }
 
-    private static function getConfigFile()
+    private static function openFile()
     {
         $config = self::configFile();
         self::checkConfigFile($config);
         return $config;
     }
+
+    private static function configFile()
+    {
+        return json_decode(file_get_contents(self::$configFile));
+    }
+
+    private static function checkConfigFile($file)
+    {
+        $file ?? throw new Exception('config.json не найден');
+        $file->auth ?? throw new Exception('Auth data not found');
+
+        switch ($file->type) {
+            case 'callback' :
+                $file->auth->confirmation ?? throw new Exception('Не указан confirmation');
+                $file->auth->secret ?? throw new Exception('Не указан secret, если не используется поставь false');
+                break;
+
+            case 'longpool' :
+                if (php_sapi_name() == "cli")
+                    die('Запуск longpool возможен только в cli режиме');
+                break;
+
+            default:
+                throw new Exception('Не указан тип работы бота');
+        }
+    }
+
 }

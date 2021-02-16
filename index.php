@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-echo 'Ok';
+//echo 'Ok';
 
 use Manager\Launcher;
 
