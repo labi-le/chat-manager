@@ -4,13 +4,14 @@ namespace Manager\Controller;
 
 use Manager\Commands\Commands;
 use Manager\Models\Callback;
+use Manager\Models\ChatsQuery;
 use Manager\Models\LongPoll;
 use Manager\Models\QueryBuilder;
 
 class Controller
 {
     static Callback|LongPoll $vk;
-    static QueryBuilder $db;
+    static QueryBuilder|ChatsQuery $db;
 
     /**
      * Вызов типа события и передача данных

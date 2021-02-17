@@ -8,21 +8,21 @@ interface IChatActions
 {
     /**
      * Показать приветственное сообщение
-     * @return string
+     * @return string|false
      */
-    public function showWelcomeMessage(): string;
+    public function showWelcomeMessage(): string|false;
 
     /**
      * Показать сообщение при выходе
-     * @return string
+     * @return string|false
      */
-    public function showExitMessage(): string;
+    public function showExitMessage(): string|false;
 
     /**
      * Показать запретные слова
-     * @return string
+     * @return string|false
      */
-    public function showForbiddenWords(): string;
+    public function showForbiddenWords(): string|false;
 
     /**
      * Получить все настройки
@@ -33,10 +33,9 @@ interface IChatActions
     /**
      * Получить статус настройки
      * @param string $setting
-     * @param string $action
      * @return int|string|array
      */
-    public function statusSettings(string $setting, string $action): int|string|array;
+    public function statusSettings(string $setting): int|string|array;
 
     /**
      * Установить сообщение которое показывается после выхода

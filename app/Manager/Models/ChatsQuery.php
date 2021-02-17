@@ -51,6 +51,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     const KICK_ACTION = 2;
     const BAN_ACTION = 3;
     const SHOW_ACTION = 4;
+    const ON_ACTION = 5;
 
     const DEFAULT = 'default';
     const ACTION = 'action';
@@ -63,8 +64,8 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     const EXITED = 'exited';
     const WARNED = 'warned';
     const MUTED = 'muted';
-
     const BANNED = 'banned';
+
     /**
      * Стандартные настройки для базы данных
      * https://sleekdb.github.io/#/configurations
@@ -82,21 +83,30 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     /**
      * @inheritDoc
      * @param int $action
-     * @param string $path
      * @return bool
      */
     public function setActionUserLeave(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::BAN_ACTION], $action, self::USER_LEAVE);
+        return $this->setAction($action, self::ACTION . self::USER_LEAVE);
     }
 
-    private function setAction(array $allowed_actions, int $action, string $path): bool
+    private function setAction(int $action, string $path): bool
     {
-        if (in_array($action, $allowed_actions)) {
+        if (in_array($action, self::getAllowedActions($path))) {
             $this->data->set(self::SETTINGS . $path . self::ACTION, $action);
             $this->update($this->data);
             return true;
         } else return false;
+    }
+
+    /**
+     * Получить опции разрешённые к установке определённым действиям
+     * @param string $path
+     * @return array|null
+     */
+    private function getAllowedActions(string $path): array|null
+    {
+        return $this->data->get(self::SETTINGS . $path . self::ALLOWED_OPTIONS);
     }
 
     /**
@@ -196,37 +206,38 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     /**
      * @inheritDoc
      */
-    public function showWelcomeMessage(): string
+    public function showWelcomeMessage(): string|false
     {
-        $welcome_message = $this->statusSettings(self::ACTION . self::WELCOME_MESSAGE_TEXT, self::DEFAULT);
-        return mb_strlen($welcome_message) ? 'Сообщение не установлено' : $welcome_message;
+        $welcome_message = $this->statusSettings(self::ACTION . self::WELCOME_MESSAGE_TEXT . self::DEFAULT);
+        return empty($welcome_message) ? false : $welcome_message;
     }
 
     /**
      * @inheritDoc
      */
-    public function statusSettings(string $setting, string $action): int|string|array
+    public function statusSettings(string $setting): int|string|array
     {
-        return $this->data->get(self::SETTINGS . $setting . $action);
+        return $this->data->get(self::SETTINGS . '.' . $setting);
+//        return $this->data->get(self::SETTINGS . $setting);
     }
 
     /**
      * @inheritDoc
      */
-    public function showExitMessage(): string
+    public function showExitMessage(): string|false
     {
-        $exit_message = $this->statusSettings(self::ACTION . self::EXIT_MESSAGE_TEXT, self::DEFAULT);
-        return mb_strlen($exit_message) ? 'Сообщение не установлено' : $exit_message;
+        $exit_message = $this->statusSettings(self::ACTION . self::EXIT_MESSAGE_TEXT . self::DEFAULT);
+        return empty($exit_message) ? false : $exit_message;
 
     }
 
     /**
      * @inheritDoc
      */
-    public function showForbiddenWords(): string
+    public function showForbiddenWords(): string|false
     {
-        $forbidden_words = $this->statusSettings(self::SPECIFIC . self::FORBIDDEN_WORDS, self::DEFAULT);
-        return $forbidden_words === [] ? 'Список запрещенных слов пуст' : implode(', ', $forbidden_words);
+        $forbidden_words = $this->statusSettings(self::SPECIFIC . self::FORBIDDEN_WORDS . self::DEFAULT);
+        return $forbidden_words === [] ? false : implode(', ', $forbidden_words);
     }
 
     /**
@@ -242,7 +253,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionWelcomeMessage(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::SHOW_ACTION], $action, self::ACTION . self::WELCOME_MESSAGE_TEXT);
+        return $this->setAction($action, self::ACTION . self::WELCOME_MESSAGE_TEXT);
     }
 
     /**
@@ -250,7 +261,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionForbiddenWords(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::FORBIDDEN_WORDS);
+        return $this->setAction($action, self::SPECIFIC . self::FORBIDDEN_WORDS);
     }
 
     /**
@@ -258,7 +269,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionUrl(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::ACTION . self::URL);
+        return $this->setAction($action, self::ACTION . self::URL);
     }
 
     /**
@@ -266,7 +277,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionVoiceMessage(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::ACTION . self::VOICE_MESSAGE);
+        return $this->setAction($action, self::ACTION . self::VOICE_MESSAGE);
     }
 
     /**
@@ -274,7 +285,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      */
     public function setActionSticker(int $action): bool
     {
-        return $this->setAction([self::NO_ACTION, self::WARN_ACTION, self::KICK_ACTION, self::BAN_ACTION], $action, self::ACTION . self::STICKER);
+        return $this->setAction($action, self::ACTION . self::STICKER);
     }
 
     /**
@@ -352,8 +363,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                                 [
                                     self::DESCRIPTION => '🤪 Придать живости боту',
                                     self::ACTION => self::NO_ACTION,
-                                    //todo доделать
-                                    self::ALLOWED_OPTIONS => []
+                                    self::ALLOWED_OPTIONS => [self::ON_ACTION]
                                 ],
                         ],
 

@@ -100,14 +100,20 @@ final class CommandList
             'gui_settings' =>
                 [
                     [
+                        'payload' => 'separate_action',
+                        'method' => ['eventNoAccess', 'guiSetOptions'],
+                        'type' => 'callback'
+                    ],
+
+                    [
                         'payload' => 'next',
-                        'method' => ['guiSettingsOffset'],
+                        'method' => ['eventNoAccess', 'guiSettingsOffset'],
                         'type' => 'callback'
                     ],
 
                     [
                         'payload' => 'back',
-                        'method' => ['guiSettingsOffset'],
+                        'method' => ['eventNoAccess', 'guiSettingsOffset'],
                         'type' => 'callback'
                     ]
                 ],

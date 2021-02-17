@@ -40,18 +40,6 @@ final class Commands
     }
 
     /**
-     * Является ли админом
-     * @return bool
-     * @throws Exception
-     */
-    public function isAdmin(): bool
-    {
-        return $this->vk
-            ->isAdmin($this->vk->getVars('user_id'), $this->vk->getVars('peer_id'))
-            ? true : false;
-    }
-
-    /**
      * Является ли чатом
      * @return bool
      * @throws Exception
@@ -71,10 +59,6 @@ final class Commands
         return $this->vk->getVars('chat_id') ? true : false;
     }
 
-    /*
-     * Котиков int
-     * return котики
-     */
     public function cat()
     {
         $count = intval(Utils::getWord($this->vk->getVars('text_lower'), 1));
@@ -94,6 +78,11 @@ final class Commands
         }
     }
 
+    /*
+     * Котиков int
+     * return котики
+     */
+
     public function keyboard()
     {
         $kb[] = $this->vk->buttonText('1', 'white', null);
@@ -108,7 +97,6 @@ final class Commands
         $word = Utils::removeFirstWord($this->vk->getVars('text_lower')); //получить все подстроки кроме первой
         $this->vk->msg($word)->send();
     }
-
 
     public function kon4()
     {
@@ -159,5 +147,32 @@ final class Commands
     {
         $this->vk->msg('callback кнопки не работают в десктопной версии сайта')
             ->send();
+    }
+
+    /**
+     * Является ли тот кто нажал на каллбек кнопку админом
+     * @return bool
+     * @throws Exception
+     */
+    public function eventNoAccess(): bool
+    {
+        if ($this->isAdmin())
+            return true;
+        else {
+            $this->vk->eventAnswerSnackbar('Нет доступа к каллбек кнопке');
+            return false;
+        }
+    }
+
+    /**
+     * Является ли админом
+     * @return bool
+     * @throws Exception
+     */
+    public function isAdmin(): bool
+    {
+        return $this->vk
+            ->isAdmin($this->vk->getVars('user_id'), $this->vk->getVars('peer_id'))
+            ? true : false;
     }
 }

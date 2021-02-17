@@ -310,6 +310,7 @@ class Utils
         $array[2] = '🚷 Кик';
         $array[3] = '🚯 Бан';
         $array[4] = '🔔 Показать';
+        $array[5] = '💡 On';
 
         return $array[$int] ?? null;
     }
