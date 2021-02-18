@@ -95,7 +95,6 @@ trait Chat
             ->msg($option['description'] . "\n\nВозможные действия:")
             ->kbd($button, true)
             ->sendEdit($this->vk->getVars('peer_id'), null, $this->vk->getVars('message_id'));
-//        Utils::var_dumpToStdout($var);
 
     }
 
@@ -111,7 +110,6 @@ trait Chat
             ->msg('🔧 Callback Settings')
             ->kbd($this->sendCallbackSettings($offset), true);
 
-//        Utils::var_dumpToStdout($this->sendCallbackSettings($offset));
         $this->vk->getVars('type') == 'message_new'
             ? $message->send()
             : $message->sendEdit($this->vk->getVars('peer_id'), null, $this->vk->getVars('message_id'));
@@ -125,53 +123,18 @@ trait Chat
      */
     private function sendCallbackSettings(int $offset): array
     {
-//        $generateKeyboard = call_user_func(function (): array {
-//            $i = 0;
-//            $button = [];
-//            foreach ($this->db->showAllSettings() as $category => $actions) {
-//                foreach ($actions as $action => $setting) {
-//                    mb_strlen($setting['description'] > 40) ? $description = mb_substr($setting['description'], 0, 40) : $description = $setting['description'];
-//                    $button[$i][] = $this->vk->buttonCallback($description, 'blue',
-//                        [
-//                            'gui_settings' =>
-//                                [
-//                                    'action' => 'separate_action',
-//                                    'type' => $category . '.' . $action
-//                                ]
-//                        ]);
-//                    $i++;
-//                }
-//            }
-//            return $button;
-//        });
-
-        $generateKeyboard = $this->generateGui($this->db->showAllSettings(), 'description', [
+        $payload = [
             'gui_settings' =>
                 [
                     'action' => 'separate_action',
                 ]
-        ]);
-
-        $button = array_splice($generateKeyboard, $offset, 5);
-        if ($offset > 0) $button[2e9][] = $this->vk->buttonCallback('Back', 'white',
-            [
-                'gui_settings' =>
-                    [
-                        'action' => 'back',
-                        'offset' => $offset - 5
-                    ]
-            ]);
-
-        if ($offset >= 0 and count($button) >= $offset) $button[2e9][] = $this->vk->buttonCallback('Next', 'white',
-            [
-                'gui_settings' =>
-                    [
-                        'action' => 'next',
-                        'offset' => $offset + 5
-                    ]
-            ]);
-
+        ];
+        $button = $this->generateGui($this->db->showAllSettings(), 'description', $payload);
+        $button = array_splice($button, $offset, 5);
+        $this->addNextBackKeyboard($offset, $button, $payload);
+        Utils::var_dumpToStdout($button);
         return $button;
+
     }
 
     /**
@@ -181,7 +144,7 @@ trait Chat
      * @param array $payload
      * @return array
      */
-    private function generateGui(array $data, string $key, array $payload)
+    private function generateGui(array $data, string $key, array $payload): array
     {
         $i = 0;
         $button = [];
@@ -194,6 +157,13 @@ trait Chat
             }
         }
         return $button;
+    }
+
+    private function addNextBackKeyboard(int $offset, array &$button, array &$payload)
+    {
+//        Utils::var_dumpToStdout($offset);
+        if ($offset > 0) $button[2e9][] = $this->vk->buttonCallback('Back', 'white', $payload['offset'] = $offset - 5);
+        if ($offset >= 0 and count($button) >= $offset) $button[2e9][] = $this->vk->buttonCallback('Next', 'white', $payload['offset'] = $offset + 5);
     }
 
 //TODO Написать изменение настроек гуи

@@ -5,5 +5,5 @@
     "confirmation": "88f3cb93",
     "secret": "sqsuqshqiushsiuqhsiuqhs"
   },
-  "type": "callback"
+  "type": "longpoll"
 }

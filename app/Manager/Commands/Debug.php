@@ -10,7 +10,7 @@ trait Debug
 {
     public function vars()
     {
-        $this->print($this->db->showAllSettings());
+        $this->print('~full~');
     }
 
 

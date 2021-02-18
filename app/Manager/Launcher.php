@@ -64,7 +64,7 @@ class Launcher
                 $file->auth->secret ?? throw new Exception('Не указан secret, если не используется поставь false');
                 break;
 
-            case 'longpool' :
+            case 'longpoll' :
                 if (php_sapi_name() == "cli")
                     die('Запуск longpool возможен только в cli режиме');
                 break;
