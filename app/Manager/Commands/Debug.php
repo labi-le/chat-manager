@@ -11,6 +11,9 @@ trait Debug
     public function vars()
     {
         $this->print('~full~');
+        $this->print('~fn~');
+        $this->print('~ln~');
+        $this->print('~!full~');
     }
 
 

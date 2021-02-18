@@ -126,12 +126,18 @@ trait Chat
         $payload = [
             'gui_settings' =>
                 [
-                    'action' => 'separate_action',
                 ]
         ];
+
+        $payload['gui_settings']['action'] = 'separate_action';
         $button = $this->generateGui($this->db->showAllSettings(), 'description', $payload);
         $button = array_splice($button, $offset, 5);
-        $this->addNextBackKeyboard($offset, $button, $payload);
+
+        if ($offset > 0)
+            $button[2e9][] = $this->addNavigateGuiButton('back', $offset - 5);
+        if ($offset >= 0 and count($button) >= $offset)
+            $button[2e9][] = $this->addNavigateGuiButton('next', $offset + 5);
+
         Utils::var_dumpToStdout($button);
         return $button;
 
@@ -159,11 +165,11 @@ trait Chat
         return $button;
     }
 
-    private function addNextBackKeyboard(int $offset, array &$button, array &$payload)
+    private function addNavigateGuiButton(string $button_name, int $offset)
     {
-//        Utils::var_dumpToStdout($offset);
-        if ($offset > 0) $button[2e9][] = $this->vk->buttonCallback('Back', 'white', $payload['offset'] = $offset - 5);
-        if ($offset >= 0 and count($button) >= $offset) $button[2e9][] = $this->vk->buttonCallback('Next', 'white', $payload['offset'] = $offset + 5);
+        $payload['gui_settings']['action'] = $button_name;
+        $payload['gui_settings']['offset'] = $offset;
+        return $this->vk->buttonCallback($button_name, 'white', $payload);
     }
 
 //TODO Написать изменение настроек гуи

@@ -20,7 +20,6 @@ class Launcher
 
         if ($type == 'longpoll') {
             $bot = LongPoll::create($auth->token, $auth->v);
-            PHP_OS == 'linux' ? $bot->isMultiThread(true) : $bot->isMultiThread(false);
             $bot->listen(function () use ($bot) {
                 $bot->parse();
                 Controller::handle($bot->getVars(), $bot);
@@ -62,11 +61,6 @@ class Launcher
             case 'callback' :
                 $file->auth->confirmation ?? throw new Exception('Не указан confirmation');
                 $file->auth->secret ?? throw new Exception('Не указан secret, если не используется поставь false');
-                break;
-
-            case 'longpoll' :
-                if (php_sapi_name() !== "cli")
-                    die('Запуск longpoll возможен только в cli режиме');
                 break;
 
             default:

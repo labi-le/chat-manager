@@ -13,3 +13,4 @@ require_once('./vendor/autoload.php');
  * Настрой файл config.json
  */
 Launcher::run();
+
