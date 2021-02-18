@@ -18,7 +18,7 @@ class Launcher
         $auth = $config->auth;
         $type = $config->type;
 
-        if ($type == 'longpool') {
+        if ($type == 'longpoll') {
             $bot = LongPoll::create($auth->token, $auth->v);
             PHP_OS == 'linux' ? $bot->isMultiThread(true) : $bot->isMultiThread(false);
             $bot->listen(function () use ($bot) {
@@ -65,8 +65,8 @@ class Launcher
                 break;
 
             case 'longpoll' :
-                if (php_sapi_name() == "cli")
-                    die('Запуск longpool возможен только в cli режиме');
+                if (php_sapi_name() !== "cli")
+                    die('Запуск longpoll возможен только в cli режиме');
                 break;
 
             default:
