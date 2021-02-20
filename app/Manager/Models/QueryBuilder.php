@@ -40,21 +40,18 @@ abstract class QueryBuilder
 //            "primary_key" => self::ID
         ];
     protected string $store_name;
-    protected int $id;
     protected Dot $data;
     private Store $db;
 
     /**
      * QueryBuilder constructor.
-     * @param int $id
      * @throws IOException
      * @throws InvalidArgumentException
      * @throws InvalidConfigurationException
      * @throws InvalidPropertyAccessException
      */
-    public function __construct(int $id)
+    public function __construct(protected int $id)
     {
-        $this->id = $id;
         $this->db = new Store($this->store_name, self::DATA_DIR, self::CONFIGURATION_DB);
 
         $data = $this->loadRecord();
@@ -64,7 +61,6 @@ abstract class QueryBuilder
 
     /**
      * Загрузить массив из бд
-     * @return array|null
      * @throws IOException
      * @throws InvalidArgumentException
      * @throws InvalidPropertyAccessException
@@ -77,7 +73,6 @@ abstract class QueryBuilder
     /**
      * Создать запись в бд
      * @param array|null $params
-     * @return array
      * @throws IOException
      * @throws IdNotAllowedException
      * @throws InvalidArgumentException
@@ -90,14 +85,11 @@ abstract class QueryBuilder
 
     /**
      * Генератор массива с данными
-     * @param int $id
-     * @return array
      */
     protected abstract function __generateTable(int $id): array;
 
     /**
      * Удалить json файл
-     * @return bool
      * @throws IOException
      */
     public function deleteRecord(): bool
@@ -107,8 +99,6 @@ abstract class QueryBuilder
 
     /**
      * Добавить в массив элементы
-     * @param Dot $arr
-     * @return bool
      */
     protected function addTo(Dot $arr): bool
     {
@@ -118,8 +108,6 @@ abstract class QueryBuilder
 
     /**
      * Update db
-     * @param Dot $arr
-     * @return bool
      */
     protected function update(Dot $arr): bool
     {
@@ -130,8 +118,6 @@ abstract class QueryBuilder
     /**
      * Удалить ключ в массиве
      * example members.exited.21
-     * @param string $string
-     * @return bool
      */
     protected function deleteIn(string $string): bool
     {
@@ -143,7 +129,6 @@ abstract class QueryBuilder
 
     /**
      * Удалить таблицу
-     * @return bool
      * @throws IOException
      */
     public function deleteTable(): bool

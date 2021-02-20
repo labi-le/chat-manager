@@ -2,9 +2,7 @@
 
 namespace Manager\Models;
 
-use Exception;
-
-trait Bot
+trait SimpleVKExtend
 {
     /**
      * Массив с данными которые пришли от вк
@@ -12,18 +10,6 @@ trait Bot
      * @var array
      */
     protected array $vars;
-
-    /**
-     * Процент срабатывания в методе formatText классе Utils
-     * Utils::formatText(string $textFromArray, string $original, $similarPercent = 75)
-     * @var int
-     */
-    private int $similar_percent = 75;
-
-    public static function create($token, $version, $also_version = null)
-    {
-        return new self($token, $version, $also_version);
-    }
 
     /**
      * Парсинг всех данных которые пришли от вк в красивый вид
@@ -56,7 +42,6 @@ trait Bot
     /**
      * Получить необходимые\все данные которые прислал вк
      * @param string|null $var
-     * @return mixed
      * @throws Exception
      */
     public function getVars(string $var = null): mixed

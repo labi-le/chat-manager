@@ -3,23 +3,20 @@
 namespace Manager\Controller;
 
 use Manager\Commands\Commands;
-use Manager\Models\Callback;
 use Manager\Models\ChatsQuery;
-use Manager\Models\LongPoll;
+use Manager\Models\ExtendSimpleVKCallback;
+use Manager\Models\ExtendSimpleVKLongPoll;
 use Manager\Models\QueryBuilder;
 
 class Controller
 {
-    static Callback|LongPoll $vk;
+    static ExtendSimpleVKCallback|ExtendSimpleVKLongPoll $vk;
     static QueryBuilder|ChatsQuery $db;
 
     /**
      * Вызов типа события и передача данных
-     * @param array $data
-     * @param Callback|LongPoll $bot
-     * @return void
      */
-    public static function handle(array $data, Callback|LongPoll $bot): void
+    public static function handle(array $data, ExtendSimpleVKCallback|ExtendSimpleVKLongPoll $bot): void
     {
         $type = $data['type'];
         if (method_exists(TypeController::class, $type)) {
@@ -31,8 +28,6 @@ class Controller
 
     /**
      * Выполнить метод\методы
-     * @param array|string $methods
-     * @return void
      */
     public static function method_execute(array|string $methods): void
     {

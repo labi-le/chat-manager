@@ -81,9 +81,28 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     protected string $store_name = 'chats';
 
     /**
+     * Преобразование определённого числа в действие
+     * const NO_ACTION = 0;
+     * const WARN_ACTION = 1;
+     * const KICK_ACTION = 2;
+     * const BAN_ACTION = 3;
+     * const SHOW_ACTION = 4;
+     * @param int|null $int $int
+     */
+    public static function intToStringAction(int|null $int): null|string
+    {
+        $array[0] = '¯\_(ツ)_/¯';
+        $array[1] = '⚠ Варн';
+        $array[2] = '🚷 Кик';
+        $array[3] = '🚯 Бан';
+        $array[4] = '🔔 Показать';
+        $array[5] = '💡 On';
+
+        return $array[$int];
+    }
+
+    /**
      * @inheritDoc
-     * @param int $action
-     * @return bool
      */
     public function setActionUserLeave(int $action): bool
     {
@@ -101,8 +120,6 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * Получить опции разрешённые к установке определённым действиям
-     * @param string $path
-     * @return array|null
      */
     private function getAllowedActions(string $path): array|null
     {
@@ -111,9 +128,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * @inheritDoc
-     * @param int $member
      * @param string $path
-     * @return bool
      */
     public function addExited(int $member): bool
     {
@@ -123,11 +138,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * @inheritDoc
-     * @param int $member
-     * @param int $expires
-     * @param string $reason
      * @param string $path
-     * @return bool
      */
     public function addMute(int $member, int $expires, string $reason): bool
     {
@@ -136,11 +147,6 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * @inheritDoc
-     * @param int $member
-     * @param int $expires
-     * @param string $reason
-     * @param string $path
-     * @return bool
      */
     public function addBan(int $member, int $expires, string $reason, string $path = self::MEMBERS . self::BANNED): bool
     {
@@ -155,9 +161,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * @inheritDoc
-     * @param int $member
      * @param string $path
-     * @return bool
      */
     public function addWarn(int $member): bool
     {
@@ -172,9 +176,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * @inheritDoc
-     * @param int $member
      * @param string $path
-     * @return bool
      */
     public function unWarn(int $member): bool
     {
@@ -183,9 +185,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * @inheritDoc
-     * @param int $member
      * @param string $path
-     * @return bool
      */
     public function unMute(int $member): bool
     {
@@ -194,9 +194,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * @inheritDoc
-     * @param int $member
      * @param string $path
-     * @return bool
      */
     public function unBan(int $member): bool
     {
@@ -290,8 +288,6 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * Сгенерировать таблицу
-     * @param int $id
-     * @return array
      */
     protected function __generateTable(int $id): array
     {

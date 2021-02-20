@@ -13,7 +13,6 @@ class Utils
     /**
      * Получить картинки с котинками
      * @param string $api
-     * @return mixed
      */
     public static function snowCat($api = 'https://aws.random.cat/meow'): mixed
     {
@@ -23,7 +22,6 @@ class Utils
     /**
      * Транслитерация кириллицы в латиницу
      * @param $str
-     * @return string
      */
     public static function translit(string $str): string
     {
@@ -48,7 +46,6 @@ class Utils
     /**
      * Удаляет из строки самую первую подстроку
      * @param $text
-     * @return string
      */
     public static function removeFirstWord($text): string
     {
@@ -57,9 +54,6 @@ class Utils
 
     /**
      * Выборка необходимой строки по ключу
-     * @param string $string
-     * @param int $substring
-     * @return string|bool
      */
     public static function getWord(string $string, int $substring): string|bool
     {
@@ -69,10 +63,7 @@ class Utils
 
     /**
      * Проверка подстроки по шаблону
-     * @param string $textFromArray
-     * @param string $original
      * @param int $similarPercent
-     * @return bool
      */
     public static function formatText(string $textFromArray, string $original, $similarPercent = 80): bool
     {
@@ -89,9 +80,7 @@ class Utils
 
     /**
      * Похоже на
-     * @param string $text
      * @param $original
-     * @return int
      */
     public static function similarTo(string $text, $original): int
     {
@@ -101,9 +90,7 @@ class Utils
 
     /**
      * Начинается с
-     * @param string $text
      * @param $original
-     * @return bool
      */
     private static function startAs(string $text, $original): bool
     {
@@ -114,9 +101,6 @@ class Utils
 
     /**
      * Заканчивается на
-     * @param string $text
-     * @param string $original
-     * @return bool
      */
     private static function endAs(string $text, string $original): bool
     {
@@ -132,9 +116,6 @@ class Utils
 
     /**
      * Содержит
-     * @param string $text
-     * @param string $original
-     * @return bool
      */
     private static function contains(string $text, string $original): bool
     {
@@ -145,7 +126,6 @@ class Utils
      * Православный explode с возможностью использовать несколько символов
      * @param $delimiters
      * @param $string
-     * @return array|bool
      */
     public static function multiExplode($delimiters, $string): array|bool
     {
@@ -155,8 +135,6 @@ class Utils
 
     /**
      * Является ли массив ассоциативным
-     * @param array $arr
-     * @return bool
      */
     public static function isAssoc(array $arr): bool
     {
@@ -166,8 +144,6 @@ class Utils
 
     /**
      * Является ли массив последовательным
-     * @param array $arr
-     * @return bool
      */
     public static function isSeq(array $arr): bool
     {
@@ -177,8 +153,6 @@ class Utils
 
     /**
      * Является ли массив многомерным
-     * @param array $array
-     * @return bool
      */
     public static function isMulti(array $array): bool
     {
@@ -189,8 +163,6 @@ class Utils
 
     /**
      * Регулярка чтоб выбрать все айдишники из текста
-     * @param string $string
-     * @return array|bool
      */
     public static function regexId(string $string): array|bool
     {
@@ -235,7 +207,6 @@ class Utils
     /**
      * Регулярка для ников
      * @param $string
-     * @return bool
      */
     public static function regexNickName($string): bool
     {
@@ -246,7 +217,6 @@ class Utils
     /**
      * Булев в смайлы
      * @param $bool
-     * @return string
      */
     public static function boolToSmile($bool): string
     {
@@ -260,7 +230,6 @@ class Utils
      * DateTime
      * Временная зона Европа/Москва
      * @param $now
-     * @return DateTime
      * @throws Exception
      */
     public static function datetime($now = null): DateTime
@@ -272,8 +241,6 @@ class Utils
      * Строка в unixtime
      * 1 час
      * unixtime + 3600
-     * @param string $string
-     * @return int|false
      */
     public static function strTime(string $string): int|false
     {
@@ -291,27 +258,5 @@ class Utils
             'д', 'дн', 'дней', 'дня', 'd', 'day', 'days' => time() + (86400 * $int),
             default => false,
         };
-    }
-
-    /**
-     * Преобразование определённого числа в действие
-     * const NO_ACTION = 0;
-     * const WARN_ACTION = 1;
-     * const KICK_ACTION = 2;
-     * const BAN_ACTION = 3;
-     * const SHOW_ACTION = 4;
-     * @param int|null $int $int
-     * @return string|null
-     */
-    public static function intToStringAction(int|null $int): null|string
-    {
-        $array[0] = '¯\_(ツ)_/¯';
-        $array[1] = '⚠ Варн';
-        $array[2] = '🚷 Кик';
-        $array[3] = '🚯 Бан';
-        $array[4] = '🔔 Показать';
-        $array[5] = '💡 On';
-
-        return $array[$int] ?? null;
     }
 }

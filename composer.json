@@ -3,7 +3,6 @@
     "description": "manager vk",
     "type": "project",
     "require": {
-        "digitalstars/simplevk": "dev-testing",
         "ext-mbstring": "*",
         "ext-iconv": "*",
         "rakibtg/sleekdb": "^2.1",
@@ -18,9 +17,11 @@
 
     "autoload": {
         "psr-4": {
+            "DigitalStars\\SimpleVK\\": "vendor/digitalstars/simplevk/src/",
             "Manager\\": "app/Manager"
         }
+    },
+    "require-dev": {
+        "rector/rector-prefixed": "^0.9.29"
     }
-
-
 }

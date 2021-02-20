@@ -5,8 +5,8 @@ namespace Manager;
 use DigitalStars\SimpleVK\SimpleVkException;
 use Exception;
 use Manager\Controller\Controller;
-use Manager\Models\Callback;
-use Manager\Models\LongPoll;
+use Manager\Models\ExtendSimpleVKCallback;
+use Manager\Models\ExtendSimpleVKLongPoll;
 
 class Launcher
 {
@@ -17,20 +17,21 @@ class Launcher
         self::checkPhpVersion();
         $config = self::openFile();
 
-        if($config->logging_error === false) SimpleVkException::disableWriteError();
+        if ($config->logging_error === false) SimpleVkException::disableWriteError();
 
         $auth = $config->auth;
         $type = $config->type;
 
         if ($type == 'longpoll') {
-            $bot = LongPoll::create($auth->token, $auth->v);
+            $bot = ExtendSimpleVKLongPoll::create($auth->token, $auth->v);
             $bot->listen(function () use ($bot) {
                 $bot->parse();
                 Controller::handle($bot->getVars(), $bot);
             });
 
         } elseif ($type == 'callback') {
-            $bot = Callback::create($auth->token, $auth->v)->setConfirm($auth->confirmation)->setSecret($auth->secret);
+            $bot = ExtendSimpleVKCallback::create($auth->token, $auth->v)->setConfirm($auth->confirmation);
+            $bot->setSecret($auth->secret ?:null);
 
             $bot->parse();
             Controller::handle($bot->getVars(), $bot);

@@ -38,8 +38,6 @@ final class MessageController extends Controller
 
     /**
      * Поиск и выполнение команд (если нашел)
-     * @param string $originalText
-     * @return void
      */
     private static function commandHandler(string $originalText): void
     {
@@ -71,9 +69,6 @@ final class MessageController extends Controller
      * Обработчик нажатий по клавиатуре
      * type == 'default' - обычные кнопки
      * type == 'callback' - калбек кнопки
-     * @param array $payload
-     * @param string $type
-     * @return void
      */
     private static function payloadHandler(array $payload, string $type = 'default'): void
     {

@@ -17,7 +17,6 @@ final class TypeController extends Controller
 
     /**
      * Ивент: Новое сообщение
-     * @param array $data
      */
     public static function message_new(array $data): void
     {

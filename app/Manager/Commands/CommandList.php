@@ -15,7 +15,6 @@ final class CommandList
      * | - похоже на
      * {} - содержит
      * |] - заканчивается на
-     * @return array
      */
     public static function text(): array
     {
@@ -77,8 +76,6 @@ final class CommandList
      * payload - команда из категории
      * method - какой метод должен выполняться
      * type - тип кнопки (callback или default)
-     *
-     * @return array
      */
     public static function payload(): array
     {

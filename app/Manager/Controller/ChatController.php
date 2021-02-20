@@ -10,7 +10,6 @@ class ChatController extends Controller
     /**
      * Обработчик для бесед
      * Ну там подключение к базе и тд...
-     * @param array $data
      */
     public static function handler(array $data)
     {

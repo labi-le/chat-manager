@@ -118,8 +118,6 @@ trait Chat
 
     /**
      * Отправить каллбек кнопки с настройками с возможностью их переключать
-     * @param int $offset
-     * @return array
      */
     private function sendCallbackSettings(int $offset): array
     {
@@ -145,10 +143,6 @@ trait Chat
 
     /**
      * Генератор клавы коки сука
-     * @param array $data
-     * @param string $key
-     * @param array $payload
-     * @return array
      */
     private function generateGui(array $data, string $key, array $payload): array
     {

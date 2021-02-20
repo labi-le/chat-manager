@@ -3,8 +3,8 @@
 namespace Manager\Commands;
 
 use Exception;
-use Manager\Models\Callback;
-use Manager\Models\LongPoll;
+use Manager\Models\ExtendSimpleVKCallback;
+use Manager\Models\ExtendSimpleVKLongPoll;
 use Manager\Models\QueryBuilder;
 use Manager\Models\Utils;
 
@@ -20,28 +20,17 @@ final class Commands
     use Chat;
     use Debug;
 
-    private LongPoll|Callback $vk;
-    private QueryBuilder $db;
-
-    private function __construct(LongPoll|Callback $vk, QueryBuilder $db)
+    private function __construct(private ExtendSimpleVKCallback|ExtendSimpleVKLongPoll $vk, private QueryBuilder $db)
     {
-        $this->vk = $vk;
-        $this->db = $db;
     }
 
-    /**
-     * @param LongPoll|Callback $vk
-     * @param QueryBuilder $db
-     * @return Commands
-     */
-    public static function set(LongPoll|Callback $vk, QueryBuilder $db): Commands
+    public static function set(ExtendSimpleVKCallback|ExtendSimpleVKLongPoll $vk, QueryBuilder $db): Commands
     {
         return new Commands($vk, $db);
     }
 
     /**
      * Является ли чатом
-     * @return bool
      * @throws Exception
      */
     public function isPrivateMessage(): bool
@@ -51,7 +40,6 @@ final class Commands
 
     /**
      * Является ли чатом
-     * @return bool
      * @throws Exception
      */
     public function isChat(): bool
@@ -151,7 +139,6 @@ final class Commands
 
     /**
      * Является ли тот кто нажал на каллбек кнопку админом
-     * @return bool
      * @throws Exception
      */
     public function eventNoAccess(): bool
@@ -166,7 +153,6 @@ final class Commands
 
     /**
      * Является ли админом
-     * @return bool
      * @throws Exception
      */
     public function isAdmin(): bool

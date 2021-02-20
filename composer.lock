@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1811e50000638e9b442a933719b90b5d",
+    "content-hash": "e3bc04d0b1ea5d71cd856a1280e2bd5d",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -58,57 +58,6 @@
                 "source": "https://github.com/adbario/php-dot-notation/tree/2.x"
             },
             "time": "2019-01-01T23:59:15+00:00"
-        },
-        {
-            "name": "digitalstars/simplevk",
-            "version": "dev-testing",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/digitalstars/simplevk.git",
-                "reference": "9fb4e89788a07c3dc83e62f6394b528d5bc9b513"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/9fb4e89788a07c3dc83e62f6394b528d5bc9b513",
-                "reference": "9fb4e89788a07c3dc83e62f6394b528d5bc9b513",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-fileinfo": "*",
-                "ext-iconv": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "ext-pcntl": "*",
-                "ext-posix": "*",
-                "php": ">=7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DigitalStars\\simplevk\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "ZeRoX",
-                    "email": "as234zx15@yandex.ru"
-                },
-                {
-                    "name": "Runnin",
-                    "email": "mr.kirilll12@mail.ru"
-                }
-            ],
-            "description": "Library for easy work with VK com api",
-            "support": {
-                "issues": "https://github.com/digitalstars/simplevk/issues",
-                "source": "https://github.com/digitalstars/simplevk/tree/testing"
-            },
-            "time": "2021-02-18T14:08:45+00:00"
         },
         {
             "name": "rakibtg/sleekdb",
@@ -167,7 +116,151 @@
             "time": "2021-02-17T05:55:41+00:00"
         }
     ],
-    "packages-dev": [],
+    "packages-dev": [
+        {
+            "name": "digitalstars/simplevk",
+            "version": "dev-testing",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/digitalstars/simplevk.git",
+                "reference": "8746131c3f21f6b7fab8b580738792c522626673"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/8746131c3f21f6b7fab8b580738792c522626673",
+                "reference": "8746131c3f21f6b7fab8b580738792c522626673",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-fileinfo": "*",
+                "ext-iconv": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-pcntl": "*",
+                "ext-posix": "*",
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DigitalStars\\simplevk\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ZeRoX",
+                    "email": "as234zx15@yandex.ru"
+                },
+                {
+                    "name": "Runnin",
+                    "email": "mr.kirilll12@mail.ru"
+                }
+            ],
+            "description": "Library for easy work with VK com api",
+            "support": {
+                "issues": "https://github.com/digitalstars/simplevk/issues",
+                "source": "https://github.com/digitalstars/simplevk/tree/testing"
+            },
+            "time": "2021-02-19T19:41:31+00:00"
+        },
+        {
+            "name": "phpstan/phpstan",
+            "version": "0.12.77",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpstan/phpstan.git",
+                "reference": "1f10b8c8d118d01e7b492f9707999d456be5812c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1f10b8c8d118d01e7b492f9707999d456be5812c",
+                "reference": "1f10b8c8d118d01e7b492f9707999d456be5812c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1|^8.0"
+            },
+            "conflict": {
+                "phpstan/phpstan-shim": "*"
+            },
+            "bin": [
+                "phpstan",
+                "phpstan.phar"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.12-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHPStan - PHP Static Analysis Tool",
+            "support": {
+                "issues": "https://github.com/phpstan/phpstan/issues",
+                "source": "https://github.com/phpstan/phpstan/tree/0.12.77"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/ondrejmirtes",
+                    "type": "github"
+                },
+                {
+                    "url": "https://www.patreon.com/phpstan",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2021-02-17T16:22:19+00:00"
+        },
+        {
+            "name": "rector/rector-prefixed",
+            "version": "0.9.29",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rectorphp/rector-prefixed.git",
+                "reference": "d9feb76f6f588a808117dff61ebc95ea65f13cb0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rectorphp/rector-prefixed/zipball/d9feb76f6f588a808117dff61ebc95ea65f13cb0",
+                "reference": "d9feb76f6f588a808117dff61ebc95ea65f13cb0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.3|^8.0",
+                "phpstan/phpstan": "^0.12.64"
+            },
+            "bin": [
+                "bin/rector"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Prefixed scoped version of rector/rector package",
+            "support": {
+                "source": "https://github.com/rectorphp/rector-prefixed/tree/0.9.29"
+            },
+            "time": "2021-02-15T22:23:15+00:00"
+        }
+    ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
