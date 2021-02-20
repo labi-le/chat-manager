@@ -8,7 +8,7 @@ namespace Manager\Commands;
  */
 trait Debug
 {
-    public function vars()
+    public function vars(): void
     {
         $this->print('~full~');
         $this->print('~fn~');

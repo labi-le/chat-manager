@@ -45,10 +45,13 @@ abstract class QueryBuilder
 
     /**
      * QueryBuilder constructor.
+     * @param int $id
      * @throws IOException
+     * @throws IdNotAllowedException
      * @throws InvalidArgumentException
      * @throws InvalidConfigurationException
      * @throws InvalidPropertyAccessException
+     * @throws JsonException
      */
     public function __construct(protected int $id)
     {

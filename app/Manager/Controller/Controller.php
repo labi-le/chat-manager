@@ -2,21 +2,22 @@
 
 namespace Manager\Controller;
 
+use DigitalStars\SimpleVK\SimpleVK;
 use Manager\Commands\Commands;
 use Manager\Models\ChatsQuery;
-use Manager\Models\ExtendSimpleVKCallback;
-use Manager\Models\ExtendSimpleVKLongPoll;
 use Manager\Models\QueryBuilder;
 
 class Controller
 {
-    static ExtendSimpleVKCallback|ExtendSimpleVKLongPoll $vk;
+    static SimpleVK $vk;
     static QueryBuilder|ChatsQuery $db;
 
     /**
      * Вызов типа события и передача данных
+     * @param array $data
+     * @param SimpleVK $bot
      */
-    public static function handle(array $data, ExtendSimpleVKCallback|ExtendSimpleVKLongPoll $bot): void
+    public static function handle(array $data, SimpleVK $bot): void
     {
         $type = $data['type'];
         if (method_exists(TypeController::class, $type)) {
@@ -28,6 +29,7 @@ class Controller
 
     /**
      * Выполнить метод\методы
+     * @param array|string $methods
      */
     public static function method_execute(array|string $methods): void
     {

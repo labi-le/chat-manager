@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3bc04d0b1ea5d71cd856a1280e2bd5d",
+    "content-hash": "a656224234f59ad94504f7170b824990",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -58,6 +58,57 @@
                 "source": "https://github.com/adbario/php-dot-notation/tree/2.x"
             },
             "time": "2019-01-01T23:59:15+00:00"
+        },
+        {
+            "name": "digitalstars/simplevk",
+            "version": "dev-testing",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/digitalstars/simplevk.git",
+                "reference": "8746131c3f21f6b7fab8b580738792c522626673"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/8746131c3f21f6b7fab8b580738792c522626673",
+                "reference": "8746131c3f21f6b7fab8b580738792c522626673",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-fileinfo": "*",
+                "ext-iconv": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-pcntl": "*",
+                "ext-posix": "*",
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DigitalStars\\simplevk\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ZeRoX",
+                    "email": "as234zx15@yandex.ru"
+                },
+                {
+                    "name": "Runnin",
+                    "email": "mr.kirilll12@mail.ru"
+                }
+            ],
+            "description": "Library for easy work with VK com api",
+            "support": {
+                "issues": "https://github.com/digitalstars/simplevk/issues",
+                "source": "https://github.com/digitalstars/simplevk/tree/testing"
+            },
+            "time": "2021-02-19T19:41:31+00:00"
         },
         {
             "name": "rakibtg/sleekdb",
@@ -117,57 +168,6 @@
         }
     ],
     "packages-dev": [
-        {
-            "name": "digitalstars/simplevk",
-            "version": "dev-testing",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/digitalstars/simplevk.git",
-                "reference": "8746131c3f21f6b7fab8b580738792c522626673"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/digitalstars/simplevk/zipball/8746131c3f21f6b7fab8b580738792c522626673",
-                "reference": "8746131c3f21f6b7fab8b580738792c522626673",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-fileinfo": "*",
-                "ext-iconv": "*",
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "ext-pcntl": "*",
-                "ext-posix": "*",
-                "php": ">=7.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DigitalStars\\simplevk\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "ZeRoX",
-                    "email": "as234zx15@yandex.ru"
-                },
-                {
-                    "name": "Runnin",
-                    "email": "mr.kirilll12@mail.ru"
-                }
-            ],
-            "description": "Library for easy work with VK com api",
-            "support": {
-                "issues": "https://github.com/digitalstars/simplevk/issues",
-                "source": "https://github.com/digitalstars/simplevk/tree/testing"
-            },
-            "time": "2021-02-19T19:41:31+00:00"
-        },
         {
             "name": "phpstan/phpstan",
             "version": "0.12.77",

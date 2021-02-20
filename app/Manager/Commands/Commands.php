@@ -2,10 +2,10 @@
 
 namespace Manager\Commands;
 
+use DigitalStars\SimpleVK\SimpleVK;
 use Exception;
-use Manager\Models\ExtendSimpleVKCallback;
-use Manager\Models\ExtendSimpleVKLongPoll;
 use Manager\Models\QueryBuilder;
+use Manager\Models\SimpleVKExtend;
 use Manager\Models\Utils;
 
 /**
@@ -20,11 +20,12 @@ final class Commands
     use Chat;
     use Debug;
 
-    private function __construct(private ExtendSimpleVKCallback|ExtendSimpleVKLongPoll $vk, private QueryBuilder $db)
+    private function __construct(private SimpleVK $vk, private QueryBuilder $db)
     {
+
     }
 
-    public static function set(ExtendSimpleVKCallback|ExtendSimpleVKLongPoll $vk, QueryBuilder $db): Commands
+    public static function set(SimpleVK $vk, QueryBuilder $db): Commands
     {
         return new Commands($vk, $db);
     }
@@ -44,12 +45,12 @@ final class Commands
      */
     public function isChat(): bool
     {
-        return $this->vk->getVars('chat_id') ? true : false;
+        return SimpleVKExtend::getVars('chat_id') ? true : false;
     }
 
     public function cat()
     {
-        $count = intval(Utils::getWord($this->vk->getVars('text_lower'), 1));
+        $count = intval(Utils::getWord(SimpleVKExtend::getVars('text_lower'), 1));
 
         if ($count > 10 or $count <= 0) {
             $this->vk->msg("Отинь многа котикаф либо их ваще нет!!!")->send();
@@ -82,13 +83,13 @@ final class Commands
 
     public function say()
     {
-        $word = Utils::removeFirstWord($this->vk->getVars('text_lower')); //получить все подстроки кроме первой
+        $word = Utils::removeFirstWord(SimpleVKExtend::getVars('text_lower')); //получить все подстроки кроме первой
         $this->vk->msg($word)->send();
     }
 
     public function kon4()
     {
-        $photos = $this->vk->getVars('attachments')['photo'] ?? false;
+        $photos = SimpleVKExtend::getVars('attachments')['photo'] ?? false;
 
         if (!$photos) $this->vk->msg('а где фотка???')->send(); else {
             $img = [];
@@ -158,7 +159,7 @@ final class Commands
     public function isAdmin(): bool
     {
         return $this->vk
-            ->isAdmin($this->vk->getVars('user_id'), $this->vk->getVars('peer_id'))
+            ->isAdmin(SimpleVKExtend::getVars('user_id'), SimpleVKExtend::getVars('peer_id'))
             ? true : false;
     }
 }

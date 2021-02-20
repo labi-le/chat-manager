@@ -3,6 +3,7 @@
 namespace Manager\Commands;
 
 use Exception;
+use Manager\Models\SimpleVKExtend;
 use Manager\Models\Utils;
 
 /**
@@ -17,9 +18,9 @@ trait Manager
      */
     public function kick()
     {
-        $vars = $this->vk->getVars();
+        $vars = SimpleVKExtend::getVars();
         $chat_id = $vars['chat_id'];
-        $text = Utils::removeFirstWord($this->vk->getVars('text'));
+        $text = Utils::removeFirstWord(SimpleVKExtend::getVars('text'));
 
         $result = $this->kickFromReplyMsg($chat_id, $vars['reply_message']) ?? $result = $this->kickFromForwardMsg($chat_id, $vars['fwd_messages']) ?? $this->kickFromText($chat_id, $text) ?? false;
 
@@ -44,45 +45,6 @@ trait Manager
     }
 
     /**
-     * Получить статус кика в симпатичном виде
-     * @param $data
-     */
-    private function kickStatus(array $data): array
-    {
-        $text[1] = null; //успешно кикнут
-        $text[15] = null; //не получилось
-        $text[935] = null; //нет в беседе
-
-        foreach ($data as $member_id => $status) {
-            match ($status) {
-                1 => $text[1] .= $member_id > 0 ? "~!fn|$member_id~ " : -$member_id . ' ',
-                15 => $text[15] .= $member_id > 0 ? "~!fn|$member_id~ " : -$member_id . ' ',
-                935 => $text[935] .= $member_id > 0 ? "~!fn|$member_id~ " : -$member_id . ' ',
-            };
-        }
-        return $text;
-
-    }
-
-    /**
-     * Кик по упоминанию
-     */
-    private function kickFromText(int $chat_id, string $string): array|null
-    {
-        $array = Utils::regexId($string);
-        return $this->smartKick($chat_id, $array);
-    }
-
-    /**
-     * Кикнуть пользователя сообщение которого переслали
-     */
-    private function kickFromForwardMsg(int $chat_id, array $array): array|null
-    {
-        if (empty($array)) return null;
-        return $this->smartKick($chat_id, $array);
-    }
-
-    /**
      * Кикнуть пользователя сообщение на которое ответили
      * @param array|null $array $array
      */
@@ -90,21 +52,6 @@ trait Manager
     {
         if (empty($array)) return null;
         return $this->smartKick($chat_id, $array);
-    }
-
-    /**
-     * Метод vkapi для исключения пользователя|бота или самого себя (при указании своего айди)
-     * @param int|null $user_id
-     */
-    private function removeChatUser(int $chat_id, int $member_id, int $user_id = null): int
-    {
-        try {
-            $this->vk->request('messages.removeChatUser',
-                ['chat_id' => $chat_id, 'member_id' => $member_id, 'user_id' => $user_id]);
-        } catch (Exception $e) {
-            return $e->getCode();
-        }
-        return 1;
     }
 
     /**
@@ -125,5 +72,62 @@ trait Manager
             }
         }
         return $results;
+    }
+
+    /**
+     * Метод vkapi для исключения пользователя|бота или самого себя (при указании своего айди)
+     * @param int|null $user_id
+     */
+    private function removeChatUser(int $chat_id, int $member_id, int $user_id = null): int
+    {
+        try {
+            $this->vk->request('messages.removeChatUser',
+                ['chat_id' => $chat_id, 'member_id' => $member_id, 'user_id' => $user_id]);
+        } catch (Exception $e) {
+            return $e->getCode();
+        }
+        return 1;
+    }
+
+    /**
+     * Кикнуть пользователя сообщение которого переслали
+     */
+    private function kickFromForwardMsg(int $chat_id, array $array): array|null
+    {
+        if (empty($array)) return null;
+        return $this->smartKick($chat_id, $array);
+    }
+
+    /**
+     * Кик по упоминанию
+     * @param int $chat_id
+     * @param string $string
+     * @return array|null
+     */
+    private function kickFromText(int $chat_id, string $string): array|null
+    {
+        $array = Utils::regexId($string);
+        return $this->smartKick($chat_id, $array);
+    }
+
+    /**
+     * Получить статус кика в симпатичном виде
+     * @param $data
+     */
+    private function kickStatus(array $data): array
+    {
+        $text[1] = null; //успешно кикнут
+        $text[15] = null; //не получилось
+        $text[935] = null; //нет в беседе
+
+        foreach ($data as $member_id => $status) {
+            match ($status) {
+                1 => $text[1] .= $member_id > 0 ? "~!fn|$member_id~ " : -$member_id . ' ',
+                15 => $text[15] .= $member_id > 0 ? "~!fn|$member_id~ " : -$member_id . ' ',
+                935 => $text[935] .= $member_id > 0 ? "~!fn|$member_id~ " : -$member_id . ' ',
+            };
+        }
+        return $text;
+
     }
 }

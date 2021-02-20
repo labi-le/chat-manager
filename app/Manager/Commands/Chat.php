@@ -6,6 +6,7 @@ namespace Manager\Commands;
 
 use Exception;
 use Manager\Models\ChatsQuery;
+use Manager\Models\SimpleVKExtend;
 use Manager\Models\Utils;
 
 trait Chat
@@ -17,13 +18,13 @@ trait Chat
     public function chatRegistration()
     {
         try {
-            $this->vk->isAdmin(-$this->vk->getVars('group_id'), $this->vk->getVars('peer_id'));
+            $this->vk->isAdmin(-SimpleVKExtend::getVars('group_id'), SimpleVKExtend::getVars('peer_id'));
         } catch (Exception $e) {
             if ($e->getCode() === 0) $this->vk->reply('Ты меня обманул!!!');
             return;
         }
 
-        $this->db->createChatRecord($this->vk->getVars('chat_id'))
+        $this->db->createChatRecord(SimpleVKExtend::getVars('chat_id'))
             ? $this->vk->reply('верю-верю') : $this->vk->reply('А мы раньше где-то встречались?');
     }
 
@@ -57,12 +58,12 @@ trait Chat
      */
     public function guiSetOptions()
     {
-        $action = $this->vk->getVars('payload')['gui_settings']['type'];
+        $action = SimpleVKExtend::getVars('payload')['gui_settings']['type'];
         $option = $this->db->statusSettings($action);
 
         $i = 0;
         foreach ($option['allowed_options'] as $allowed) {
-            $button[$i][] = $this->vk->buttonCallback(Utils::intToStringAction($allowed), $option['action'] ? 'green' : 'red',
+            $button[$i][] = $this->vk->buttonCallback(ChatsQuery::intToStringAction($allowed), $option['action'] ? 'green' : 'red',
                 [
                     'gui_settings' =>
                         [
@@ -94,7 +95,7 @@ trait Chat
         $this->vk
             ->msg($option['description'] . "\n\nВозможные действия:")
             ->kbd($button, true)
-            ->sendEdit($this->vk->getVars('peer_id'), null, $this->vk->getVars('message_id'));
+            ->sendEdit(SimpleVKExtend::getVars('peer_id'), null, SimpleVKExtend::getVars('message_id'));
 
     }
 
@@ -104,20 +105,22 @@ trait Chat
      */
     public function guiSettingsOffset($offset = 0)
     {
-        $offset = $this->vk->getVars('payload')['gui_settings']['offset'] ?? $offset;
+        $offset = SimpleVKExtend::getVars('payload')['gui_settings']['offset'] ?? $offset;
 
         $message = $this->vk
             ->msg('🔧 Callback Settings')
             ->kbd($this->sendCallbackSettings($offset), true);
 
-        $this->vk->getVars('type') == 'message_new'
+        SimpleVKExtend::getVars('type') == 'message_new'
             ? $message->send()
-            : $message->sendEdit($this->vk->getVars('peer_id'), null, $this->vk->getVars('message_id'));
+            : $message->sendEdit(SimpleVKExtend::getVars('peer_id'), null, SimpleVKExtend::getVars('message_id'));
 
     }
 
     /**
      * Отправить каллбек кнопки с настройками с возможностью их переключать
+     * @param int $offset
+     * @return array
      */
     private function sendCallbackSettings(int $offset): array
     {

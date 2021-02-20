@@ -2,17 +2,18 @@
 
 namespace Manager;
 
+use DigitalStars\SimpleVK\LongPoll;
+use DigitalStars\SimpleVK\SimpleVK;
 use DigitalStars\SimpleVK\SimpleVkException;
 use Exception;
 use Manager\Controller\Controller;
-use Manager\Models\ExtendSimpleVKCallback;
-use Manager\Models\ExtendSimpleVKLongPoll;
+use Manager\Models\SimpleVKExtend;
 
 class Launcher
 {
     private static string $configFile = './config.json';
 
-    public static function run()
+    public static function run(): void
     {
         self::checkPhpVersion();
         $config = self::openFile();
@@ -23,18 +24,19 @@ class Launcher
         $type = $config->type;
 
         if ($type == 'longpoll') {
-            $bot = ExtendSimpleVKLongPoll::create($auth->token, $auth->v);
+            $bot = LongPoll::create($auth->token, $auth->v);
             $bot->listen(function () use ($bot) {
-                $bot->parse();
-                Controller::handle($bot->getVars(), $bot);
+                SimpleVKExtend::parse($bot);
+                Controller::handle(SimpleVKExtend::getVars(), $bot);
             });
 
         } elseif ($type == 'callback') {
-            $bot = ExtendSimpleVKCallback::create($auth->token, $auth->v)->setConfirm($auth->confirmation);
-            $bot->setSecret($auth->secret ?:null);
+            $bot = SimpleVK::create($auth->token, $auth->v)->setConfirm($auth->confirmation);
+            if ($auth->secret != false)
+                $bot->setSecret($auth->secret);
 
-            $bot->parse();
-            Controller::handle($bot->getVars(), $bot);
+            SimpleVKExtend::parse($bot);
+            Controller::handle(SimpleVKExtend::getVars(), $bot);
 
         }
 
@@ -66,6 +68,9 @@ class Launcher
             case 'callback' :
                 $file->auth->confirmation ?? throw new Exception('Не указан confirmation');
                 $file->auth->secret ?? throw new Exception('Не указан secret, если не используется поставь false');
+                break;
+
+            case 'longpoll':
                 break;
 
             default:
