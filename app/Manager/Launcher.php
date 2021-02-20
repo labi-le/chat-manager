@@ -2,6 +2,7 @@
 
 namespace Manager;
 
+use DigitalStars\SimpleVK\SimpleVkException;
 use Exception;
 use Manager\Controller\Controller;
 use Manager\Models\Callback;
@@ -15,6 +16,9 @@ class Launcher
     {
         self::checkPhpVersion();
         $config = self::openFile();
+
+        if($config->logging_error === false) SimpleVkException::disableWriteError();
+
         $auth = $config->auth;
         $type = $config->type;
 

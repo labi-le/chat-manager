@@ -5,5 +5,6 @@
     "confirmation": "90a6d0fb",
     "secret": "sqsuqshqiushsiuqhsiuqhs"
   },
+  "logging_error": false,
   "type": "callback"
 }
