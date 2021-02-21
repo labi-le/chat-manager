@@ -5,77 +5,62 @@ namespace Manager;
 use DigitalStars\SimpleVK\LongPoll;
 use DigitalStars\SimpleVK\SimpleVK;
 use DigitalStars\SimpleVK\SimpleVkException;
-use Exception;
 use Manager\Controller\Controller;
+use Manager\Models\ConfigFile;
 use Manager\Models\SimpleVKExtend;
 
 class Launcher
 {
-    private static string $configFile = './config.json';
+    private $file;
 
-    public static function run(): void
+    private function __construct(string $path)
     {
-        self::checkPhpVersion();
-        $config = self::openFile();
-
-        if ($config->logging_error === false) SimpleVkException::disableWriteError();
-
-        $auth = $config->auth;
-        $type = $config->type;
-
-        if ($type == 'longpoll') {
-            $bot = LongPoll::create($auth->token, $auth->v);
-            $bot->listen(function () use ($bot) {
-                SimpleVKExtend::parse($bot);
-                Controller::handle(SimpleVKExtend::getVars(), $bot);
-            });
-
-        } elseif ($type == 'callback') {
-            $bot = SimpleVK::create($auth->token, $auth->v)->setConfirm($auth->confirmation);
-            if ($auth->secret != false)
-                $bot->setSecret($auth->secret);
-
-            SimpleVKExtend::parse($bot);
-            Controller::handle(SimpleVKExtend::getVars(), $bot);
-
-        }
+        $this->checkPhpVersion();
+        $this->file = ConfigFile::open($path);
 
     }
 
-    public static function checkPhpVersion()
+    private function checkPhpVersion()
     {
         PHP_MAJOR_VERSION >= 8 ?: die('Версия PHP ниже 8, обновляйся');
     }
 
-    private static function openFile()
+    public static function setConfigFile(string $path): Launcher
     {
-        $config = self::configFile();
-        self::checkConfigFile($config);
-        return $config;
+        return new self($path);
     }
 
-    private static function configFile()
+    public function run(): void
     {
-        return json_decode(file_get_contents(self::$configFile));
+        $this->checkPhpVersion();
+        $config = $this->file;
+        if ($config['logging_error'] === false) SimpleVkException::disableWriteError();
+
+        $auth = $config['auth'];
+        $type = $config['type'];
+        if ($type == 'callback')
+            $this->callback($auth);
+        elseif ($type == 'longpoll')
+            $this->longpoll($auth);
+
     }
 
-    private static function checkConfigFile($file)
+    private function callback(array $auth): void
     {
-        $file ?? throw new Exception('config.json не найден');
-        $file->auth ?? throw new Exception('Auth data not found');
+        $bot = SimpleVK::create($auth['token'], $auth['v'])->setConfirm($auth['confirmation']);
+        if ($auth['secret'] != false)
+            $bot->setSecret($auth['secret']);
 
-        switch ($file->type) {
-            case 'callback' :
-                $file->auth->confirmation ?? throw new Exception('Не указан confirmation');
-                $file->auth->secret ?? throw new Exception('Не указан secret, если не используется поставь false');
-                break;
-
-            case 'longpoll':
-                break;
-
-            default:
-                throw new Exception('Не указан тип работы бота');
-        }
+        SimpleVKExtend::parse($bot);
+        Controller::handle(SimpleVKExtend::getVars(), $bot);
     }
 
+    private function longpoll(array $auth): void
+    {
+        $bot = LongPoll::create($auth['token'], $auth['v']);
+        $bot->listen(function () use ($bot) {
+            SimpleVKExtend::parse($bot);
+            Controller::handle(SimpleVKExtend::getVars(), $bot);
+        });
+    }
 }

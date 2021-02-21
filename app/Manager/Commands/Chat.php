@@ -44,9 +44,9 @@ trait Chat
                 elseif (is_array($value['default'])) $default = implode(", ", $value['default']);
                 else $default = $value['default'];
 
-                if ($setting === ChatsQuery::ACTION) $text['action'] .= $value['description'] . "\nДействие - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
-                if ($setting === ChatsQuery::PENALTY) $text['penalty'] .= $value['description'] . ' - ' . $default . "\nВ случае нарушения - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
-                if ($setting === ChatsQuery::SPECIFIC) $text['specific'] .= $value['description'] . ' - ' . $default . "\nВ случае нарушения - " . Utils::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
+                if ($setting === ChatsQuery::ACTION) $text['action'] .= $value['description'] . "\nДействие - " . ChatsQuery::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
+                if ($setting === ChatsQuery::PENALTY) $text['penalty'] .= $value['description'] . ' - ' . $default . "\nВ случае нарушения - " . ChatsQuery::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
+                if ($setting === ChatsQuery::SPECIFIC) $text['specific'] .= $value['description'] . ' - ' . $default . "\nВ случае нарушения - " . ChatsQuery::intToStringAction($value['action']) . PHP_EOL . PHP_EOL;
             }
         }
         $this->print(implode("\n", $text));

@@ -31,7 +31,7 @@ class SimpleVKExtend
         $chat_id = $id - 2e9;
         $chat_id = $chat_id > 0 ? (int)$chat_id : false;
 
-        self::$vars['group_id'] = $data['group_id'];
+        self::$vars['group_id'] = $data['group_id'] ?? null;
         self::$vars['peer_id'] = $id ?? null;
         self::$vars['chat_id'] = $chat_id;
         self::$vars['user_id'] = $user_id ?? null;

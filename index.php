@@ -9,7 +9,8 @@ use Manager\Launcher;
 require_once('vendor/autoload.php');
 
 /**
- * Настрой файл config.json
+ * Путь до конфиг файла
+ * Если его нет, просто укажи необходимый путь и файл будет создан
  */
-Launcher::run();
-
+$config = __DIR__ . '/config.json';
+Launcher::setConfigFile($config)->run();
