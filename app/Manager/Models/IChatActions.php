@@ -1,9 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 
 namespace Manager\Models;
 
 
+/**
+ * Interface IChatActions
+ * @package Manager\Models
+ */
 interface IChatActions
 {
     /**

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Manager;
 
 use DigitalStars\SimpleVK\LongPoll;
@@ -11,7 +13,7 @@ use Manager\Models\SimpleVKExtend;
 
 class Launcher
 {
-    private $file;
+    private array $file;
 
     private function __construct(string $path)
     {

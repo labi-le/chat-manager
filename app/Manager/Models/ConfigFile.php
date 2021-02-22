@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 
 namespace Manager\Models;
 
@@ -8,6 +10,9 @@ use Exception;
 
 class ConfigFile
 {
+    /**
+     * Как выглядит конфиг
+     */
     private const CONFIG_FILE_STRUCTURE =
         [
             'auth' =>
@@ -24,14 +29,20 @@ class ConfigFile
         ];
 
 
-    public static function open(string $file)
+    /**
+     * Открыть файл
+     * @param string $file
+     * @return array
+     * @throws Exception
+     */
+    public static function open(string $file): array
     {
         return self::openFile($file);
     }
 
 
     /**
-     * Открыть файл
+     * Открыть файл и проверить по шаблону
      * @param string $path
      * @return mixed
      * @throws Exception
@@ -68,7 +79,7 @@ class ConfigFile
         !empty($auth['token']) ?: throw new Exception('Не указан токен');
         !empty($auth['v']) ?: throw new Exception('Не указана версия API');
 
-        if($file['type'] == 'callback') {
+        if ($file['type'] == 'callback') {
             !empty($auth['confirmation']) ?: throw new Exception('Не указан confirmation');
             !is_bool($auth['secret']) and !empty(['auth']['secret']) ?: throw new Exception('Не указан secret, если не используется поставь false');
         }

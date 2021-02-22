@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Manager\Models;
 
+use Adbar\Dot;
 use DigitalStars\SimpleVK\LongPoll;
 use DigitalStars\SimpleVK\SimpleVK;
 
@@ -17,7 +20,7 @@ class SimpleVKExtend
      * есть также ванильный $this->data от SimpleVK
      * @var array
      */
-    private static array $vars;
+    private static $vars;
 
     /**
      * Парсинг всех данных которые пришли от вк в красивый вид
@@ -26,25 +29,33 @@ class SimpleVKExtend
      */
     public static function parse(SimpleVK|LongPoll $vk): void
     {
-        $data = $vk->initVars($id, $user_id, $type, $message, $payload, $msg_id, $attachments);   // Парсинг полученных событий
+        $SimpleVKData = $vk->initVars($id, $user_id, $type, $message, $payload, $msg_id, $attachments);   // Парсинг полученных событий
+
+        $data = function (string $get) use ($SimpleVKData) {
+            return dot($SimpleVKData)->get($get);
+        };
+
+        $var = new Dot();
 
         $chat_id = $id - 2e9;
-        $chat_id = $chat_id > 0 ? (int)$chat_id : false;
+        $chat_id = $chat_id > 0 ? (int)$chat_id : null;
 
-        self::$vars['group_id'] = $data['group_id'] ?? null;
-        self::$vars['peer_id'] = $id ?? null;
-        self::$vars['chat_id'] = $chat_id;
-        self::$vars['user_id'] = $user_id ?? null;
-        self::$vars['type'] = $type ?? null;
-        self::$vars['text'] = $message ?? null;
-        self::$vars['text_lower'] = mb_strtolower($message) ?? null;
-        self::$vars['payload'] = $payload ?? false;
-        self::$vars['action'] = $data['object']['action'] ?? false;
-        self::$vars['message_id'] = $msg_id > 0 ? $msg_id : $data['object']['conversation_message_id'] ?? null;
-        self::$vars['attachments'] = $attachments ?? null; //если вложений больше 4 то они не будут отображаться (баг вк), как костыль можно использовать getById
-        self::$vars['fwd_messages'] = $data['object']['fwd_messages'] ?? [];
-        self::$vars['reply_message'] = $data['object']['reply_message'] ?? [];
+        $data('group_id') === null ?: $var->add('group_id', $data('group_id'));
+        $id === null ?: $var->add('peer_id', $id);
+        $chat_id === null ?: $var->add('chat_id', $chat_id);
+        $user_id === null ?: $var->add('user_id', $user_id);
+        $type === null ?: $var->add('type', $type);
+        $message === null ?: $var->add('text', $message);
+        $message === null ?: $var->add('text_lower', mb_strtolower($message));
+        $payload === null ?: $var->add('payload', $payload);
+        $data('object.message.action') ?? $var->add('action', $data('object.message.action'));
+        $msg_id === null ?: $var->add('message_id', $msg_id);
+        $data('object.message.conversation_message_id') === null ?: $var->add('conversation_message_id', $data('object.message.conversation_message_id'));
+        $attachments === null ?: $var->add('attachments', $attachments); //если вложений больше 4 то они не будут отображаться (баг вк), как костыль можно использовать getById
+        $data('object.message.fwd_messages') === null ?: $var->add('fwd_messages', $data('object.message.fwd_messages'));
+        $data('object.message.reply_message') === null ?: $var->add('reply_message', $data('object.message.reply_message'));
 
+        self::$vars = $var->all();
     }
 
     /**
@@ -54,7 +65,8 @@ class SimpleVKExtend
      */
     public static function getVars(string $var = null): mixed
     {
-        $vars = self::$vars;
-        return $vars[$var] ?? $vars;
+        if ($var === null) return self::$vars;
+        elseif (is_string($var) and isset(self::$vars[$var])) return self::$vars[$var];
+        else return null;
     }
 }

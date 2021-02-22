@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Manager\Controller;
 
 use DigitalStars\SimpleVK\SimpleVK;
 use Manager\Commands\Commands;
 use Manager\Models\ChatsQuery;
-use Manager\Models\QueryBuilder;
+use Manager\Models\UserQuery;
 
 class Controller
 {
     static SimpleVK $vk;
-    static QueryBuilder|ChatsQuery $db;
+    static ChatsQuery|UserQuery $db;
 
     /**
      * Вызов типа события и передача данных

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 
 namespace Manager\Models;
 
@@ -76,6 +78,7 @@ abstract class QueryBuilder
     /**
      * Создать запись в бд
      * @param array|null $params
+     * @return array
      * @throws IOException
      * @throws IdNotAllowedException
      * @throws InvalidArgumentException
@@ -88,6 +91,8 @@ abstract class QueryBuilder
 
     /**
      * Генератор массива с данными
+     * @param int $id
+     * @return array
      */
     protected abstract function __generateTable(int $id): array;
 
@@ -102,6 +107,10 @@ abstract class QueryBuilder
 
     /**
      * Добавить в массив элементы
+     * @param Dot $arr
+     * @return bool
+     * @throws IOException
+     * @throws InvalidArgumentException
      */
     protected function addTo(Dot $arr): bool
     {
@@ -111,6 +120,10 @@ abstract class QueryBuilder
 
     /**
      * Update db
+     * @param Dot $arr
+     * @return bool
+     * @throws IOException
+     * @throws InvalidArgumentException
      */
     protected function update(Dot $arr): bool
     {
@@ -121,6 +134,10 @@ abstract class QueryBuilder
     /**
      * Удалить ключ в массиве
      * example members.exited.21
+     * @param string $string
+     * @return bool
+     * @throws IOException
+     * @throws InvalidArgumentException
      */
     protected function deleteIn(string $string): bool
     {

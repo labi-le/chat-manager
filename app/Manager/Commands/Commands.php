@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Manager\Commands;
 
 use DigitalStars\SimpleVK\SimpleVK;
 use Exception;
-use Manager\Models\ChatsQuery;
+use Manager\Models\QueryBuilder;
 use Manager\Models\SimpleVKExtend;
 use Manager\Models\Utils;
 
@@ -20,11 +22,11 @@ final class Commands
     use Chat;
     use Debug;
 
-    private function __construct(private SimpleVK $vk, private ChatsQuery $db)
+    private function __construct(private SimpleVK $vk, private QueryBuilder $db)
     {
     }
 
-    public static function set(SimpleVK $vk, ChatsQuery $db): Commands
+    public static function set(SimpleVK $vk, QueryBuilder $db): Commands
     {
         return new Commands($vk, $db);
     }
@@ -35,7 +37,7 @@ final class Commands
      */
     public function isPrivateMessage(): bool
     {
-        if ($this->isChat() === false) return true; else return false;
+        return $this->isChat() === true ? false : true;
     }
 
     /**
@@ -44,7 +46,7 @@ final class Commands
      */
     public function isChat(): bool
     {
-        return SimpleVKExtend::getVars('chat_id') ? true : false;
+        return SimpleVKExtend::getVars('chat_id') === null ? false : true;
     }
 
     public function cat()
@@ -96,7 +98,11 @@ final class Commands
                 $img[] = 'http://www.lunach.ru/?cum=&url=' . urlencode($photo['url']) . '&tpl=vk';
             }
 
-            $this->vk->msg()->img($img)->send();
+            try {
+                @$this->vk->msg()->img($img)->send();
+            } catch (Exception $e) {
+                $this->vk->msg('Не удалось запачкать репутацию')->send();
+            }
         }
 
 

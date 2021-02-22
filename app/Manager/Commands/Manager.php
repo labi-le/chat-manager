@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Manager\Commands;
 
@@ -46,7 +47,9 @@ trait Manager
 
     /**
      * Кикнуть пользователя сообщение на которое ответили
+     * @param int $chat_id
      * @param array|null $array $array
+     * @return array|null
      */
     private function kickFromReplyMsg(int $chat_id, array|null $array): array|null
     {
@@ -56,6 +59,10 @@ trait Manager
 
     /**
      * Простой и сексуальный кикер
+     * @param int $chat_id
+     * @param mixed $member_ids
+     * @param mixed|null $user_ids
+     * @return array|null
      */
     private function smartKick(int $chat_id, mixed $member_ids, mixed $user_ids = null): array|null
     {
@@ -76,7 +83,10 @@ trait Manager
 
     /**
      * Метод vkapi для исключения пользователя|бота или самого себя (при указании своего айди)
+     * @param int $chat_id
+     * @param int $member_id
      * @param int|null $user_id
+     * @return int
      */
     private function removeChatUser(int $chat_id, int $member_id, int $user_id = null): int
     {
@@ -91,6 +101,9 @@ trait Manager
 
     /**
      * Кикнуть пользователя сообщение которого переслали
+     * @param int $chat_id
+     * @param array $array
+     * @return array|null
      */
     private function kickFromForwardMsg(int $chat_id, array $array): array|null
     {
@@ -113,6 +126,7 @@ trait Manager
     /**
      * Получить статус кика в симпатичном виде
      * @param $data
+     * @return array
      */
     private function kickStatus(array $data): array
     {

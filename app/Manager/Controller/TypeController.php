@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Manager\Controller;
 
 final class TypeController extends Controller

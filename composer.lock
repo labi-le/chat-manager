@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a656224234f59ad94504f7170b824990",
+    "content-hash": "473281ed107fcbb3e71c3fcf7ca6253b",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -111,6 +111,55 @@
             "time": "2021-02-19T19:41:31+00:00"
         },
         {
+            "name": "jawira/emoji-catalog",
+            "version": "v3.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jawira/emoji-catalog.git",
+                "reference": "a194d92474bbab99a5cc514833f1b10d3242e48d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jawira/emoji-catalog/zipball/a194d92474bbab99a5cc514833f1b10d3242e48d",
+                "reference": "a194d92474bbab99a5cc514833f1b10d3242e48d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Jawira\\EmojiCatalog\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jawira Portugal",
+                    "email": "dev@tugal.be"
+                }
+            ],
+            "description": "Get access to +3500 emojis as class constants",
+            "keywords": [
+                "catalog",
+                "emoji",
+                "emojis",
+                "emoticons",
+                "smileys",
+                "smilies",
+                "unicode"
+            ],
+            "support": {
+                "issues": "https://github.com/jawira/emoji-catalog/issues",
+                "source": "https://github.com/jawira/emoji-catalog/tree/v3.0.1"
+            },
+            "time": "2020-10-14T07:29:44+00:00"
+        },
+        {
             "name": "rakibtg/sleekdb",
             "version": "2.6",
             "source": {
@@ -167,100 +216,7 @@
             "time": "2021-02-17T05:55:41+00:00"
         }
     ],
-    "packages-dev": [
-        {
-            "name": "phpstan/phpstan",
-            "version": "0.12.77",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "1f10b8c8d118d01e7b492f9707999d456be5812c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/1f10b8c8d118d01e7b492f9707999d456be5812c",
-                "reference": "1f10b8c8d118d01e7b492f9707999d456be5812c",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1|^8.0"
-            },
-            "conflict": {
-                "phpstan/phpstan-shim": "*"
-            },
-            "bin": [
-                "phpstan",
-                "phpstan.phar"
-            ],
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "0.12-dev"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "PHPStan - PHP Static Analysis Tool",
-            "support": {
-                "issues": "https://github.com/phpstan/phpstan/issues",
-                "source": "https://github.com/phpstan/phpstan/tree/0.12.77"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/ondrejmirtes",
-                    "type": "github"
-                },
-                {
-                    "url": "https://www.patreon.com/phpstan",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/phpstan/phpstan",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-02-17T16:22:19+00:00"
-        },
-        {
-            "name": "rector/rector-prefixed",
-            "version": "0.9.29",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/rectorphp/rector-prefixed.git",
-                "reference": "d9feb76f6f588a808117dff61ebc95ea65f13cb0"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector-prefixed/zipball/d9feb76f6f588a808117dff61ebc95ea65f13cb0",
-                "reference": "d9feb76f6f588a808117dff61ebc95ea65f13cb0",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.3|^8.0",
-                "phpstan/phpstan": "^0.12.64"
-            },
-            "bin": [
-                "bin/rector"
-            ],
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Prefixed scoped version of rector/rector package",
-            "support": {
-                "source": "https://github.com/rectorphp/rector-prefixed/tree/0.9.29"
-            },
-            "time": "2021-02-15T22:23:15+00:00"
-        }
-    ],
+    "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {

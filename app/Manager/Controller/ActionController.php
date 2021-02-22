@@ -1,21 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Manager\Controller;
 
+use Jawira\EmojiCatalog\Emoji;
 use Manager\Models\ChatsQuery;
+use Manager\Models\SimpleVKExtend;
 
-class ActionController extends Controller
+class ActionController extends ChatController
 {
     /**
      * обработка action (message\\action)
-     * @param array $action
+     * @param array $data
      * @return void
      */
-    public static function handler(array $action): void
+    public static function handler(array $data): void
     {
-        $type = $action['type'];
-        $member_id = $action['member_id'];
-        if (method_exists(self::class, $type)) self::$type((int)$member_id);
+        $type = $data['type'];
+        $member_id = $data['member_id'];
+        if (method_exists(self::class, $type)) self::$type($member_id);
     }
 
     /**
@@ -38,13 +42,13 @@ class ActionController extends Controller
          * Если добавили бота
          * Приветственное сообщение + предложение выдать админку
          */
-        if ($id == -self::$vk->getVars('group_id')) {
+        if ($id == -SimpleVKExtend::getVars('group_id')) {
             self::$vk
-                ->msg("Привет! Я опенсорс чат менеджер😊\nБуду рад служить тебе ~мой пользователь|" . self::$vk->getVars('user_id') . "~")
+                ->msg("Привет! Я опенсорс чат менеджер" . Emoji::GRINNING_FACE . "\nБуду рад служить тебе ~мой повелитель|" . SimpleVKExtend::getVars('user_id') . "~")
                 ->addImg('https://sun6-22.userapi.com/impg/L39hLV6_QTrYGYq5mSJf1BsVH335PTrZUC4KRw/x8_vbSEE0No.jpg?size=604x601&quality=96&proxy=1&sign=bc1a5008eee91ef7e14e685a4f9460e7&type=album')
                 ->send();
 
-            sleep(2);
+            sleep(1);
 
             $buttons[] = self::$vk->buttonText('Я выдал админку', 'green', ['chat' => 'registration']);
             $buttons[] = self::$vk->buttonOpenLink('https://vk.com/@labile.paranoid-kak-dobavit-bota-v-besedu-i-dat-emu-prava-administratora', 'А как блин?');
@@ -55,9 +59,9 @@ class ActionController extends Controller
                 ->kbd([$buttons], true)
                 ->send();
 
-        } elseif (self::$db->statusSettings(ChatsQuery::ACTION . ChatsQuery::WELCOME_MESSAGE_TEXT, ChatsQuery::ACTION) === ChatsQuery::SHOW_ACTION) {
+        } elseif (self::$db->statusSettings(ChatsQuery::ACTION . ChatsQuery::WELCOME_MESSAGE_TEXT . ChatsQuery::ACTION) === ChatsQuery::SHOW_ACTION) {
             $welcome_msg = self::$db->showWelcomeMessage();
-            if (!is_bool($welcome_msg)) self::$vk->reply($welcome_msg);
+            if (!is_bool($welcome_msg)) self::$vk->msg($welcome_msg)->send();
         }
 
     }
@@ -69,11 +73,11 @@ class ActionController extends Controller
      */
     private static function chat_kick_user(int $id)
     {
-        if (self::$db->statusSettings(ChatsQuery::ACTION . ChatsQuery::EXIT_MESSAGE_TEXT, ChatsQuery::ACTION) === ChatsQuery::SHOW_ACTION) {
+        if (self::$db->statusSettings(ChatsQuery::ACTION . ChatsQuery::EXIT_MESSAGE_TEXT . ChatsQuery::ACTION) === ChatsQuery::SHOW_ACTION) {
             $welcome_msg = self::$db->showExitMessage();
-            if (!is_bool($welcome_msg)) self::$vk->reply($welcome_msg);
+            if (!is_bool($welcome_msg)) self::$vk->msg($welcome_msg)->send();
         }
-        self::$vk->reply("~!fn|$id~ пока-пока!");
+        self::$vk->msg("~!fn|$id~ пока-пока!")->send();
     }
 
     /**

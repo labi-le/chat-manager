@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Manager\Commands;
 
@@ -22,12 +23,12 @@ final class CommandList
 
             [
                 'text' => ['[|котика', '[|котиков', '[|кот'],
-                'method' => ['cat']
+                'method' => ['isPrivateMessage', 'cat']
             ],
 
             [
                 'text' => ['кончить', 'кон4ить'],
-                'method' => ['kon4']
+                'method' => ['isChat', 'kon4']
             ],
 
             [

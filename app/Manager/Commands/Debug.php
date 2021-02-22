@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
 namespace Manager\Commands;
+
+use Manager\Models\SimpleVKExtend;
 
 /**
  * Trait Debug
@@ -10,10 +13,7 @@ trait Debug
 {
     public function vars(): void
     {
-        $this->print('~full~');
-        $this->print('~fn~');
-        $this->print('~ln~');
-        $this->print('~!full~');
+        $this->print(SimpleVKExtend::getVars('chat_id'));
     }
 
 
