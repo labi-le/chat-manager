@@ -17,6 +17,7 @@ class ChatController extends Controller
     public static function handler(array $data)
     {
         parent::$db = new ChatsQuery($data['chat_id']);
+//        Utils::var_dumpToStdout($data['action']);
         if (isset($data['action'])) ActionController::handler($data['action']);
     }
 }

@@ -106,6 +106,16 @@ abstract class QueryBuilder
     }
 
     /**
+     * Удалить таблицу
+     * @throws IOException
+     */
+    public function deleteTable(): bool
+    {
+        unset($this->data);
+        return $this->db->deleteStore();
+    }
+
+    /**
      * Добавить в массив элементы
      * @param Dot $arr
      * @return bool
@@ -145,15 +155,5 @@ abstract class QueryBuilder
             $this->data->clear($string);
             return $this->update($this->data);
         } else return false;
-    }
-
-    /**
-     * Удалить таблицу
-     * @throws IOException
-     */
-    public function deleteTable(): bool
-    {
-        unset($this->data);
-        return $this->db->deleteStore();
     }
 }

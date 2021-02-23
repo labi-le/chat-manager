@@ -48,9 +48,12 @@ class SimpleVKExtend
         $message === null ?: $var->add('text', $message);
         $message === null ?: $var->add('text_lower', mb_strtolower($message));
         $payload === null ?: $var->add('payload', $payload);
-        $data('object.message.action') ?? $var->add('action', $data('object.message.action'));
+        $data('object.message.action') === null ?: $var->add('action', $data('object.message.action'));
         $msg_id === null ?: $var->add('message_id', $msg_id);
+
         $data('object.message.conversation_message_id') === null ?: $var->add('conversation_message_id', $data('object.message.conversation_message_id'));
+        $data('object.conversation_message_id') === null ?: $var->add('conversation_message_id', $data('object.conversation_message_id'));
+
         $attachments === null ?: $var->add('attachments', $attachments); //если вложений больше 4 то они не будут отображаться (баг вк), как костыль можно использовать getById
         $data('object.message.fwd_messages') === null ?: $var->add('fwd_messages', $data('object.message.fwd_messages'));
         $data('object.message.reply_message') === null ?: $var->add('reply_message', $data('object.message.reply_message'));

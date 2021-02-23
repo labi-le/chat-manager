@@ -13,6 +13,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      * Название идентификатора
      */
     const ID = 'id';
+
     /**
      * Константы содержащие названия колонок в бд
      */
@@ -49,11 +50,11 @@ class ChatsQuery extends QueryBuilder implements IChatActions
     const WALL = 'wall';
 
     const NO_ACTION = 0;
-    const WARN_ACTION = 1;
-    const KICK_ACTION = 2;
-    const BAN_ACTION = 3;
-    const SHOW_ACTION = 4;
-    const ON_ACTION = 5;
+    const WARN_ACTION = 2;
+    const KICK_ACTION = 3;
+    const BAN_ACTION = 4;
+    const SHOW_ACTION = 5;
+    const ON_ACTION = 1;
 
     const DEFAULT = 'default';
     const ACTION = 'action';
@@ -89,16 +90,17 @@ class ChatsQuery extends QueryBuilder implements IChatActions
      * const KICK_ACTION = 2;
      * const BAN_ACTION = 3;
      * const SHOW_ACTION = 4;
-     * @param int|null $int $int
+     * @param bool|int|null $int |null $int $int
+     * @return string|null
      */
-    public static function intToStringAction(int|null $int): null|string
+    public static function intToStringAction(bool|int|null $int): null|string
     {
-        $array[0] = '¯\_(ツ)_/¯';
-        $array[1] = '⚠ Варн';
-        $array[2] = '🚷 Кик';
-        $array[3] = '🚯 Бан';
-        $array[4] = '🔔 Показать';
-        $array[5] = '💡 On';
+        $array[self::NO_ACTION] = 'Ничего';
+        $array[self::WARN_ACTION] = '⚠ Варн';
+        $array[self::KICK_ACTION] = '🚷 Кик';
+        $array[self::BAN_ACTION] = '🚯 Бан';
+        $array[self::SHOW_ACTION] = '🔔 Показать';
+        $array[self::ON_ACTION] = '💡 On';
 
         return $array[$int];
     }
@@ -356,13 +358,13 @@ class ChatsQuery extends QueryBuilder implements IChatActions
                                     self::ACTION => self::NO_ACTION,
                                     self::ALLOWED_OPTIONS => [self::NO_ACTION, self::BAN_ACTION, self::KICK_ACTION, self::WARN_ACTION]
                                 ],
-
-                            'do_crap' =>
-                                [
-                                    self::DESCRIPTION => '🤪 Придать живости боту',
-                                    self::ACTION => self::NO_ACTION,
-                                    self::ALLOWED_OPTIONS => [self::ON_ACTION]
-                                ],
+//
+//                            'do_crap' =>
+//                                [
+//                                    self::DESCRIPTION => '🤪 Придать живости боту',
+//                                    self::ACTION => self::NO_ACTION,
+//                                    self::ALLOWED_OPTIONS => [self::ON_ACTION]
+//                                ],
                         ],
 
                     self::PENALTY =>

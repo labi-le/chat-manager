@@ -14,18 +14,23 @@ trait Chat
 
     /**
      * Зарегистрировать чат
+     * Беседа автоматически добавляется в бд
      */
     public function chatRegistration()
     {
         try {
             $this->vk->isAdmin(-SimpleVKExtend::getVars('group_id'), SimpleVKExtend::getVars('peer_id'));
         } catch (Exception $e) {
-            if ($e->getCode() === 0) $this->vk->reply('Ты меня обманул!!!');
+            if ($e->getCode() === 0) $this->vk
+                ->msg('Ты меня обманул!!!')
+                ->img('https://bigpicture.ru/wp-content/uploads/2015/04/Albert00.jpg')
+                ->send();
             return;
         }
 
-        $this->db->createChatRecord(SimpleVKExtend::getVars('chat_id'))
-            ? $this->vk->reply('верю-верю') : $this->vk->reply('А мы раньше где-то встречались?');
+        $this->vk
+            ->msg('Так лучше!')
+            ->send();
     }
 
     /**
@@ -63,23 +68,26 @@ trait Chat
 
         $i = 0;
         foreach ($option['allowed_options'] as $allowed) {
-            $button[$i][] = $this->vk->buttonCallback(ChatsQuery::intToStringAction($allowed), $option['action'] ? 'green' : 'red',
+            $colorButton = null;
+            Utils::var_dumpToStdout($allowed);
+            if ($option[ChatsQuery::ACTION] === $allowed) $colorButton = 'green';
+            $button[$i][] = $this->vk->buttonCallback(ChatsQuery::intToStringAction($allowed), $colorButton ?? 'red',
                 [
                     'gui_settings' =>
                         [
-                            'action' => 'separate_action',
-                            'type' => 2121 . '.' . $action
+                            'action' => 'set_action',
+                            'type' => $action . '.' . $allowed
                         ]
                 ]);
             $i++;
         }
 
-        if ($option[ChatsQuery::DEFAULT]) $button[$i][] = $this->vk->buttonCallback('Добавить текст', $option['action'] ? 'green' : 'red',
+        if (isset($option[ChatsQuery::DEFAULT])) $button[$i][] = $this->vk->buttonCallback('Добавить текст', 'blue',
             [
                 'gui_settings' =>
                     [
-                        'action' => 'separate_action',
-                        'type' => 2121 . '.' . $action
+                        'action' => 'set_action',
+                        'type' => $action . '.set'
                     ]
             ]);
 
@@ -95,7 +103,8 @@ trait Chat
         $this->vk
             ->msg($option['description'] . "\n\nВозможные действия:")
             ->kbd($button, true)
-            ->sendEdit(SimpleVKExtend::getVars('peer_id'), null, SimpleVKExtend::getVars('message_id'));
+            ->sendEdit(SimpleVKExtend::getVars('peer_id'), null, SimpleVKExtend::getVars('conversation_message_id'));
+//        Utils::var_dumpToStdout($button);
 
     }
 
@@ -113,7 +122,7 @@ trait Chat
 
         SimpleVKExtend::getVars('type') == 'message_new'
             ? $message->send()
-            : $message->sendEdit(SimpleVKExtend::getVars('peer_id'), null, SimpleVKExtend::getVars('message_id'));
+            : $message->sendEdit(SimpleVKExtend::getVars('peer_id'), null, SimpleVKExtend::getVars('conversation_message_id'));
 
     }
 
@@ -139,7 +148,6 @@ trait Chat
         if ($offset >= 0 and count($button) >= $offset)
             $button[2e9][] = $this->addNavigateGuiButton('next', $offset + 5);
 
-        Utils::var_dumpToStdout($button);
         return $button;
 
     }

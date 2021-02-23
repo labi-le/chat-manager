@@ -6,8 +6,9 @@ namespace Manager\Commands;
 
 use DigitalStars\SimpleVK\SimpleVK;
 use Exception;
-use Manager\Models\QueryBuilder;
+use Manager\Models\ChatsQuery;
 use Manager\Models\SimpleVKExtend;
+use Manager\Models\UserQuery;
 use Manager\Models\Utils;
 
 /**
@@ -22,11 +23,11 @@ final class Commands
     use Chat;
     use Debug;
 
-    private function __construct(private SimpleVK $vk, private QueryBuilder $db)
+    private function __construct(private SimpleVK $vk, private ChatsQuery|UserQuery $db)
     {
     }
 
-    public static function set(SimpleVK $vk, QueryBuilder $db): Commands
+    public static function set(SimpleVK $vk, ChatsQuery|UserQuery $db): Commands
     {
         return new Commands($vk, $db);
     }

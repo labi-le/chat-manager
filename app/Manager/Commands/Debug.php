@@ -13,7 +13,7 @@ trait Debug
 {
     public function vars(): void
     {
-        $this->print(SimpleVKExtend::getVars('chat_id'));
+        $this->print(SimpleVKExtend::getVars());
     }
 
 

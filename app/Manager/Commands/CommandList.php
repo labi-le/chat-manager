@@ -54,7 +54,7 @@ final class CommandList
 
             [
                 'text' => ['меню', 'настройки'],
-                'method' => ['isChat', 'isAdmin', 'snowAllSettings']
+                'method' => ['isChat', 'isAdmin', 'showAllSettings']
             ],
 
             [
