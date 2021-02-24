@@ -60,7 +60,7 @@ abstract class QueryBuilder
         $this->db = new Store($this->store_name, self::DATA_DIR, self::CONFIGURATION_DB);
 
         $data = $this->loadRecord();
-        if ($data === null) $data = $this->createRecord($this->__generateTable($id));
+        if ($data === null) $data = $this->createRecord($this->_generateTable($id));
         $this->data = new Dot($data);
     }
 
@@ -94,7 +94,7 @@ abstract class QueryBuilder
      * @param int $id
      * @return array
      */
-    protected abstract function __generateTable(int $id): array;
+    protected abstract function _generateTable(int $id): array;
 
     /**
      * Удалить json файл

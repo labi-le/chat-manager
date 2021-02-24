@@ -40,9 +40,9 @@ class Launcher
 
         $auth = $config['auth'];
         $type = $config['type'];
-        if ($type == 'callback')
+        if ($type === 'callback')
             $this->callback($auth);
-        elseif ($type == 'longpoll')
+        elseif ($type === 'longpoll')
             $this->longpoll($auth);
 
     }
@@ -50,7 +50,7 @@ class Launcher
     private function callback(array $auth): void
     {
         $bot = SimpleVK::create($auth['token'], $auth['v'])->setConfirm($auth['confirmation']);
-        if ($auth['secret'] != false)
+        if ($auth['secret'] !== false)
             $bot->setSecret($auth['secret']);
 
         SimpleVKExtend::parse($bot);

@@ -10,7 +10,7 @@ class UserQuery extends QueryBuilder
 {
     protected string $store_name = 'users';
 
-    protected function __generateTable(int $id): array
+    protected function _generateTable(int $id): array
     {
         return
             [

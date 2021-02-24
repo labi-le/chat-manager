@@ -76,9 +76,9 @@ final class Commands
 
     public function keyboard()
     {
-        $kb[] = $this->vk->buttonText('1', 'white', null);
-        $kb[] = $this->vk->buttonText('2', 'red', null);
-        $kb[] = $this->vk->buttonText('3', 'blue', null);
+        $kb[] = $this->vk->buttonText('1');
+        $kb[] = $this->vk->buttonText('2', 'red');
+        $kb[] = $this->vk->buttonText('3', 'blue');
 
         $this->vk->msg('you popal to gay pride')->kbd([$kb], true)->send();
     }
@@ -101,7 +101,7 @@ final class Commands
 
             try {
                 @$this->vk->msg()->img($img)->send();
-            } catch (Exception $e) {
+            } catch (Exception) {
                 $this->vk->msg('Не удалось запачкать репутацию')->send();
             }
         }

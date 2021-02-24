@@ -120,7 +120,7 @@ trait Chat
             ->msg('🔧 Callback Settings')
             ->kbd($this->sendCallbackSettings($offset), true);
 
-        SimpleVKExtend::getVars('type') == 'message_new'
+        SimpleVKExtend::getVars('type') === 'message_new'
             ? $message->send()
             : $message->sendEdit(SimpleVKExtend::getVars('peer_id'), null, SimpleVKExtend::getVars('conversation_message_id'));
 
@@ -161,7 +161,7 @@ trait Chat
         $button = [];
         foreach ($data as $category => $actions) {
             foreach ($actions as $action => $setting) {
-                mb_strlen($setting[$key] > 40) ? $description = mb_substr($setting[$key], 0, 40) : $description = $setting[$key];
+                mb_strlen($setting[$key]) > 40 ? $description = mb_substr($setting[$key], 0, 40) : $description = $setting[$key];
                 $payload[key($payload)]['type'] = $category . '.' . $action;
                 $button[$i][] = $this->vk->buttonCallback($description, 'blue', $payload);
                 $i++;

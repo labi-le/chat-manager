@@ -3,12 +3,11 @@
     "description": "manager vk",
     "type": "project",
     "require": {
-        "ext-mbstring": "*",
-        "ext-iconv": "*",
         "rakibtg/sleekdb": "^2.1",
         "adbario/php-dot-notation": "^2.2",
         "digitalstars/simplevk": "dev-testing",
-        "jawira/emoji-catalog": "^3.0"
+        "jawira/emoji-catalog": "^3.0",
+        "ext-mbstring": "*"
     },
     "authors": [
         {

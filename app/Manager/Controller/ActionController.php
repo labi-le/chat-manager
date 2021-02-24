@@ -42,7 +42,7 @@ class ActionController extends ChatController
          * Если добавили бота
          * Приветственное сообщение + предложение выдать админку
          */
-        if ($id == -SimpleVKExtend::getVars('group_id')) {
+        if ($id === -SimpleVKExtend::getVars('group_id')) {
             self::$vk
                 ->msg("Привет! Я опенсорс чат менеджер" . Emoji::GRINNING_FACE . "\nБуду рад служить тебе ~мой повелитель|" . SimpleVKExtend::getVars('user_id') . "~")
                 ->addImg('https://sun6-22.userapi.com/impg/L39hLV6_QTrYGYq5mSJf1BsVH335PTrZUC4KRw/x8_vbSEE0No.jpg?size=604x601&quality=96&proxy=1&sign=bc1a5008eee91ef7e14e685a4f9460e7&type=album')

@@ -20,7 +20,7 @@ class SimpleVKExtend
      * есть также ванильный $this->data от SimpleVK
      * @var array
      */
-    private static $vars;
+    private static array $vars;
 
     /**
      * Парсинг всех данных которые пришли от вк в красивый вид

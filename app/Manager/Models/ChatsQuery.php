@@ -115,7 +115,7 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     private function setAction(int $action, string $path): bool
     {
-        if (in_array($action, self::getAllowedActions($path))) {
+        if (in_array($action, $this->getAllowedActions($path))) {
             $this->data->set(self::SETTINGS . $path . self::ACTION, $action);
             $this->update($this->data);
             return true;
@@ -292,8 +292,10 @@ class ChatsQuery extends QueryBuilder implements IChatActions
 
     /**
      * Сгенерировать таблицу
+     * @param int $id
+     * @return array
      */
-    protected function __generateTable(int $id): array
+    protected function _generateTable(int $id): array
     {
         return [
             self::ID => $id,

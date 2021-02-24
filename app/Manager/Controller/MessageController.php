@@ -31,12 +31,12 @@ final class MessageController extends Controller
              * На десктопной версии контакта не работают калбек кнопки, делаем заглушку...
              * Можно конечно еще эмулировать обычные кнопки, но какой смысл
              */
-            if (isset($data['payload']['command']) and $data['payload']['command'] == 'not_supported_button')
+            if (isset($data['payload']['command']) and $data['payload']['command'] === 'not_supported_button')
                 self::payloadHandler(['command' => 'not_supported_button'], 'callback');
             else
-                $data['type'] == 'message_event'
+                $data['type'] === 'message_event'
                     ? self::payloadHandler($data['payload'], 'callback')
-                    : self::payloadHandler($data['payload'], 'default');
+                    : self::payloadHandler($data['payload']);
 
         }
     }

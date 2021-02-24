@@ -19,7 +19,7 @@ class Utils
      */
     public static function snowCat($api = 'https://aws.random.cat/meow'): mixed
     {
-        return json_decode(file_get_contents($api));
+        return json_decode(file_get_contents($api), true);
     }
 
     /**
@@ -78,15 +78,15 @@ class Utils
      */
     public static function formatText(string $textFromArray, string $original, $similarPercent = 80): bool
     {
-        if (mb_substr($textFromArray, 0, 1) == '|') {
+        if (mb_substr($textFromArray, 0, 1) === '|') {
             return self::similarTo($textFromArray, $original) >= $similarPercent;
-        } elseif (mb_substr($textFromArray, 0, 2) == "[|") {
+        } elseif (mb_substr($textFromArray, 0, 2) === "[|") {
             return self::startAs($textFromArray, $original);
-        } elseif (mb_substr($textFromArray, -2, 2) == "|]") {
+        } elseif (mb_substr($textFromArray, -2, 2) === "|]") {
             return (self::endAs($textFromArray, $original));
-        } elseif (mb_substr($textFromArray, 0, 1) == "{" && mb_substr($textFromArray, -1, 1) == "}") {
+        } elseif (mb_substr($textFromArray, 0, 1) === "{" && mb_substr($textFromArray, -1, 1) === "}") {
             return (self::contains($textFromArray, $original));
-        } else return $textFromArray == $original;
+        } else return $textFromArray === $original;
     }
 
     /**
@@ -111,7 +111,7 @@ class Utils
     {
         $word = explode(' ', $text)[0];
         $wordFromBot = explode(' ', $original)[0];
-        return mb_substr($word, 2) == $wordFromBot;
+        return mb_substr($word, 2) === $wordFromBot;
     }
 
     /**
@@ -125,11 +125,11 @@ class Utils
         $word = explode(' ', $text);
         $end_word = end($word);
 
-        $word_wp = mb_substr($end_word, 0, mb_strlen($end_word) - 2);
+        $word_wp = mb_substr($end_word, 0, -2);
 
         $wordFromBot = explode(' ', $original);
 
-        return $word_wp == end($wordFromBot) and ($word_wp != $wordFromBot[0]);
+        return $word_wp === end($wordFromBot) and ($word_wp !== $wordFromBot[0]);
     }
 
     /**
@@ -204,19 +204,19 @@ class Utils
      * Вот это я не особо помню что за хуёвина
      * @return array
      */
-    public static function turingTest()
+    public static function turingTest(): array
     {
-        $firstNum = rand(1, 10);
-        $secondNum = rand(1, 10);
-        $thirdNum = rand(1, 10);
-        $fourthNum = rand(1, 5);
+        $firstNum = random_int(1, 10);
+        $secondNum = random_int(1, 10);
+        $thirdNum = random_int(1, 10);
+        $fourthNum = random_int(1, 5);
 
         $text = $firstNum . ' + ' . $secondNum . ' - ' . $thirdNum . ' * ' . $fourthNum;
         $sum = $firstNum + $secondNum - $thirdNum * $fourthNum;
 
-        $invalidSum[] = $sum - rand(1, 10);
-        $invalidSum[] = $sum + rand(1, 10);
-        $invalidSum[] = $sum - rand(1, 10);
+        $invalidSum[] = $sum - random_int(1, 10);
+        $invalidSum[] = $sum + random_int(1, 10);
+        $invalidSum[] = $sum - random_int(1, 10);
         $invalidSum[] = $sum;
         // $invalidSum[] = $sum + \rand(1, 10);
 

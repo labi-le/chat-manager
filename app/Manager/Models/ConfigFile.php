@@ -51,7 +51,7 @@ class ConfigFile
     {
         file_exists($path) ?: self::createConfigFile($path);
         $file = file_get_contents($path);
-        $file = json_decode($file, true);
+        $file = json_decode($file, true, 512, JSON_THROW_ON_ERROR);
         self::validateConfigFile($file);
         return $file;
 
@@ -63,7 +63,7 @@ class ConfigFile
      */
     private static function createConfigFile(string $file)
     {
-        $json = json_encode(self::CONFIG_FILE_STRUCTURE);
+        $json = json_encode(self::CONFIG_FILE_STRUCTURE, JSON_THROW_ON_ERROR);
         file_put_contents($file, $json);
     }
 
@@ -79,7 +79,7 @@ class ConfigFile
         !empty($auth['token']) ?: throw new Exception('Не указан токен');
         !empty($auth['v']) ?: throw new Exception('Не указана версия API');
 
-        if ($file['type'] == 'callback') {
+        if ($file['type'] === 'callback') {
             !empty($auth['confirmation']) ?: throw new Exception('Не указан confirmation');
             !is_bool($auth['secret']) and !empty(['auth']['secret']) ?: throw new Exception('Не указан secret, если не используется поставь false');
         }
