@@ -7,7 +7,7 @@ namespace Manager\Models;
 use Adbar\Dot;
 use DigitalStars\SimpleVK\LongPoll;
 use DigitalStars\SimpleVK\SimpleVK;
-
+use Exception;
 /**
  * Личное дополнение к SimpleVK
  * Class SimpleVKExtend
@@ -15,6 +15,7 @@ use DigitalStars\SimpleVK\SimpleVK;
  */
 class SimpleVKExtend
 {
+
     /**
      * Массив с данными которые пришли от вк
      * есть также ванильный $this->data от SimpleVK
@@ -31,7 +32,7 @@ class SimpleVKExtend
     {
         $SimpleVKData = $vk->initVars($id, $user_id, $type, $message, $payload, $msg_id, $attachments);   // Парсинг полученных событий
 
-        $data = function (string $get) use ($SimpleVKData) {
+        $data = static function (string $get) use ($SimpleVKData) {
             return dot($SimpleVKData)->get($get);
         };
 
@@ -68,8 +69,46 @@ class SimpleVKExtend
      */
     public static function getVars(string $var = null): mixed
     {
-        if ($var === null) return self::$vars;
-        elseif (is_string($var) and isset(self::$vars[$var])) return self::$vars[$var];
-        else return null;
+        if ($var === null) {
+            return self::$vars;
+        }
+
+        if (is_string($var) and isset(self::$vars[$var])) {
+            return self::$vars[$var];
+        }
+
+        return null;
     }
+    
+    /**
+     * Получить всех менеджеров в группе
+     * @param SimpleVK $vk
+     * @param int $group_id
+     * @return array|false
+     * @throws Exception
+     */
+    public static function isManagerGroup(SimpleVK $vk, int $group_id): array|false
+    {
+        try {
+            $response = $vk->request('groups.getMembers',
+                [
+                    'group_id' => $group_id,
+                    'filter' => 'managers'
+                ]
+            );
+        } catch (Exception) {
+            throw new \RuntimeException('Токен не имеет доступа к менеджерам группы');
+        }
+
+        if (isset($response['count']) && $response['count'] > 0) {
+            $ids = null;
+            foreach ($response['items'] as $item) {
+                $ids[] = $item['id'];
+            }
+            return $ids;
+        }
+
+        return false;
+    }
+
 }

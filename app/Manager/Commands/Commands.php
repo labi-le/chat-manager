@@ -38,7 +38,7 @@ final class Commands
      */
     public function isPrivateMessage(): bool
     {
-        return $this->isChat() === true ? false : true;
+        return $this->isChat() !== true;
     }
 
     /**
@@ -47,12 +47,12 @@ final class Commands
      */
     public function isChat(): bool
     {
-        return SimpleVKExtend::getVars('chat_id') === null ? false : true;
+        return SimpleVKExtend::getVars('chat_id') !== null;
     }
 
     public function cat()
     {
-        $count = intval(Utils::getWord(SimpleVKExtend::getVars('text_lower'), 1));
+        $count = (int)Utils::getWord(SimpleVKExtend::getVars('text_lower'), 1);
 
         if ($count > 10 or $count <= 0) {
             $this->vk->msg("Отинь многа котикаф либо их ваще нет!!!")->send();
@@ -167,5 +167,16 @@ final class Commands
         return $this->vk
             ->isAdmin(SimpleVKExtend::getVars('user_id'), SimpleVKExtend::getVars('peer_id'))
             ? true : false;
+    }
+
+    /**
+     * Является или руководителем в группе
+     * @return bool
+     * @throws Exception
+     */
+    public function isManagerGroup(): bool
+    {
+        $admins = SimpleVKExtend::isManagerGroup($this->vk, SimpleVKExtend::getVars('group_id'));
+        return in_array(SimpleVKExtend::getVars('user_id'), $admins, true);
     }
 }
