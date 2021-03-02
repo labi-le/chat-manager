@@ -10,7 +10,7 @@ use Exception;
 
 class Utils
 {
-    const FORMAT_TIME = 'Y-m-d H:i';
+    public const FORMAT_TIME = 'Y-m-d H:i';
 
     /**
      * Получить картинки с котинками
@@ -50,9 +50,9 @@ class Utils
     /**
      * Удаляет из строки самую первую подстроку
      * @param $text
-     * @return string
+     * @return string|bool
      */
-    public static function removeFirstWord($text): string
+    public static function removeFirstWord($text): string|bool
     {
         return strstr($text, " ");
     }
@@ -79,14 +79,26 @@ class Utils
     public static function formatText(string $textFromArray, string $original, $similarPercent = 80): bool
     {
         if (mb_substr($textFromArray, 0, 1) === '|') {
+            $textFromArray = mb_substr($textFromArray, 1);
             return self::similarTo($textFromArray, $original) >= $similarPercent;
-        } elseif (mb_substr($textFromArray, 0, 2) === "[|") {
+        }
+
+        if (mb_substr($textFromArray, 0, 2) === "[|") {
+            $textFromArray =  mb_substr($textFromArray, 2);
             return self::startAs($textFromArray, $original);
-        } elseif (mb_substr($textFromArray, -2, 2) === "|]") {
-            return (self::endAs($textFromArray, $original));
-        } elseif (mb_substr($textFromArray, 0, 1) === "{" && mb_substr($textFromArray, -1, 1) === "}") {
-            return (self::contains($textFromArray, $original));
-        } else return $textFromArray === $original;
+        }
+
+        if (mb_substr($textFromArray, -2, 2) === "|]") {
+            $textFromArray =  mb_substr($textFromArray, 0, 2);
+            return self::endAs($textFromArray, $original);
+        }
+
+        if (mb_substr($textFromArray, 0, 1) === "{" && mb_substr($textFromArray, -1, 1) === "}") {
+            $textFromArray = mb_substr($textFromArray, 1, -1);
+            return self::contains($textFromArray, $original);
+        }
+
+        return $textFromArray === $original;
     }
 
     /**
@@ -111,7 +123,7 @@ class Utils
     {
         $word = explode(' ', $text)[0];
         $wordFromBot = explode(' ', $original)[0];
-        return mb_substr($word, 2) === $wordFromBot;
+        return $word === $wordFromBot;
     }
 
     /**
@@ -125,11 +137,10 @@ class Utils
         $word = explode(' ', $text);
         $end_word = end($word);
 
-        $word_wp = mb_substr($end_word, 0, -2);
-
         $wordFromBot = explode(' ', $original);
+        $end_wordFromBot = end($wordFromBot);
 
-        return $word_wp === end($wordFromBot) and ($word_wp !== $wordFromBot[0]);
+        return $end_word === $end_wordFromBot;
     }
 
     /**
@@ -140,7 +151,9 @@ class Utils
      */
     private static function contains(string $text, string $original): bool
     {
-        return mb_stripos($original, $text) !== false;
+        var_dump($text, $original);
+        var_dump(str_contains($original, $text));
+        return str_contains($original, $text);
     }
 
     /**
@@ -162,7 +175,9 @@ class Utils
      */
     public static function isAssoc(array $arr): bool
     {
-        if ([] === $arr) return false;
+        if ([] === $arr) {
+            return false;
+        }
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 
@@ -173,7 +188,9 @@ class Utils
      */
     public static function isSeq(array $arr): bool
     {
-        if ([] === $arr) return false;
+        if ([] === $arr) {
+            return false;
+        }
         return array_keys($arr) === range(0, count($arr) - 1);
     }
 
@@ -185,8 +202,7 @@ class Utils
     public static function isMulti(array $array): bool
     {
         $rv = array_filter($array, 'is_array');
-        if (count($rv) > 0) return true;
-        return false;
+        return count($rv) > 0;
     }
 
     /**
@@ -201,48 +217,12 @@ class Utils
     }
 
     /**
-     * Вот это я не особо помню что за хуёвина
-     * @return array
-     */
-    public static function turingTest(): array
-    {
-        $firstNum = random_int(1, 10);
-        $secondNum = random_int(1, 10);
-        $thirdNum = random_int(1, 10);
-        $fourthNum = random_int(1, 5);
-
-        $text = $firstNum . ' + ' . $secondNum . ' - ' . $thirdNum . ' * ' . $fourthNum;
-        $sum = $firstNum + $secondNum - $thirdNum * $fourthNum;
-
-        $invalidSum[] = $sum - random_int(1, 10);
-        $invalidSum[] = $sum + random_int(1, 10);
-        $invalidSum[] = $sum - random_int(1, 10);
-        $invalidSum[] = $sum;
-        // $invalidSum[] = $sum + \rand(1, 10);
-
-        shuffle($invalidSum);
-
-        return ['array' => $invalidSum, 'result' => $sum, 'text' => $text];
-    }
-
-    /**
      * Простой дебаг в stdout
      * @param $data
      */
     public static function var_dumpToStdout($data)
     {
         file_put_contents('php://stdout', var_export($data, true));
-    }
-
-    /**
-     * Регулярка для ников
-     * @param $string
-     * @return bool
-     */
-    public static function regexNickName($string): bool
-    {
-        return preg_match('/^[a-zA-Z0-9А-Яа-я_-]{1,16}$/u', $string, $match) ?? false;
-//        return preg_match('/([a-zA-Z0-9А-Яа-я_-]{1,16})+/u', $string, $match) ?? false;
     }
 
     /**
@@ -283,8 +263,7 @@ class Utils
         $strtime = end($exp);
         $prev = prev($exp);
 
-        $int = intval($prev);
-//        $str = trim($prev . ' ' . self::remove_numbers($strtime));
+        $int = (int)$prev;
 
         return match ($strtime) {
             'с', 'сек', 'секунд', 'секунда', 'секунды', 's', 'second', 'seconds' => time() + (1 * $int),
